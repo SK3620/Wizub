@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		835F29322C6623CE005BC174 /* SwiftUIAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F29312C6623CE005BC174 /* SwiftUIAppApp.swift */; };
+		835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F29312C6623CE005BC174 /* SwiftUIApp.swift */; };
 		835F29342C6623CE005BC174 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F29332C6623CE005BC174 /* ContentView.swift */; };
 		835F29362C6623CF005BC174 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F29352C6623CF005BC174 /* Assets.xcassets */; };
 		835F29392C6623CF005BC174 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F29382C6623CF005BC174 /* Preview Assets.xcassets */; };
@@ -17,7 +17,7 @@
 /* Begin PBXFileReference section */
 		1823F9E8DEFA08F59FD5A96A /* Pods-SwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
 		835F292E2C6623CE005BC174 /* SwiftUIAppStg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIAppStg.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		835F29312C6623CE005BC174 /* SwiftUIAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIAppApp.swift; sourceTree = "<group>"; };
+		835F29312C6623CE005BC174 /* SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIApp.swift; sourceTree = "<group>"; };
 		835F29332C6623CE005BC174 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		835F29352C6623CF005BC174 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		835F29382C6623CF005BC174 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		835F29302C6623CE005BC174 /* SwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
-				835F29312C6623CE005BC174 /* SwiftUIAppApp.swift */,
+				835F29312C6623CE005BC174 /* SwiftUIApp.swift */,
 				835F29332C6623CE005BC174 /* ContentView.swift */,
 				835F29352C6623CF005BC174 /* Assets.xcassets */,
 				835F29372C6623CF005BC174 /* Preview Content */,
@@ -210,7 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				835F29342C6623CE005BC174 /* ContentView.swift in Sources */,
-				835F29322C6623CE005BC174 /* SwiftUIAppApp.swift in Sources */,
+				835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
