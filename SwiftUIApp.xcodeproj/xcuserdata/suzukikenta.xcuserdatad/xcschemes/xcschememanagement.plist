@@ -4,22 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SwiftUIApp.xcscheme</key>
+		<key>SwiftUIApp.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
-		<key>SwiftUIApp.xcscheme_^#shared#^_</key>
+		<key>SwiftUIAppDev.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
-		<key>SwiftUIAppDev.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
-		</dict>
-		<key>SwiftUIAppStg.xcscheme</key>
+		<key>SwiftUIAppStg.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>6</integer>
