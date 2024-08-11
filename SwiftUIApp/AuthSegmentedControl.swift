@@ -32,7 +32,7 @@ struct AuthSegmentedControl<SegmentType: SegmentTypeProtocol>: View where Segmen
                         }
                     }, label: {
                         Text(segment.title)
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.title2)
                             .foregroundStyle(isSelected(segment: segment) ? configuration.selectedForegroundColor : configuration.foregroundColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .contentShape(Rectangle())
@@ -52,6 +52,7 @@ struct AuthSegmentedControl<SegmentType: SegmentTypeProtocol>: View where Segmen
         .frame(height: 70)
         .clipShape(RoundedRectangle(cornerRadius: 35))
         .shadow(color: .gray.opacity(0.7), radius: 5)
+        .padding()
     }
 
     private func isSelected(segment: SegmentType) -> Bool {

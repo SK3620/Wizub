@@ -16,17 +16,14 @@ struct AuthPickerView: View {
     }
 
     var body: some View {
-        VStack {
-            AuthSegmentedControl(
-                selectedSegment: $authViewModel.segmentType
+        GeometryReader { geometry in
+            VStack {
+                AuthSegmentedControl(
+                    selectedSegment: $authViewModel.segmentType
                 )
-            .padding()
-            
-            switch (authViewModel.segmentType) {
-            case .loginSegment:
-                Text("Login")
-            case .registerSegment:
-                Text("Register")
+                .padding(.top, geometry.size.height * 0.1)
+
+                AuthView(authViewModel: authViewModel, segmentType: authViewModel.segmentType)
             }
         }
     }

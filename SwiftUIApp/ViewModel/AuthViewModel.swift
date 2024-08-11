@@ -15,4 +15,16 @@ class AuthViewModel: ObservableObject {
     // 初期値はログイン画面
     @Published var segmentType: SegmentType = .loginSegment
     
+    @Published var userName: String = ""
+    @Published var usernameError: String = ""
+    
+    @Published var email: String = ""
+    @Published var emailError: String = ""
+    
+    @Published var password: String = ""
+    @Published var passwordError: String = ""
+    
+    @Published var confirmPassword: String = ""
+    @Published var confirmPasswordError: String = ""
+    
 }
