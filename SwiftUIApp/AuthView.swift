@@ -85,7 +85,7 @@ struct AuthTextField: View {
                 }
             }
             
-            Text("8文字以上で入力してください")
+            Text(errorValue)
                 .fontWeight(.light)
                 .foregroundStyle(ColorCodes.failure.color())
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
