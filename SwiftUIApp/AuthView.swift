@@ -24,7 +24,7 @@ struct AuthView: View {
                 AuthTextField(title: "Password", textValue: $authViewModel.password, errorValue: authViewModel.passwordError, isSecured: true)
                 
                 if segmentType == .registerSegment {
-                    AuthTextField(title: "Confitm Password", textValue: $authViewModel.confirmPassword, errorValue: authViewModel.confirmPassword, isSecured: true)
+                    AuthTextField(title: "Confitm Password", textValue: $authViewModel.confirmPassword, errorValue: authViewModel.confirmPasswordError, isSecured: true)
                 }
             }
             .padding(.horizontal)
