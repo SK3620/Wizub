@@ -48,6 +48,19 @@ class AuthViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
+    private var emailServerValidPublisher: AnyPublisher<Bool, Never>{
+        return emailValidPublisher
+            .filter { $0.isValid }
+            .map { $0.email }
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { _ in 
+                print("サーバーとの通信を行い、emailの重複がないか確認するメソッドを実行")
+                return true // 暫定でtrue
+            }
+            .eraseToAnyPublisher()
+    }
+    
     private var passwordRequiredPublisher: AnyPublisher<(password: String, isValid: Bool), Never> {
         return $password
             .map { (password: $0, isValid: !$0.isEmpty) }
@@ -94,6 +107,12 @@ class AuthViewModel: ObservableObject {
         emailValidPublisher
             .receive(on: RunLoop.main)
             .map { $0.isValid ? "" : "Email is not valid"}
+            .assign(to: \.emailError, on: self)
+            .store(in: &cancellableBag)
+        
+        emailServerValidPublisher
+            .receive(on: RunLoop.main)
+            .map { $0 ? "" : "Email is already used"}
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)
         
