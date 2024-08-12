@@ -25,6 +25,8 @@ struct AuthPickerView: View {
 
                 AuthView(authViewModel: authViewModel, segmentType: authViewModel.segmentType)
             }
+            .background(Color.gray.opacity(0.1))
+                       .edgesIgnoringSafeArea(.all)
         }
     }
 }
