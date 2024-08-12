@@ -8,25 +8,30 @@
 import SwiftUI
 
 struct AuthPickerView: View {
-   
+    
     @ObservedObject private var authViewModel: AuthViewModel
     
     init(authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
     }
-
+    
     var body: some View {
-        GeometryReader { geometry in
+        ZStack {
+            // 背景色
+            Color.gray.opacity(0.1).ignoresSafeArea()
+            
             VStack {
                 AuthSegmentedControl(
                     selectedSegment: $authViewModel.segmentType
                 )
-                .padding(.top, geometry.size.height * 0.1)
-
+                .padding(.top, 55)
+                
+                Spacer()
+                
                 AuthView(authViewModel: authViewModel, segmentType: authViewModel.segmentType)
+                
+                Spacer()
             }
-            .background(Color.gray.opacity(0.1))
-                       .edgesIgnoringSafeArea(.all)
         }
     }
 }

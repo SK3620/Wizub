@@ -15,7 +15,7 @@ struct AuthView: View {
     var body: some View {
         VStack {
             VStack {
-                if segmentType == .registerSegment {
+                if segmentType == .signUpSegment {
                     AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.usernameError)
                 }
                 
@@ -23,12 +23,24 @@ struct AuthView: View {
                 
                 AuthTextField(title: "Password", textValue: $authViewModel.password, errorValue: authViewModel.passwordError, isSecured: true)
                 
-                if segmentType == .registerSegment {
+                if segmentType == .signUpSegment {
                     AuthTextField(title: "Confitm Password", textValue: $authViewModel.confirmPassword, errorValue: authViewModel.confirmPasswordError, isSecured: true)
                 }
+                                
+                Button(action: {
+                    
+                }, label: {
+                    Text("Sign In")
+                        .padding(.vertical)
+                        .padding(.horizontal, 60)
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .background(.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 35))
+                })
             }
             .padding(.horizontal)
-            .padding(.vertical, 40)
+            .padding(.vertical, 50)
         }
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 35))
