@@ -39,7 +39,7 @@ struct AuthSegmentedControl<SegmentType: SegmentTypeProtocol>: View where Segmen
                             .background {
                                 if isSelected(segment: segment) {
                                     Rectangle()
-                                        .fill(segment.tintColor ?? configuration.selectedBackgroundColor)
+                                        .fill(segment.tintColor)
                                         .clipShape(RoundedRectangle(cornerRadius: 35))
                                         .padding(8)
                                 }

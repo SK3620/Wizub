@@ -9,11 +9,7 @@ import SwiftUI
 
 protocol SegmentTypeProtocol: CaseIterable, Identifiable<SegmentType>, Equatable {
     var title: String { get }
-    var tintColor: Color? { get }
-}
-
-extension SegmentTypeProtocol {
-    var tintColor: Color? { nil }
+    var tintColor: Color { get }
 }
 
 enum SegmentType: SegmentTypeProtocol {
@@ -37,12 +33,7 @@ enum SegmentType: SegmentTypeProtocol {
         }
     }
     
-    var tintColor: Color? {
-        switch self {
-        case .loginSegment:
-            return .red.opacity(0.75)
-        case .registerSegment:
-            return .green.opacity(0.75)
-        }
+    var tintColor: Color {
+        return Color(red: 0.3, green: 0.0, blue: 0.5)
     }
 }
