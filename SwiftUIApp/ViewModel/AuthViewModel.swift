@@ -13,7 +13,7 @@ class AuthViewModel: ObservableObject {
     private var cancellableBag = Set<AnyCancellable>()
     
     // 初期値はログイン画面
-    @Published var segmentType: SegmentType = .loginSegment
+    @Published var segmentType: SegmentType = .signInSegment
     
     @Published var userName: String = ""
     @Published var usernameError: String = ""

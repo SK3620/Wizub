@@ -15,9 +15,9 @@ protocol SegmentTypeProtocol: CaseIterable, Identifiable<SegmentType>, Equatable
 enum SegmentType: SegmentTypeProtocol {
     
     // ログインのセグメント
-    case loginSegment
+    case signInSegment
     // アカウント登録のセグメント
-    case registerSegment
+    case signUpSegment
     
     // 自身のインスタンスを識別子とする
     var id: Self {
@@ -26,10 +26,10 @@ enum SegmentType: SegmentTypeProtocol {
 
     var title: String {
         switch self {
-        case .loginSegment:
-            return "Login"
-        case .registerSegment:
-            return "Register"
+        case .signInSegment:
+            return "Sign In"
+        case .signUpSegment:
+            return "Sign Up"
         }
     }
     
