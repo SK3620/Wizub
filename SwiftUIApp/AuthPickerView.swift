@@ -9,11 +9,7 @@ import SwiftUI
 
 struct AuthPickerView: View {
     
-    @ObservedObject private var authViewModel: AuthViewModel
-    
-    init(authViewModel: AuthViewModel) {
-        self.authViewModel = authViewModel
-    }
+    @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
     
     var body: some View {
         ZStack {
@@ -24,7 +20,7 @@ struct AuthPickerView: View {
                 AuthSegmentedControl(
                     selectedSegment: $authViewModel.segmentType
                 )
-                .padding(.top, 55)
+                .padding(.top, 70)
                 
                 Spacer()
                 
@@ -37,5 +33,5 @@ struct AuthPickerView: View {
 }
 
 #Preview {
-    return AuthPickerView(authViewModel: AuthViewModel())
+    return AuthPickerView()
 }
