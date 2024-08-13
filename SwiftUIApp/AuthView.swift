@@ -17,16 +17,20 @@ struct AuthView: View {
             VStack {
                 if segmentType == .signUpSegment {
                     AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.usernameError)
+                        .onChange(of: authViewModel.userName) { oldValue, newValue in
+                            // 17文字以上＆スペースは切り捨て
+                            authViewModel.userName = newValue.limited()
+                        }
                 }
                 
                 AuthTextField(title: "Email", textValue: $authViewModel.email, errorValue: authViewModel.emailError, keyboardType: .emailAddress)
                 
                 AuthTextField(title: "Password", textValue: $authViewModel.password, errorValue: authViewModel.passwordError, isSecured: true)
+                    .onChange(of: authViewModel.password) { oldValue, newValue in
+                        // 17文字以上＆スペースは切り捨て
+                        authViewModel.password = newValue.limited()
+                    }
                 
-                if segmentType == .signUpSegment {
-                    AuthTextField(title: "Confitm Password", textValue: $authViewModel.confirmPassword, errorValue: authViewModel.confirmPasswordError, isSecured: true)
-                }
-                                
                 Button(action: {
                     
                 }, label: {
@@ -35,9 +39,10 @@ struct AuthView: View {
                         .padding(.horizontal, 60)
                         .font(.title2)
                         .foregroundColor(.white)
-                        .background(.gray)
+                        .background(authViewModel.enableSignUp ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3) )
                         .clipShape(RoundedRectangle(cornerRadius: 35))
                 })
+                .disabled(!authViewModel.enableSignUp)
             }
             .padding(.horizontal)
             .padding(.vertical, 50)
