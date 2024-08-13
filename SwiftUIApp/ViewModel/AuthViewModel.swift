@@ -96,12 +96,17 @@ class AuthViewModel: ObservableObject {
             .assign(to: \.passwordError, on: self)
             .store(in: &cancellableBag)
         
-        Publishers.CombineLatest3(usernameValidPublisher, emailValidPublisher, passwordValidPublisher)
+        Publishers.CombineLatest4(segmentOnChangedPublisher, usernameValidPublisher, emailValidPublisher, passwordValidPublisher)
             .receive(on: RunLoop.main)
-            .map { userName, email, password in
-                return [userName, email, password].allSatisfy { $0 == .noError }
+            .sink { [weak self] segmentType, userName, email, password in
+                guard let self = self else { return }
+                switch segmentType {
+                case .signUpSegment:
+                    self.enableSignUp = [userName, email, password].allSatisfy { $0 == .noError }
+                case .signInSegment:
+                    self.enableSignIn = [email, password].allSatisfy { $0 == .noError }
+                }
             }
-            .assign(to: \.enableSignUp, on: self)
             .store(in: &cancellableBag)
     }
     
