@@ -32,9 +32,19 @@ struct AuthView: View {
                     }
                 
                 AuthButtoon(title: segmentType == .signInSegment ? "Sign In" : "Sign Up", enableButton: segmentType == .signInSegment ? authViewModel.enableSignIn : authViewModel.enableSignUp)
+                    .padding(segmentType == .signInSegment ? EdgeInsets(top: 40, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 40, leading: 0, bottom: 40, trailing: 0))
+
+                if segmentType == .signInSegment {
+                    Button {
+                    } label: {
+                        Text("Forget your password?")
+                            .font(.title3)
+                    }
+                    .padding(.vertical, 24)
+                }
             }
             .padding(.horizontal)
-            .padding(.vertical, 50)
+            .padding(.top, 50)
         }
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 35))
