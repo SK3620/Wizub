@@ -66,6 +66,13 @@ class AuthViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
+    private var segmentOnChangedPublisher: AnyPublisher<SegmentType, Never> {
+        return $segmentType
+            .map { $0 }
+            .eraseToAnyPublisher()
+    }
+                                                        
+    
     init() {
         
         usernameValidPublisher
