@@ -31,18 +31,7 @@ struct AuthView: View {
                         authViewModel.password = newValue.limited()
                     }
                 
-                Button(action: {
-                    
-                }, label: {
-                    Text("Sign In")
-                        .padding(.vertical)
-                        .padding(.horizontal, 60)
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .background(authViewModel.enableSignUp ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3) )
-                        .clipShape(RoundedRectangle(cornerRadius: 35))
-                })
-                .disabled(!authViewModel.enableSignUp)
+                AuthButtoon(title: segmentType == .signInSegment ? "Sign In" : "Sign Up", enableButton: segmentType == .signInSegment ? authViewModel.enableSignIn : authViewModel.enableSignUp)
             }
             .padding(.horizontal)
             .padding(.vertical, 50)
@@ -108,5 +97,27 @@ struct AuthTextField: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
                 .padding(EdgeInsets(top: -24, leading: 0, bottom: 24, trailing: 0))
         }
+    }
+}
+
+struct AuthButtoon: View {
+    
+    var title: String = ""
+    var enableButton: Bool = false
+    
+    var body: some View {
+        
+        Button(action: {
+            
+        }, label: {
+            Text(title)
+                .padding(.vertical)
+                .padding(.horizontal, 60)
+                .font(.title2)
+                .foregroundColor(.white)
+                .background(enableButton ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3) )
+                .clipShape(RoundedRectangle(cornerRadius: 35))
+        })
+        .disabled(!enableButton)
     }
 }

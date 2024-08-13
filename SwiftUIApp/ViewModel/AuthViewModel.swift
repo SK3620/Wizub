@@ -25,6 +25,8 @@ class AuthViewModel: ObservableObject {
     @Published var passwordError: String = ""
     
     @Published var enableSignUp: Bool = false
+    @Published var enableSignIn: Bool = false
+    
     
     private var usernameValidPublisher: AnyPublisher<ErrorMessages, Never> {
         return $userName
