@@ -34,6 +34,6 @@ enum SegmentType: SegmentTypeProtocol {
     }
     
     var tintColor: Color {
-        return Color(red: 0.3, green: 0.0, blue: 0.5)
+        return ColorCodes.buttonBackground.color()
     }
 }
