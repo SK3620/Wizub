@@ -14,7 +14,7 @@ struct SwiftUIApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AuthPickerView(authViewModel: authViewModel)
+            AuthPickerView()
         }
     }
 }
