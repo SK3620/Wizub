@@ -16,6 +16,7 @@
 		838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */; };
 		838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931422C6851CE00FF42B4 /* ColorCodes.swift */; };
 		838931452C68538A00FF42B4 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931442C68538A00FF42B4 /* AuthView.swift */; };
+		83EC0AD72C6A2F2F00E316E6 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */; };
 		8DA25FD9D55DC0728EBF77A2 /* Pods_SwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE797E50111B97F7186D369 /* Pods_SwiftUIApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSegmentedControl.swift; sourceTree = "<group>"; };
 		838931422C6851CE00FF42B4 /* ColorCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCodes.swift; sourceTree = "<group>"; };
 		838931442C68538A00FF42B4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		9805C1CAEB8384132D4B964C /* Pods-SwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A938AF411A0A631947B5B553 /* Pods-SwiftUIApp.develop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.develop.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.develop.xcconfig"; sourceTree = "<group>"; };
 		BFE797E50111B97F7186D369 /* Pods_SwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +113,7 @@
 			children = (
 				8389313E2C683D8B00FF42B4 /* SegmentType.swift */,
 				838931422C6851CE00FF42B4 /* ColorCodes.swift */,
+				83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83EC0AD72C6A2F2F00E316E6 /* ErrorMessages.swift in Sources */,
 				838931452C68538A00FF42B4 /* AuthView.swift in Sources */,
 				838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */,
 				838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */,
