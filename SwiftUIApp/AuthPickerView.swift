@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AuthPickerView: View {
     
-    @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    @StateObject private var authViewModel: AuthViewModel = AuthViewModel(apiService: APIService())
     
     var body: some View {
         ZStack {
