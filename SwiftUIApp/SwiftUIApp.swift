@@ -10,8 +10,6 @@ import SwiftUI
 @main
 struct SwiftUIApp: App {
     
-    let authViewModel = AuthViewModel()
-    
     var body: some Scene {
         WindowGroup {
             AuthPickerView()
