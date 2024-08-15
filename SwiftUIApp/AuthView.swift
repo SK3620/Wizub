@@ -37,6 +37,7 @@ struct AuthView: View {
                 
                 if segmentType == .signInSegment {
                     Button {
+                        authViewModel.apply(taps: .forgetPassword)
                     } label: {
                         Text("Forget your password?")
                             .font(.title3)
@@ -128,7 +129,11 @@ struct AuthButton: View {
     var body: some View {
         
         Button(action: {
-            
+            if segmentType == .signUpSegment {
+                authViewModel.apply(taps: .signUp)
+            } else {
+                authViewModel.apply(taps: .signIn)
+            }
         }, label: {
             Text(title)
                 .padding(.vertical)

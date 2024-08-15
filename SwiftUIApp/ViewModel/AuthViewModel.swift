@@ -10,12 +10,23 @@ import Combine
 
 class AuthViewModel: ObservableObject {
     
+    // MARK: - Tapped
+    enum AuthButtonTaps {
+        // サインアップ
+        case signUp
+        //　サインイン
+        case signIn
+        // パスワード忘れた
+        case forgetPassword
+    }
+    
+    private let apiService: APIServiceType
+    
     private var cancellableBag = Set<AnyCancellable>()
     
     @Published var segmentType: SegmentType = .signInSegment
     
     @Published var userName: String = ""
-    
     @Published var usernameError: String = ""
     
     @Published var email: String = ""
@@ -27,6 +38,16 @@ class AuthViewModel: ObservableObject {
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
     
+    func apply(taps: AuthButtonTaps) {
+        switch taps {
+        case .signUp:
+            self.signUp()
+        case .signIn:
+            print("signIn")
+        case .forgetPassword:
+            print("forget your password")
+        }
+    }
     
     private var usernameValidPublisher: AnyPublisher<ErrorMessages, Never> {
         return $userName
