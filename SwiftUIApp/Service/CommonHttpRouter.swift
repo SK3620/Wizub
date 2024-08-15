@@ -26,7 +26,7 @@ extension CommonHttpRouter {
     var baseUrlString: String { return ApiUrl.baseUrl }
     var headers: HTTPHeaders {
         return HTTPHeaders([
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
             "Accept": "application/json"
         ])
     }
