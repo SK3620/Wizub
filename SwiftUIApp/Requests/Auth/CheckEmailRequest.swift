@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-struct checkEmail: CommonHttpRouter {
+struct CheckEmailRequest: CommonHttpRouter {
     
     typealias Response = AuthModel
     var path: String { return ApiUrl.checkEmailUrl }
