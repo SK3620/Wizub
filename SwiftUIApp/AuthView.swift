@@ -111,10 +111,19 @@ struct AuthTextField: View {
     }
 }
 
-struct AuthButtoon: View {
+struct AuthButton: View {
     
-    var title: String = ""
-    var enableButton: Bool = false
+    @ObservedObject var authViewModel: AuthViewModel
+    var segmentType: SegmentType
+    var title: String
+    var enableButton: Bool
+    
+    init(authViewModel: AuthViewModel, segmentType: SegmentType) {
+        self.authViewModel = authViewModel
+        self.segmentType = segmentType
+        self.title = segmentType == .signUpSegment ? "Sign Up" : "Sign In"
+        self.enableButton = segmentType == .signUpSegment ? authViewModel.enableSignUp : authViewModel.enableSignIn
+    }
     
     var body: some View {
         
