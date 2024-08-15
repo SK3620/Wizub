@@ -9,7 +9,7 @@ struct ApiUrl {
     
     static var baseUrl: String {
         #if DEVELOP
-        return "http〜〜"
+        return "http://localhost:8000"
         #endif
         return "http〜〜"
     }
