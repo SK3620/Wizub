@@ -14,9 +14,9 @@ protocol SegmentTypeProtocol: CaseIterable, Identifiable<SegmentType>, Equatable
 
 enum SegmentType: SegmentTypeProtocol {
     
-    // ログインのセグメント
+    // サインインのセグメント
     case signInSegment
-    // アカウント登録のセグメント
+    // サインアップのセグメント
     case signUpSegment
     
     // 自身のインスタンスを識別子とする
