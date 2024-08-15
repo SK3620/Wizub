@@ -94,7 +94,9 @@ class AuthViewModel: ObservableObject {
     }
                                                         
     
-    init() {
+    init(apiService: APIServiceType) {
+        
+        self.apiService = apiService
         
         usernameValidPublisher
             .receive(on: RunLoop.main)
