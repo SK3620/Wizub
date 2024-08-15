@@ -31,9 +31,10 @@ struct AuthView: View {
                         authViewModel.password = newValue.limited()
                     }
                 
-                AuthButtoon(title: segmentType == .signInSegment ? "Sign In" : "Sign Up", enableButton: segmentType == .signInSegment ? authViewModel.enableSignIn : authViewModel.enableSignUp)
-                    .padding(segmentType == .signInSegment ? EdgeInsets(top: 40, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 40, leading: 0, bottom: 40, trailing: 0))
-
+                AuthButton(authViewModel: authViewModel, segmentType: segmentType)
+                    .padding(.top, 40)
+                    .padding(.bottom, segmentType == .signInSegment ? 0 : 40)
+                
                 if segmentType == .signInSegment {
                     Button {
                     } label: {
