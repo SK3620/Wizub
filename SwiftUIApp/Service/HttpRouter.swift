@@ -5,8 +5,9 @@
 //  Created by 鈴木 健太 on 2024/08/14.
 //
 
+/*
 import Alamofire
-
+ 
 enum HttpRouter {
     case signUp(AuthModel)
     case valudateEmail(email: String)
@@ -14,8 +15,6 @@ enum HttpRouter {
 //    case refreshToken(token: String)
 //    case logout(token: String)
 }
-
-
 
 extension HttpRouter: CommonHttpRouter {
     typealias Response = AuthModel
@@ -86,3 +85,4 @@ extension HttpRouter: CommonHttpRouter {
         }
     }
 }
+*/
