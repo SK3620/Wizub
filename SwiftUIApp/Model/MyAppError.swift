@@ -9,6 +9,16 @@ import Foundation
 
 enum MyAppError: LocalizedError {
     
+    enum InputValidation: String {
+        case missingUsername = "Username is missing"
+        case missingEmail = "Email is missing"
+        case invalidEmail = "Email is not valid"
+        case emailAlreadyUsed = "Email is already used"
+        case missingPassword = "Password is missing"
+        case invalidPassword = "8-16 chars with letters and numbers"
+        case noError = ""
+    }
+    
     enum Account: LocalizedError {
         case noAccountWithSpecifiedId
         case alreadyRegistered(_ username: String)
