@@ -36,4 +36,3 @@ struct AuthModel: Codable {
        return value as? Self
     }
 }
-}
