@@ -16,7 +16,7 @@ struct AuthView: View {
         VStack {
             VStack {
                 if segmentType == .signUpSegment {
-                    AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.usernameError)
+                    AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.userNameError)
                         .onChange(of: authViewModel.userName) { oldValue, newValue in
                             // 17文字以上＆スペースは切り捨て
                             authViewModel.userName = newValue.limited()
