@@ -16,7 +16,8 @@
 		838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */; };
 		838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931422C6851CE00FF42B4 /* ColorCodes.swift */; };
 		838931452C68538A00FF42B4 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931442C68538A00FF42B4 /* AuthView.swift */; };
-		83EC0AD72C6A2F2F00E316E6 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */; };
+		83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* HttpError.swift */; };
+		83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8D2C6F826C00B4179D /* HttpStatus.swift */; };
 		83EC0ADA2C6B207B00E316E6 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AD92C6B207B00E316E6 /* Util.swift */; };
 		83EC0ADC2C6B63F100E316E6 /* MyAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */; };
 		83EC0ADF2C6B79C600E316E6 /* CommonHttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */; };
@@ -44,7 +45,8 @@
 		838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSegmentedControl.swift; sourceTree = "<group>"; };
 		838931422C6851CE00FF42B4 /* ColorCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCodes.swift; sourceTree = "<group>"; };
 		838931442C68538A00FF42B4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
+		83A63E8B2C6F81B500B4179D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
+		83A63E8D2C6F826C00B4179D /* HttpStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
 		83EC0AD92C6B207B00E316E6 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppError.swift; sourceTree = "<group>"; };
 		83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHttpRouter.swift; sourceTree = "<group>"; };
@@ -141,8 +143,9 @@
 				8389313E2C683D8B00FF42B4 /* SegmentType.swift */,
 				83EC0AE62C6C1B2A00E316E6 /* AuthModel.swift */,
 				838931422C6851CE00FF42B4 /* ColorCodes.swift */,
-				83EC0AD62C6A2F2F00E316E6 /* ErrorMessages.swift */,
 				83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */,
+				83A63E8B2C6F81B500B4179D /* HttpError.swift */,
+				83A63E8D2C6F826C00B4179D /* HttpStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,8 +322,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83EC0AD72C6A2F2F00E316E6 /* ErrorMessages.swift in Sources */,
+				83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */,
 				83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */,
+				83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */,
 				83EC0ADA2C6B207B00E316E6 /* Util.swift in Sources */,
 				83EC0ADC2C6B63F100E316E6 /* MyAppError.swift in Sources */,
 				83EC0AE32C6C158C00E316E6 /* AuthApi.swift in Sources */,
