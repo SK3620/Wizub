@@ -30,4 +30,10 @@ struct AuthModel: Codable {
         case apiToken = "api_token"
         case isDuplicatedEmail = "is_duplicated_email"
     }
+    
+    // Request.Response（Decodable)型をSelfへダウンキャスト
+    func handleResponse(value: Decodable) -> Self? {
+       return value as? Self
+    }
+}
 }
