@@ -22,24 +22,27 @@ protocol CommonHttpRouter: URLRequestConvertible {
 }
 
 extension CommonHttpRouter {
-    
+        
     var baseUrlString: String { return ApiUrl.baseUrl }
     var headers: HTTPHeaders {
         return HTTPHeaders([
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": "Bearer \(apiToken)"
         ])
     }
     var parameters: Parameters? { return nil }
     func body() throws -> Data? { return nil }
     
+    private var apiToken: String {
+        return KeyChainManager().loadCredentials(service: .apiTokenService)
+    }
+    
     func asURLRequest() throws -> URLRequest {
         
         var url = try baseUrlString.asURL()
         url = url.appendingPathComponent(path)
-        
-        // ここでapiToken取得処理を行い、headersに追加する
-        
+
         var request = try URLRequest(url: url, method: method, headers: headers)
         request.httpBody = try body()
         
