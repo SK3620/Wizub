@@ -19,6 +19,7 @@
 		83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* HttpError.swift */; };
 		83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8D2C6F826C00B4179D /* HttpStatus.swift */; };
 		83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAAC772C705393002AE74E /* KeyChainManager.swift */; };
+		83AAAC7C2C719F37002AE74E /* StatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */; };
 		83EC0ADA2C6B207B00E316E6 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AD92C6B207B00E316E6 /* Util.swift */; };
 		83EC0ADC2C6B63F100E316E6 /* MyAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */; };
 		83EC0ADF2C6B79C600E316E6 /* CommonHttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */; };
@@ -31,6 +32,11 @@
 		83EC0AF32C6D948A00E316E6 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AF22C6D948A00E316E6 /* SignInRequest.swift */; };
 		83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AF42C6D94A500E316E6 /* CheckEmailRequest.swift */; };
 		83EC0AF72C6D955D00E316E6 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AF62C6D955D00E316E6 /* ApiService.swift */; };
+		83F9DE4B2C72BAB800F828F7 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */; };
+		83F9DE4D2C72DA6B00F828F7 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9DE4C2C72DA6B00F828F7 /* CustomNavigationBar.swift */; };
+		83F9DE4F2C72FBBE00F828F7 /* NavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9DE4E2C72FBBE00F828F7 /* NavigationStackView.swift */; };
+		83F9DE512C7343E700F828F7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9DE502C7343E700F828F7 /* HomeView.swift */; };
+		83F9DE532C7350D500F828F7 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */; };
 		8DA25FD9D55DC0728EBF77A2 /* Pods_SwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE797E50111B97F7186D369 /* Pods_SwiftUIApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +55,7 @@
 		83A63E8B2C6F81B500B4179D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		83A63E8D2C6F826C00B4179D /* HttpStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
 		83AAAC772C705393002AE74E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
+		83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewModel.swift; sourceTree = "<group>"; };
 		83EC0AD92C6B207B00E316E6 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppError.swift; sourceTree = "<group>"; };
 		83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHttpRouter.swift; sourceTree = "<group>"; };
@@ -61,6 +68,11 @@
 		83EC0AF22C6D948A00E316E6 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		83EC0AF42C6D94A500E316E6 /* CheckEmailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailRequest.swift; sourceTree = "<group>"; };
 		83EC0AF62C6D955D00E316E6 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		83F9DE4C2C72DA6B00F828F7 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		83F9DE4E2C72FBBE00F828F7 /* NavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackView.swift; sourceTree = "<group>"; };
+		83F9DE502C7343E700F828F7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		9805C1CAEB8384132D4B964C /* Pods-SwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A938AF411A0A631947B5B553 /* Pods-SwiftUIApp.develop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.develop.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.develop.xcconfig"; sourceTree = "<group>"; };
 		BFE797E50111B97F7186D369 /* Pods_SwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,9 +127,6 @@
 				8389313B2C67A18000FF42B4 /* ViewModel */,
 				8389313A2C67A17800FF42B4 /* Model */,
 				838931392C67A15900FF42B4 /* View */,
-				838931372C67629E00FF42B4 /* AuthPickerView.swift */,
-				838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */,
-				838931442C68538A00FF42B4 /* AuthView.swift */,
 				835F29352C6623CF005BC174 /* Assets.xcassets */,
 				835F29372C6623CF005BC174 /* Preview Content */,
 			);
@@ -135,6 +144,14 @@
 		838931392C67A15900FF42B4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				838931372C67629E00FF42B4 /* AuthPickerView.swift */,
+				838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */,
+				838931442C68538A00FF42B4 /* AuthView.swift */,
+				83F9DE502C7343E700F828F7 /* HomeView.swift */,
+				83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */,
+				83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */,
+				83F9DE4C2C72DA6B00F828F7 /* CustomNavigationBar.swift */,
+				83F9DE4E2C72FBBE00F828F7 /* NavigationStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -143,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				8389313E2C683D8B00FF42B4 /* SegmentType.swift */,
+				83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */,
 				83EC0AE62C6C1B2A00E316E6 /* AuthModel.swift */,
 				838931422C6851CE00FF42B4 /* ColorCodes.swift */,
 				83EC0ADB2C6B63F100E316E6 /* MyAppError.swift */,
@@ -325,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F9DE512C7343E700F828F7 /* HomeView.swift in Sources */,
 				83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */,
 				83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */,
 				83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */,
@@ -332,19 +351,24 @@
 				83EC0ADC2C6B63F100E316E6 /* MyAppError.swift in Sources */,
 				83EC0AE32C6C158C00E316E6 /* AuthApi.swift in Sources */,
 				83EC0AF72C6D955D00E316E6 /* ApiService.swift in Sources */,
+				83F9DE4F2C72FBBE00F828F7 /* NavigationStackView.swift in Sources */,
 				83EC0AEB2C6C6F3300E316E6 /* ApiUrl.swift in Sources */,
 				83EC0AF12C6D946100E316E6 /* SignUpRequest.swift in Sources */,
 				83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */,
 				838931452C68538A00FF42B4 /* AuthView.swift in Sources */,
 				83EC0ADF2C6B79C600E316E6 /* CommonHttpRouter.swift in Sources */,
+				83F9DE532C7350D500F828F7 /* CustomSearchBar.swift in Sources */,
 				838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */,
 				838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */,
+				83F9DE4D2C72DA6B00F828F7 /* CustomNavigationBar.swift in Sources */,
 				838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */,
 				8389313F2C683D8B00FF42B4 /* SegmentType.swift in Sources */,
 				83EC0AE92C6C435700E316E6 /* HttpRouter.swift in Sources */,
+				83AAAC7C2C719F37002AE74E /* StatusViewModel.swift in Sources */,
 				835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */,
 				83EC0AED2C6C8FA100E316E6 /* AuthService.swift in Sources */,
 				83EC0AF32C6D948A00E316E6 /* SignInRequest.swift in Sources */,
+				83F9DE4B2C72BAB800F828F7 /* CustomTabBar.swift in Sources */,
 				8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */,
 				83EC0AE72C6C1B2A00E316E6 /* AuthModel.swift in Sources */,
 			);
