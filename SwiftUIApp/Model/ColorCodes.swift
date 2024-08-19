@@ -20,7 +20,7 @@ extension ColorCodes {
     func color() -> Color {
         switch self {
         case .primary:
-            return Color.white
+            return Color(red: 0.3, green: 0.0, blue: 0.5)
         case .success:
             return Color.green
         case .failure:
