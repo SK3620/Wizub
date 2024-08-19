@@ -21,13 +21,13 @@ class AuthViewModel: ObservableObject {
     }
     
     private let apiService: APIServiceType
-    
+        
     private var cancellableBag = Set<AnyCancellable>()
     
     @Published var segmentType: SegmentType = .signInSegment
-    
+        
     @Published var userName: String = ""
-    @Published var usernameError: String = ""
+    @Published var userNameError: String = ""
     
     @Published var email: String = ""
     @Published var emailError: String = ""
@@ -38,50 +38,82 @@ class AuthViewModel: ObservableObject {
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
     
+    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: false)
+    
+    private let keyChainManager: KeyChainManager = KeyChainManager()
+    
     func apply(taps: AuthButtonTaps) {
+        // ローディングアイコン表示開始
+        statusViewModel = StatusViewModel(isLoading: true, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: false)
+        // ローディング中はSignUp/SignInボタン非活性
+        enableSignUp = false
+        enableSignIn = false
         switch taps {
         case .signUp:
             self.signUp()
         case .signIn:
-            print("signIn")
+            self.signIn()
         case .forgetPassword:
-            print("forget your password")
+            self.forgetPassword()
         }
     }
     
-    private var usernameValidPublisher: AnyPublisher<ErrorMessages, Never> {
+    private var usernameValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
         return $userName
             .map {
-               !$0.isEmpty ? ErrorMessages.noError : ErrorMessages.missingUsername
+                let error = MyAppError.InputValidation.self
+                return $0.isEmpty ? error.missingUsername : error.noError
             }
             .eraseToAnyPublisher()
     }
     
-    private var emailValidPublisher: AnyPublisher<ErrorMessages, Never> {
+    private var emailValidPublisher: AnyPublisher<(email: String, error: MyAppError.InputValidation), Never> {
         return $email
-            .map {
+        // SignIn/SignUpセグメントの切り替え時、以下Publisherを発火
+            .combineLatest($segmentType)
+            .map { email, segmentType in
+                let error = MyAppError.InputValidation.self
                 switch true {
-                case $0.isEmpty:
-                    return ErrorMessages.missingEmail
-                case !$0.isValidEmail():
-                    return ErrorMessages.invalidEmail
+                case email.isEmpty:
+                    return (email: email, error: error.missingEmail)
+                case !email.isValidEmail():
+                    return (email: email, error: error.invalidEmail)
                 default:
-                    return ErrorMessages.noError
+                    return (email: email, error: error.noError)
                 }
             }
             .eraseToAnyPublisher()
     }
     
-    private var passwordValidPublisher: AnyPublisher<ErrorMessages, Never> {
+    private var emailServerValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
+        return emailValidPublisher
+            .filter {
+                return $0.error == .noError
+            }
+            .flatMap { [weak self] (value) in
+                guard let self = self else {
+                    return Empty<Bool, Never>(completeImmediately: true).eraseToAnyPublisher()
+                }
+                return self.checkEmail(email: value.email)
+            }
+            .map {
+                let error = MyAppError.InputValidation.self
+                return !$0 ? error.noError : error.emailAlreadyUsed
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var passwordValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
         return $password
             .map {
+                let error = MyAppError.InputValidation.self
                 switch true {
                 case $0.isEmpty:
-                    return ErrorMessages.missingPassword
+                    return error.missingPassword
                 case !$0.isValidPassword():
-                    return ErrorMessages.invalidPassword
+                    return error.invalidPassword
                 default:
-                    return ErrorMessages.noError
+                    return error.noError
                 }
             }
             .eraseToAnyPublisher()
@@ -89,37 +121,74 @@ class AuthViewModel: ObservableObject {
     
     private var segmentOnChangedPublisher: AnyPublisher<SegmentType, Never> {
         return $segmentType
-            .map { $0 }
+            .map {
+                return  $0
+            }
             .eraseToAnyPublisher()
     }
-                                                        
     
     init(apiService: APIServiceType) {
         
         self.apiService = apiService
         
+        self.email = keyChainManager.loadCredentials(service: .emailService)
+        self.password = keyChainManager.loadCredentials(service: .passwordService)
+        
         usernameValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { return $0.rawValue }
-            .assign(to: \.usernameError, on: self)
+            .map { $0.rawValue }
+            .assign(to: \.userNameError, on: self)
             .store(in: &cancellableBag)
         
         emailValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { $0.rawValue }
+            .map { $0.error.rawValue }
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)
         
+        emailServerValidPublisher
+            .receive(on: RunLoop.main)
+            .dropFirst()
+            .map { [weak self] (error) in
+                guard let self = self else { return "" }
+                return (error == .emailAlreadyUsed && self.segmentType == .signInSegment) ? "" : error.rawValue
+            }
+            .assign(to: \.emailError, on: self)
+            .store(in: &cancellableBag)
+
         passwordValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { return $0.rawValue }
+            .map { $0.rawValue }
             .assign(to: \.passwordError, on: self)
             .store(in: &cancellableBag)
         
-        Publishers.CombineLatest4(segmentOnChangedPublisher, usernameValidPublisher, emailValidPublisher, passwordValidPublisher)
+        Publishers.CombineLatest(
+            Publishers.CombineLatest4( usernameValidPublisher, emailValidPublisher, emailServerValidPublisher, passwordValidPublisher),
+            segmentOnChangedPublisher // 5つ目のPublisherを追加
+        )
+        .receive(on: RunLoop.main)
+        .sink { [weak self] combinedResult, segmentType in
+            guard let self = self else { return }
+            let (userNameValidation, emailValidation, emailServerValidation, passwordValidation) = combinedResult
+            
+            switch segmentType {
+            case .signUpSegment:
+                self.enableSignUp = [userNameValidation, emailValidation.error, emailServerValidation, passwordValidation].allSatisfy { $0 == .noError }
+            case .signInSegment:
+                self.enableSignIn = [emailValidation.error, passwordValidation].allSatisfy { $0 == .noError }
+            }
+        }
+        .store(in: &cancellableBag)
+    }
+    
+    deinit {
+        cancellableBag.removeAll()
+    }
+}
+
 extension AuthViewModel {
     
     private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
