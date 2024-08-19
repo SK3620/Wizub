@@ -120,20 +120,91 @@ class AuthViewModel: ObservableObject {
             .store(in: &cancellableBag)
         
         Publishers.CombineLatest4(segmentOnChangedPublisher, usernameValidPublisher, emailValidPublisher, passwordValidPublisher)
+extension AuthViewModel {
+    
+    private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
+        // リクエスト
+        apiService.request(with: request)
             .receive(on: RunLoop.main)
-            .sink { [weak self] segmentType, userName, email, password in
+            .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
-                switch segmentType {
-                case .signUpSegment:
-                    self.enableSignUp = [userName, email, password].allSatisfy { $0 == .noError }
-                case .signInSegment:
-                    self.enableSignIn = [email, password].allSatisfy { $0 == .noError }
+                switch completion {
+                case .finished:
+                    // ローディングアイコン表示終了
+                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: true)
+                    // SignUp/SignInボタンの活性化
+                    self.enableSignUp = true
+                    self.enableSignIn = true
+                    break
+                case .failure(let error):
+                    // エラーアラート表示
+                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription, shouldShowNextScreen: false)
+                    // SignUp/SignInボタンの活性化
+                    self.enableSignUp = true
+                    self.enableSignIn = true
                 }
-            }
+            }, receiveValue: { [weak self] value in
+                guard let self = self, let value = authModel.handleResponse(value: value) else { return }
+                // 認証情報をキーチェーンへ保存
+                self.keyChainManager.saveCredentials(apiToken: value.apiToken, email: value.email, password: value.password)
+            })
             .store(in: &cancellableBag)
     }
     
-    deinit {
-        cancellableBag.removeAll()
+    private func signUp() {
+        let authModel = AuthModel(
+            name: userName,
+            email: email,
+            password: password,
+            apiToken: "",
+            isDuplicatedEmail: nil
+        )
+        // サインアップリクエスト組み立て
+        let signUpRequest = SignUpRequest(model: authModel)
+        authenticate(with: signUpRequest, authModel: authModel)
+    }
+
+    private func signIn() {
+        let authModel = AuthModel(
+            name: "",
+            email: email,
+            password: password,
+            apiToken: "",
+            isDuplicatedEmail: nil
+        )
+        // サインインリクエスト組み立て
+        let signInRequest = SignInRequest(model: authModel)
+        authenticate(with: signInRequest, authModel: authModel)
+    }
+    
+    // Emailの重複チェック
+    private func checkEmail(email: String) -> AnyPublisher<Bool, Never> {
+        let authModel = AuthModel(
+            name: "",
+            email: email,
+            password: "",
+            apiToken: "",
+            isDuplicatedEmail: nil
+        )
+        // Email重複チェックリクエスト組み立て
+        let checkEmailRequest = CheckEmailRequest(model: authModel)
+        
+        return apiService.request(with: checkEmailRequest)
+            .receive(on: RunLoop.main)
+            .map {
+                guard let value = authModel.handleResponse(value: $0) else {
+                    return false
+                }
+                return value.isDuplicatedEmail!
+            }
+            .catch {
+                print($0.localizedDescription)
+                return Just(false)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func forgetPassword() -> Void {
+        
     }
 }
