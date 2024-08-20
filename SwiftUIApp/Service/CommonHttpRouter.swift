@@ -25,11 +25,18 @@ extension CommonHttpRouter {
         
     var baseUrlString: String { return ApiUrl.baseUrl }
     var headers: HTTPHeaders {
-        return HTTPHeaders([
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer \(apiToken)"
-        ])
+           // 共通のヘッダーを設定
+           var headers: HTTPHeaders = [
+               "Content-Type": "application/json",
+               "Accept": "application/json"
+           ]
+           // YouTube API用のヘッダーを設定
+           if baseUrlString == ApiUrl.youTubeBaseUrl {
+               return headers
+           }
+           // その他のAPI用のヘッダーにAuthorizationを追加
+           headers["Authorization"] = "Bearer \(apiToken)"
+           return headers
     }
     var parameters: Parameters? { return nil }
     func body() throws -> Data? { return nil }
