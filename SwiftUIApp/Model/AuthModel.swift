@@ -32,7 +32,7 @@ struct AuthModel: Codable {
     }
     
     // Request.Response（Decodable)型をSelfへダウンキャスト
-    func handleResponse(value: Decodable) -> Self? {
+   static func handleResponse(value: Decodable) -> Self? {
        return value as? Self
     }
 }
