@@ -10,14 +10,14 @@ import Foundation
 class StatusViewModel {
     
     var isLoading: Bool = false
+    var shouldTransition = false
     var showErrorMessage: Bool = false
     var alertErrorMessage: String = ""
-    var shouldShowNextScreen = false
     
-    init(isLoading: Bool, showErrorMessage: Bool, alertErrorMessage: String, shouldShowNextScreen: Bool) {
+    init(isLoading: Bool, shouldTransition: Bool, showErrorMessage: Bool, alertErrorMessage: String) {
         self.isLoading = isLoading
+        self.shouldTransition = shouldTransition
         self.showErrorMessage = showErrorMessage
         self.alertErrorMessage = alertErrorMessage
-        self.shouldShowNextScreen = shouldShowNextScreen
     }
 }

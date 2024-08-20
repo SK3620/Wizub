@@ -59,11 +59,11 @@ struct AuthPickerView: View {
                     Spacer()
                 }
                 // SignUp/SignIn非同期処理状況を監視
-                .onChange(of: authViewModel.statusViewModel.shouldShowNextScreen, initial: false) { oldValue, newValue in
+                .onChange(of: authViewModel.statusViewModel.shouldTransition, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
                     path.append(.home)
-                    authViewModel.statusViewModel.shouldShowNextScreen = false
+                    authViewModel.statusViewModel.shouldTransition = false
                 }
                 
                 // 非同期処理中はローディング

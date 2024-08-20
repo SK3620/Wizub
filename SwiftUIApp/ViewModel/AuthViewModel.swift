@@ -38,13 +38,13 @@ class AuthViewModel: ObservableObject {
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
     
-    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: false)
+    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
     
     private let keyChainManager: KeyChainManager = KeyChainManager()
     
     func apply(taps: AuthButtonTaps) {
         // ローディングアイコン表示開始
-        statusViewModel = StatusViewModel(isLoading: true, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: false)
+        statusViewModel = StatusViewModel(isLoading: true, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
         // ローディング中はSignUp/SignInボタン非活性
         enableSignUp = false
         enableSignIn = false
@@ -200,20 +200,20 @@ extension AuthViewModel {
                 switch completion {
                 case .finished:
                     // ローディングアイコン表示終了
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: false, alertErrorMessage: "", shouldShowNextScreen: true)
+                    self.statusViewModel = StatusViewModel(isLoading: false, shouldTransition: true, showErrorMessage: false, alertErrorMessage: "")
                     // SignUp/SignInボタンの活性化
                     self.enableSignUp = true
                     self.enableSignIn = true
                     break
                 case .failure(let error):
                     // エラーアラート表示
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription, shouldShowNextScreen: false)
+                    self.statusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription)
                     // SignUp/SignInボタンの活性化
                     self.enableSignUp = true
                     self.enableSignIn = true
                 }
             }, receiveValue: { [weak self] value in
-                guard let self = self, let value = authModel.handleResponse(value: value) else { return }
+                guard let self = self, let value = AuthModel.handleResponse(value: value) else { return }
                 // 認証情報をキーチェーンへ保存
                 self.keyChainManager.saveCredentials(apiToken: value.apiToken, email: value.email, password: value.password)
             })
@@ -261,7 +261,7 @@ extension AuthViewModel {
         return apiService.request(with: checkEmailRequest)
             .receive(on: RunLoop.main)
             .map {
-                guard let value = authModel.handleResponse(value: $0) else {
+                guard let value = AuthModel.handleResponse(value: $0) else {
                     return false
                 }
                 return value.isDuplicatedEmail!
