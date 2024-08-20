@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeView: View {
     
     @State var currentTab: Tab = .videoList
-    @State var text: String = ""
     
     init() {
         // デフォルトのTabBarは使用しないので隠しておく
@@ -24,25 +23,24 @@ struct HomeView: View {
             
             VStack(spacing: 0) {
                 
-                SearchBarView(text: $text, placeHodler: "Search")
-                    .padding([.horizontal, .bottom])
-                
                 TabView(selection: $currentTab) {
                     
-                    NavigationLink(NavigationPath.videoStudy.toString, value: NavigationPath.videoStudy)
+                    VideoListView()
                         .tag(Tab.videoList)
+
                     Text("履歴")
                         .tag(Tab.history)
                 }
                 // ナビゲーションバーに要素を配置
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(value: Path.account) {
+                        NavigationLink(value: NavigationPath.account.toString) {
                             Image(systemName: "person")
                                 .fontWeight(.bold)
                         }
                     }
                 }
+                .toolbarBackground(.gray.opacity(0.15), for: .navigationBar)
                 .navigationTitle(currentTab.tabTitle())
                 
                 CustomTabBar(currentTab: $currentTab)
