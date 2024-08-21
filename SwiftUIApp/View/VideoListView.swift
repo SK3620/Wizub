@@ -10,11 +10,11 @@ import SwiftUIIntrospect
 
 struct VideoListView: View {
     
+    @EnvironmentObject var navigationPathEnv: NavigationPathEnvironment
+    
     @StateObject private var videoListViewModel: VideoListViewModel = VideoListViewModel(apiService: APIService())
     
     @State var text: String = ""
-    
-    @EnvironmentObject var navigationPathEnv: NavigationPathEnvironment
     
     var body: some View {
         VStack {
