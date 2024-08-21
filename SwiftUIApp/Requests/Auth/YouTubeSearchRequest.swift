@@ -16,18 +16,27 @@ struct YouTubeSearchRequest: CommonHttpRouter {
     var path: String { return ApiUrl.none }
     var method: HTTPMethod { return .get }
     var parameters: Parameters? {
-        return [
+        var parameters: [String: String] = [
             "part": "snippet",
             "q": query,
             "type": "video",
-            "maxResults": "30",
+            "maxResults": "10",
             "key": Keys.youTubeDataApiKey
         ]
+        
+        // 追加データを取得
+        if let nextPageToken = nextPageToken {
+            parameters["pageToken"] = nextPageToken
+        }
+        
+        return parameters
     }
     
     private let query: String
+    private let nextPageToken: String?
     
-    init(query: String) {
+    init(query: String, nextPageToken: String? = nil) {
         self.query = query
+        self.nextPageToken = nextPageToken
     }
 }

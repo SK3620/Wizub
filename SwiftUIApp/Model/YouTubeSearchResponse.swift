@@ -9,6 +9,7 @@ import Foundation
 
 struct YouTubeSearchResponse: Codable {
     let items: [Video]
+    let nextPageToken: String
     
     struct Video: Codable {
         let id: VideoID

@@ -18,6 +18,7 @@ struct VideoListView: View {
         VStack {
             
             CustomSearchBar(text: $text, onSearchButtonClick: {
+                videoListViewModel.cardViewVideoInfo = []
                 videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
                 videoListViewModel.apply(inputs: .serach(text: text))
             })
@@ -33,9 +34,21 @@ struct VideoListView: View {
             } else {
                 ScrollView {
                     LazyVStack() {
-                        ForEach(videoListViewModel.cardViewVideoInfo) { videoInfo in
-                            CardView(videoInfo: videoInfo)
-                                .padding([.horizontal, .top])
+                        // フッターにProgressViewを追加し、表示されたら追加読み込み
+                        Section {
+                            ForEach(videoListViewModel.cardViewVideoInfo) { videoInfo in
+                                CardView(videoInfo: videoInfo)
+                                    .padding([.horizontal, .top])
+                            }
+                        } footer: {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .frame(height: 150)
+                                .onAppear {
+                                    if videoListViewModel.shouldLoadMore {
+                                        videoListViewModel.apply(inputs: .serach(text: text))
+                                    }
+                                }
                         }
                     }
                 }

@@ -21,9 +21,12 @@ class VideoListViewModel: ObservableObject {
     
     private var cancellableBag = Set<AnyCancellable>()
     
-    @Published private(set) var cardViewVideoInfo: [CardView.VideoInfo] = []
+    @Published var cardViewVideoInfo: [CardView.VideoInfo] = []
     
     @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
+    
+    var shouldLoadMore: Bool = false
+    private var nextPageToken: String?
 
     func apply(inputs: Inputs) {
         switch inputs {
@@ -42,7 +45,13 @@ class VideoListViewModel: ObservableObject {
 extension VideoListViewModel {
     
     private func getVideos(inputText: String) -> Void {
-        let youTubeSearchRequest = YouTubeSearchRequest(query: inputText)
+        
+        var youTubeSearchRequest: YouTubeSearchRequest
+        if shouldLoadMore {
+            youTubeSearchRequest = YouTubeSearchRequest(query: inputText, nextPageToken: nextPageToken)
+        } else {
+            youTubeSearchRequest = YouTubeSearchRequest(query: inputText)
+        }
         
         // リクエスト
         apiService.request(with: youTubeSearchRequest)
@@ -53,13 +62,16 @@ extension VideoListViewModel {
                 case .finished:
                     // ローディングアイコン表示終了
                     self.statusViewModel = StatusViewModel(isLoading: false)
+                    self.shouldLoadMore = true
                 case .failure(let error):
                     // エラーアラート表示
                     self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
+                    self.shouldLoadMore = true
                 }
             }, receiveValue: { [weak self] value in
                 guard let self = self, let youTubeSerachResponse = YouTubeSearchResponse.handleResponse(value: value) else { return }
-                self.cardViewVideoInfo = convertSerachResponses(videos: youTubeSerachResponse.items)
+                self.cardViewVideoInfo.append(contentsOf: convertSerachResponses(videos: youTubeSerachResponse.items))
+                self.nextPageToken = youTubeSerachResponse.nextPageToken
             })
             .store(in: &cancellableBag)
     }
