@@ -41,14 +41,14 @@ struct VideoListView: View {
                                     .padding([.horizontal, .top])
                             }
                         } footer: {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .frame(height: 150)
-                                .onAppear {
-                                    if videoListViewModel.shouldLoadMore {
+                            if videoListViewModel.shouldLoadMore {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .frame(height: 150)
+                                    .onAppear {
                                         videoListViewModel.apply(inputs: .serach(text: text))
                                     }
-                                }
+                            }
                         }
                     }
                 }
