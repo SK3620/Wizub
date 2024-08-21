@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AuthPickerView: View {
     
+    // ナビゲーションパスの状態管理用クラス
     @EnvironmentObject var navigationPathEnv: NavigationPathEnvironment
 
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel(apiService: APIService())
