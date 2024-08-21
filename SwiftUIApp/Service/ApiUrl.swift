@@ -30,6 +30,9 @@ struct ApiUrl {
     
     // Email重複チェック post
     static let checkEmailUrl = "api/check_email"
+    
+    // 選択した動画の英語字幕情報取得 get
+    static let getTranscript = "api/get_transcript"
 
     // なし
     static let none = ""
