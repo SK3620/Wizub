@@ -13,6 +13,7 @@ struct SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
             AuthPickerView()
+                .environmentObject(NavigationPathEnvironment())
         }
     }
 }

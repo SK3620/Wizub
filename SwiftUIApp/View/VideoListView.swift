@@ -14,9 +14,10 @@ struct VideoListView: View {
     
     @State var text: String = ""
     
+    @EnvironmentObject var navigationPathEnv: NavigationPathEnvironment
+    
     var body: some View {
         VStack {
-            
             CustomSearchBar(text: $text, onSearchButtonClick: {
                 videoListViewModel.cardViewVideoInfo = []
                 videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
@@ -39,6 +40,9 @@ struct VideoListView: View {
                             ForEach(videoListViewModel.cardViewVideoInfo) { videoInfo in
                                 CardView(videoInfo: videoInfo)
                                     .padding([.horizontal, .top])
+                                    .onTapGesture {
+                                        navigationPathEnv.path.append(.playVideo)
+                                    }
                             }
                         } footer: {
                             if videoListViewModel.shouldLoadMore {

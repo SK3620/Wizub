@@ -7,39 +7,14 @@
 
 import SwiftUI
 
-struct VideoStudyView: View {
-    var body: some View {
-        Text("VideoStudyView")
-    }
-}
-
-enum NavigationPath: Int {
-    case auth, home, videoStudy, account, logout
-    
-    var toString: String {
-        ["認証", "ホーム", "勉強", "アカウント", "ログアウト"][self.rawValue]
-    }
-    
-    @ViewBuilder
-    func Destination() -> some View {
-        switch self {
-        case .auth: AuthPickerView()
-        case .home: HomeView()
-        case .videoStudy: VideoStudyView()
-        case .account: EmptyView()
-        case .logout: EmptyView()
-        }
-    }
-}
-
 struct AuthPickerView: View {
     
-    @State private var path = [NavigationPath]()
-    
+    @EnvironmentObject var navigationPathEnv: NavigationPathEnvironment
+
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel(apiService: APIService())
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $navigationPathEnv.path) {
             ZStack {
                 // 背景色
                 Color.gray.opacity(0.1).ignoresSafeArea()
@@ -62,7 +37,8 @@ struct AuthPickerView: View {
                 .onChange(of: authViewModel.statusViewModel.shouldTransition, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
-                    path.append(.home)
+//                    path.append(.home)
+                    navigationPathEnv.path.append(.home)
                     authViewModel.statusViewModel.shouldTransition = false
                 }
                 

@@ -13,6 +13,8 @@
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
 		834795C92C7454D500B98359 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C82C7454D500B98359 /* CardView.swift */; };
+		834795CD2C75B8D300B98359 /* PlayVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795CC2C75B8D300B98359 /* PlayVideoView.swift */; };
+		834795D02C75CBA200B98359 /* NavigationPathEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795CF2C75CBA200B98359 /* NavigationPathEnv.swift */; };
 		835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F29312C6623CE005BC174 /* SwiftUIApp.swift */; };
 		835F29362C6623CF005BC174 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F29352C6623CF005BC174 /* Assets.xcassets */; };
 		835F29392C6623CF005BC174 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F29382C6623CF005BC174 /* Preview Assets.xcassets */; };
@@ -50,6 +52,8 @@
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
 		834795C82C7454D500B98359 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		834795CC2C75B8D300B98359 /* PlayVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoView.swift; sourceTree = "<group>"; };
+		834795CF2C75CBA200B98359 /* NavigationPathEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPathEnv.swift; sourceTree = "<group>"; };
 		835F292E2C6623CE005BC174 /* SwiftUIAppStg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIAppStg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		835F29312C6623CE005BC174 /* SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIApp.swift; sourceTree = "<group>"; };
 		835F29352C6623CF005BC174 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -107,8 +111,18 @@
 			isa = PBXGroup;
 			children = (
 				834795C82C7454D500B98359 /* CardView.swift */,
+				83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */,
+				83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */,
 			);
 			path = ViewComponents;
+			sourceTree = "<group>";
+		};
+		834795CE2C75CB7300B98359 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				834795CF2C75CBA200B98359 /* NavigationPathEnv.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 		835F29252C6623CE005BC174 = {
@@ -133,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				835F29312C6623CE005BC174 /* SwiftUIApp.swift */,
+				834795CE2C75CB7300B98359 /* Environment */,
 				834795C72C74549800B98359 /* ViewComponents */,
 				83EC0AEE2C6D942200E316E6 /* Requests */,
 				83EC0ADD2C6B78F100E316E6 /* Service */,
@@ -162,8 +177,7 @@
 				838931442C68538A00FF42B4 /* AuthView.swift */,
 				83F9DE502C7343E700F828F7 /* HomeView.swift */,
 				834795C32C744AEF00B98359 /* VideoListView.swift */,
-				83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */,
-				83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */,
+				834795CC2C75B8D300B98359 /* PlayVideoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -366,6 +380,7 @@
 				83EC0ADC2C6B63F100E316E6 /* MyAppError.swift in Sources */,
 				83EC0AF72C6D955D00E316E6 /* ApiService.swift in Sources */,
 				83EC0AEB2C6C6F3300E316E6 /* ApiUrl.swift in Sources */,
+				834795CD2C75B8D300B98359 /* PlayVideoView.swift in Sources */,
 				83EC0AF12C6D946100E316E6 /* SignUpRequest.swift in Sources */,
 				834795C22C743CB600B98359 /* Keys.swift in Sources */,
 				83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */,
@@ -380,6 +395,7 @@
 				834795C02C737B1300B98359 /* YouTubeSearchResponse.swift in Sources */,
 				8389313F2C683D8B00FF42B4 /* SegmentType.swift in Sources */,
 				83EC0AE92C6C435700E316E6 /* HttpRouter.swift in Sources */,
+				834795D02C75CBA200B98359 /* NavigationPathEnv.swift in Sources */,
 				83AAAC7C2C719F37002AE74E /* StatusViewModel.swift in Sources */,
 				835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */,
 				834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */,
