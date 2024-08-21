@@ -129,6 +129,8 @@ struct AuthButton: View {
     var body: some View {
         
         Button(action: {
+            // ローディングアイコン表示開始
+            authViewModel.statusViewModel = StatusViewModel(isLoading: true)
             if segmentType == .signUpSegment {
                 authViewModel.apply(taps: .signUp)
             } else {

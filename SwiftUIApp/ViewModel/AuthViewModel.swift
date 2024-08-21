@@ -38,13 +38,11 @@ class AuthViewModel: ObservableObject {
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
     
-    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
+    @Published var statusViewModel: StatusViewModel = StatusViewModel()
     
     private let keyChainManager: KeyChainManager = KeyChainManager()
     
     func apply(taps: AuthButtonTaps) {
-        // ローディングアイコン表示開始
-        statusViewModel = StatusViewModel(isLoading: true, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
         // ローディング中はSignUp/SignInボタン非活性
         enableSignUp = false
         enableSignIn = false
@@ -200,14 +198,14 @@ extension AuthViewModel {
                 switch completion {
                 case .finished:
                     // ローディングアイコン表示終了
-                    self.statusViewModel = StatusViewModel(isLoading: false, shouldTransition: true, showErrorMessage: false, alertErrorMessage: "")
+                    self.statusViewModel = StatusViewModel(shouldTransition: true)
                     // SignUp/SignInボタンの活性化
                     self.enableSignUp = true
                     self.enableSignIn = true
                     break
                 case .failure(let error):
                     // エラーアラート表示
-                    self.statusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription)
+                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
                     // SignUp/SignInボタンの活性化
                     self.enableSignUp = true
                     self.enableSignIn = true

@@ -9,12 +9,15 @@ import Foundation
 
 class StatusViewModel {
     
-    var isLoading: Bool = false
-    var shouldTransition = false
-    var showErrorMessage: Bool = false
-    var alertErrorMessage: String = ""
+    var isLoading: Bool
+    var shouldTransition: Bool
+    var showErrorMessage: Bool
+    var alertErrorMessage: String
     
-    init(isLoading: Bool, shouldTransition: Bool, showErrorMessage: Bool, alertErrorMessage: String) {
+    init(isLoading: Bool = false,
+         shouldTransition: Bool = false,
+         showErrorMessage: Bool = false,
+         alertErrorMessage: String = "") {
         self.isLoading = isLoading
         self.shouldTransition = shouldTransition
         self.showErrorMessage = showErrorMessage

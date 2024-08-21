@@ -18,7 +18,7 @@ struct VideoListView: View {
         VStack {
             
             CustomSearchBar(text: $text, onSearchButtonClick: {
-                videoListViewModel.statusViewModel.isLoading = true
+                videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
                 videoListViewModel.apply(inputs: .serach(text: text))
             })
             .padding([.horizontal, .bottom])

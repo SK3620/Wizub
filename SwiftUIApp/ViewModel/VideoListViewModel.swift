@@ -52,10 +52,10 @@ extension VideoListViewModel {
                 switch completion {
                 case .finished:
                     // ローディングアイコン表示終了
-                    self.statusViewModel.isLoading = false
+                    self.statusViewModel = StatusViewModel(isLoading: false)
                 case .failure(let error):
                     // エラーアラート表示
-                    self.statusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription)
+                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
                 }
             }, receiveValue: { [weak self] value in
                 guard let self = self, let youTubeSerachResponse = YouTubeSearchResponse.handleResponse(value: value) else { return }
