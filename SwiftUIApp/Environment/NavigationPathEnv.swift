@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum NavigationPath: Int {
-    case auth, home, playVideo, account, logout
+    case auth, home, study, account, logout
     
     var toString: String {
         ["認証", "ホーム", "勉強", "アカウント", "ログアウト"][self.rawValue]
@@ -20,7 +20,7 @@ enum NavigationPath: Int {
         switch self {
         case .auth: AuthPickerView()
         case .home: HomeView()
-        case .playVideo: PlayVideoView()
+        case .study: StudyView()
         case .account: EmptyView()
         case .logout: EmptyView()
         }

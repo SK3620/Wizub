@@ -42,7 +42,7 @@ struct VideoListView: View {
                                 CardView(videoInfo: videoInfo)
                                     .padding([.horizontal, .top])
                                     .onTapGesture {
-                                        navigationPathEnv.path.append(.playVideo)
+                                        navigationPathEnv.path.append(.study)
                                     }
                             }
                         } footer: {
