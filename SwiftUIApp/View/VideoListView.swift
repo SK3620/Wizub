@@ -19,8 +19,12 @@ struct VideoListView: View {
     
     var body: some View {
         VStack {
-            CustomSearchBar(text: $text, onSearchButtonClick: {
+            CustomSearchBar(
+                text: $text,
+                onSearchButtonClick: {
+                // 一つ一つの動画情報を格納する配列をリセット
                 videoListViewModel.cardViewVideoInfo = []
+                // ローディング開始
                 videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
                 videoListViewModel.apply(inputs: .serach(text: text))
             })
@@ -42,6 +46,7 @@ struct VideoListView: View {
                                 CardView(videoInfo: videoInfo)
                                     .padding([.horizontal, .top])
                                     .onTapGesture {
+                                        // StudyView()へ遷移
                                         navigationPathEnv.path.append(.study)
                                     }
                             }

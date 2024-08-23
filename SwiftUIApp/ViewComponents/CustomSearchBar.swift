@@ -10,9 +10,10 @@ import UIKit
 import SwiftUIIntrospect
 
 struct CustomSearchBar: View {
-
-    @Binding var text: String
-    @State private var isEditing = false
+    
+    @State private var isEditing = false // 編集中かどうか
+    
+    @Binding var text: String // 入力値
 
     var onSearchButtonClick: () -> Void
 
@@ -31,10 +32,12 @@ struct CustomSearchBar: View {
                           }
                 )
                 .introspect(.textField, on: .iOS(.v13, .v14, .v15, .v16, .v17, .v18), customize: { textField in
+                    // SwiftUIIntrospectでカスタマイズ
                     textField.returnKeyType = .search
+                    // 背景色変更
                     textField.attributedPlaceholder = NSAttributedString(
                         string: "Search",
-                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray] // 任意の色を指定
+                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
                     )
                 })
                 .padding(.top, 10)
@@ -57,10 +60,5 @@ struct CustomSearchBar: View {
         }
         .background(Color(.gray.withAlphaComponent(0.25)))
         .cornerRadius(16)
-    }
-
-    public func onSearchButtonClick(action: () -> Void) -> some View {
-        action()
-        return self
     }
 }
