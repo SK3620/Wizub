@@ -13,7 +13,7 @@ class VideoListViewModel: ObservableObject {
     enum Inputs {
         // 検索時
         case serach(text: String)
-        // CardViewタップ時
+        // CardView（動画）タップ時
         case tappedCardView
     }
     
@@ -69,14 +69,14 @@ extension VideoListViewModel {
                     self.shouldLoadMore = true
                 }
             }, receiveValue: { [weak self] value in
-                guard let self = self, let youTubeSerachResponse = YouTubeSearchResponse.handleResponse(value: value) else { return }
+                guard let self = self, let youTubeSerachResponse = YouTubeSearchResponseModel.handleResponse(value: value) else { return }
                 self.cardViewVideoInfo.append(contentsOf: convertSerachResponses(videos: youTubeSerachResponse.items))
                 self.nextPageToken = youTubeSerachResponse.nextPageToken
             })
             .store(in: &cancellableBag)
     }
     
-    private func convertSerachResponses(videos: [YouTubeSearchResponse.Video]) -> [CardView.VideoInfo] {
+    private func convertSerachResponses(videos: [YouTubeSearchResponseModel.Video]) -> [CardView.VideoInfo] {
         return videos.map { video in
             CardView.VideoInfo(
                 videoId: video.id.videoId,
