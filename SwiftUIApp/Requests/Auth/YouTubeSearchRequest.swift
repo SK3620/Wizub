@@ -10,7 +10,7 @@ import Alamofire
 
 struct YouTubeSearchRequest: CommonHttpRouter {
     
-    typealias Response = YouTubeSearchResponse
+    typealias Response = YouTubeSearchResponseModel
     
     var baseUrlString: String { return ApiUrl.youTubeBaseUrl }
     var path: String { return ApiUrl.none }

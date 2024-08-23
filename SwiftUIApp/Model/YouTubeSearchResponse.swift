@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct YouTubeSearchResponse: Codable {
+struct YouTubeSearchResponseModel: Codable {
     let items: [Video]
     let nextPageToken: String
     
