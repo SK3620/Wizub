@@ -44,6 +44,9 @@ class StudyViewModel: ObservableObject {
     
     // 字幕同期中かどうか
     @Published var isTranscriptSync: Bool = false
+    
+    // 字幕の表示モード
+    @Published var transcriptDisplayMode: TranscriptDisplayMode = .showAll
 
     init(apiService: APIServiceType, url: YouTubePlayer) {
         self.apiService = apiService
