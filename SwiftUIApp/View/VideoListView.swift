@@ -33,10 +33,7 @@ struct VideoListView: View {
             
             // 非同期処理中はローディング
             if videoListViewModel.statusViewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    .scaleEffect(2.5)
-                    .padding()
+                CommonProgressView()
             } else {
                 ScrollView {
                     LazyVStack() {
@@ -53,7 +50,7 @@ struct VideoListView: View {
                         } footer: {
                             if videoListViewModel.shouldLoadMore {
                                 ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .purple))
                                     .frame(height: 150)
                                     .onAppear {
                                         videoListViewModel.apply(inputs: .serach(text: text))

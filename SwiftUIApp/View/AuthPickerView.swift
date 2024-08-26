@@ -38,17 +38,13 @@ struct AuthPickerView: View {
                 .onChange(of: authViewModel.statusViewModel.shouldTransition, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
-//                    path.append(.home)
                     navigationPathEnv.path.append(.home)
                     authViewModel.statusViewModel.shouldTransition = false
                 }
                 
                 // 非同期処理中はローディング
                 if authViewModel.statusViewModel.isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                        .scaleEffect(2.5)
-                        .padding()
+                    CommonProgressView()
                 }
             }
             .alert(isPresented: $authViewModel.statusViewModel.showErrorMessage) {
