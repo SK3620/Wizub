@@ -27,6 +27,9 @@ class StudyViewModel: ObservableObject {
     
     private var timerCancellable: Cancellable?
     
+    // リピートタスクの管理用プロパティ
+    private var repeatTask: Task<Void, Never>?
+    
     // 字幕情報が格納されたモデル
     @Published var transcriptDetail: [TranscriptModel.TranscriptDetailModel] = []
     
@@ -35,6 +38,10 @@ class StudyViewModel: ObservableObject {
     
     // 動画が一時停止中かどうか
     @Published var isPaused: Bool = false
+    
+    // リピート中かどうか
+    @Published var isRepeating: Bool = false
+    
     // 字幕同期中かどうか
     @Published var isTranscriptSync: Bool = false
 
@@ -70,6 +77,8 @@ class StudyViewModel: ObservableObject {
     
     deinit {
         cancellableBag.removeAll()
+        stopTimer()
+        stopRepeat()
     }
 }
 
@@ -92,6 +101,10 @@ extension StudyViewModel {
     // 指定の時間へシーク
     func seekToTranscript(at index: Int) {
         guard index >= 0 && index < transcriptDetail.count else { return }
+        // リピート中に字幕が押下された場合
+        if isRepeating {
+            startRepeat()
+        }
         // タップされたリストのtranscripの開始時間取得
         let startTime = transcriptDetail[index].start
         let measurement = Measurement(value: startTime, unit: UnitDuration.seconds)
@@ -120,6 +133,41 @@ extension StudyViewModel {
     // 3秒早送り 秒数は暫定で固定
     func fastForward() {
         seek(by: 3.0)
+    }
+    
+    // リピート開始
+    func startRepeat() {
+        guard let index = currentTranscriptIndex else { return }
+        let transcript = transcriptDetail[index] // 指定のtranscript取得
+        let startTime = transcript.start // 字幕表示開始時間
+        let duration = transcript.duration // 字幕表示時間
+        let measurement = Measurement(value: startTime, unit: UnitDuration.seconds)
+        
+        isRepeating = true
+        
+        // 前のリピートタスクがあればキャンセル
+        repeatTask?.cancel()
+        
+        repeatTask = Task {
+            do {
+                // 無限ループでリピートを続ける
+                while isRepeating {
+                    seek(to: measurement)
+                    // 指定の時間待機
+                    try await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                    // リピートの準備を整えるために再度シーク
+                    seek(to: measurement)
+                }
+            } catch {
+                print("Error repeating transcript: \(error)")
+            }
+        }
+    }
+    
+    // リピートを停止
+    func stopRepeat() {
+        repeatTask?.cancel()
+        isRepeating = false
     }
     
     // 再開/一時停止の切り替え
