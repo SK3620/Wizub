@@ -87,6 +87,9 @@ extension StudyViewModel {
     
     // ハイライトされる字幕のindexを更新
     func updateCurrentTranscriptIndex(for currentTime: Double) {
+        // 字幕同期が無効であればreturn
+        guard !isTranscriptSync else { return }
+        
         if let index = transcriptDetail.firstIndex(where: { $0.start <= currentTime && currentTime < $0.start + $0.duration }) {
             currentTranscriptIndex = index
         } else {
@@ -125,13 +128,13 @@ extension StudyViewModel {
             }
         }
     }
-
-    // 3秒巻き戻し 秒数は暫定で固定
+    
+    // 3秒巻き戻し 秒数は固定
     func rewind() {
         seek(by: -3.0)
     }
-
-    // 3秒早送り 秒数は暫定で固定
+    
+    // 3秒早送り 秒数は固定
     func fastForward() {
         seek(by: 3.0)
     }
