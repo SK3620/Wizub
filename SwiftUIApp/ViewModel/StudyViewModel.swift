@@ -9,6 +9,14 @@ import SwiftUI
 import Combine
 import YouTubePlayerKit
 
+// 字幕表示モード
+enum TranscriptDisplayMode {
+    case showAll
+    case hideEnglish
+    case hideJapanese
+    case hideAll
+}
+
 class StudyViewModel: ObservableObject {
     
     private let apiService: APIServiceType
@@ -27,6 +35,8 @@ class StudyViewModel: ObservableObject {
     
     // 動画が一時停止中かどうか
     @Published var isPaused: Bool = false
+    // 字幕同期中かどうか
+    @Published var isTranscriptSync: Bool = false
 
     init(apiService: APIServiceType, url: YouTubePlayer) {
         self.apiService = apiService
@@ -124,7 +134,7 @@ extension StudyViewModel {
             }
         }
     }
-
+    
     
     // １秒ごとに動画の現在の時間を取得する 動画が停止(.pause)されたら呼ばれる
     private func startTimer() {
@@ -152,6 +162,20 @@ extension StudyViewModel {
     private func stopTimer() {
         timerCancellable?.cancel()
         timerCancellable = nil
+    }
+    
+    // 表示モードを順番に切り替えるメソッド
+    func changeTranscriptDisplayMode() {
+        switch transcriptDisplayMode {
+        case .showAll:
+            transcriptDisplayMode = .hideEnglish
+        case .hideEnglish:
+            transcriptDisplayMode = .hideJapanese
+        case .hideJapanese:
+            transcriptDisplayMode = .hideAll
+        case .hideAll:
+            transcriptDisplayMode = .showAll
+        }
     }
 }
 
