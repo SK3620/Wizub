@@ -84,13 +84,18 @@ extension StudyViewModel {
         }
     }
     
+    // 共通のシーク処理
+    private func seek(to measurement: Measurement<UnitDuration>) {
+        youTubePlayer.seek(to: measurement, allowSeekAhead: true)
+    }
+    
     // 指定の時間へシーク
     func seekToTranscript(at index: Int) {
         guard index >= 0 && index < transcriptDetail.count else { return }
         // タップされたリストのtranscripの開始時間取得
         let startTime = transcriptDetail[index].start
         let measurement = Measurement(value: startTime, unit: UnitDuration.seconds)
-        youTubePlayer.seek(to: measurement, allowSeekAhead: true)
+        seek(to: measurement)
     }
     
     // 巻き戻し/早送り
@@ -99,7 +104,8 @@ extension StudyViewModel {
             do {
                 let currentTime = try await youTubePlayer.getCurrentTime()
                 let measurement = Measurement(value: seconds, unit: UnitDuration.seconds)
-                try await youTubePlayer.seek(to: currentTime + measurement)
+                let newMeasurement = Measurement(value: currentTime.value + measurement.value, unit: UnitDuration.seconds)
+                seek(to: newMeasurement)
             } catch {
                 print("Error seeking video: \(error)")
             }
