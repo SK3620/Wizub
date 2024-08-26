@@ -12,7 +12,9 @@ import Algorithms
 struct StudyView: View {
     
     @StateObject var studyViewModel = StudyViewModel(apiService: APIService(), url: "https://youtube.com/watch?v=NaqB5zYGEsw")
-        
+    
+    @State private var showMenuTabBar = false
+    
     var body: some View {
         VStack {
             
@@ -41,19 +43,32 @@ struct StudyView: View {
                             proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .top)
                         }
                     }
-                })
-                // 暫定で以下の動画IDの字幕取得
-                .onAppear {
-                    studyViewModel.getTranscripts(videoId: "NaqB5zYGEsw")
                 }
             }
+        
             
-            StudyTabBarView(
-                rewindAction: { studyViewModel.rewind() },
-                pauseAction: { studyViewModel.togglePlayback() },
-                fastForwardAction: { studyViewModel.fastForward()},
-                isPaused: studyViewModel.isPaused
-            )
+            ZStack {
+                
+                MenuTabBarView(
+                    isTranscriptSync: $studyViewModel.isTranscriptSync,
+                    playbackSpeed: {},
+                    changeDisplayMode: { studyViewModel.changeTranscriptDisplayMode() }
+                )
+                .offset(y: showMenuTabBar ? -49 : 0)
+                .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
+                
+                StudyTabBarView(
+                    showMenuTabBar: $showMenuTabBar,
+                    rewindAction: { studyViewModel.rewind() },
+                    pauseAction: { studyViewModel.togglePlayback() },
+                    fastForwardAction: { studyViewModel.fastForward()},
+                    repeatAction: { studyViewModel.startRepeat() },
+                    stopRepeatAction: { studyViewModel.stopRepeat() },
+                    isPaused: studyViewModel.isPaused,
+                    isRepeating: studyViewModel.isRepeating
+                )
+                .background(.white)
+            }
         }
     }
 }
