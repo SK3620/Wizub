@@ -53,8 +53,9 @@ class StudyViewModel: ObservableObject {
         youTubePlayer.currentTimePublisher()
             .receive(on: RunLoop.main)
             .sink { [weak self] currentTime in
-                guard let self = self else { return }
+                guard let self = self, !self.isRepeating else { return }
                 let currentTime = currentTime.value
+                print("現在の時間: \(currentTime)")
                 self.updateCurrentTranscriptIndex(for: currentTime)
             }
             .store(in: &cancellableBag)
