@@ -11,9 +11,17 @@ import Algorithms
 
 struct StudyView: View {
     
-    @StateObject var studyViewModel = StudyViewModel(apiService: APIService(), url: "https://youtube.com/watch?v=NaqB5zYGEsw")
+    @StateObject var studyViewModel: StudyViewModel
     
     @State private var showMenuTabBar = false
+    
+    // リスト内で押下された動画の情報
+    private let videoInfo: CardView.VideoInfo
+    
+    init(videoInfo: CardView.VideoInfo) {
+        self.videoInfo = videoInfo
+        _studyViewModel = StateObject(wrappedValue: StudyViewModel(apiService: APIService(), youTubePlayer: YouTubePlayer(stringLiteral: "https://youtube.com/watch?v=\(videoInfo.videoId)")))
+    }
     
     var body: some View {
         VStack {
@@ -45,10 +53,6 @@ struct StudyView: View {
                             }
                         }
                     })
-                    // 暫定で以下の動画IDの字幕取得
-                    .onAppear {
-                        studyViewModel.getTranscripts(videoId: "NaqB5zYGEsw")
-                    }
                 } else {
                     // 字幕表示モードが.hideAllの場合
                     VStack {
@@ -86,9 +90,8 @@ struct StudyView: View {
                 .background(.white)
             }
         }
+        .onAppear {
+            studyViewModel.getTranscripts(videoId: videoInfo.videoId)
+        }
     }
-}
-
-#Preview {
-    StudyView()
 }

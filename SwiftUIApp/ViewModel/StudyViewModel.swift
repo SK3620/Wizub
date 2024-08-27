@@ -69,9 +69,9 @@ class StudyViewModel: ObservableObject {
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
 
-    init(apiService: APIServiceType, url: YouTubePlayer) {
+    init(apiService: APIServiceType, youTubePlayer: YouTubePlayer) {
         self.apiService = apiService
-        self.youTubePlayer = url
+        self.youTubePlayer = youTubePlayer
         
         // 動画の現在の時間を発行する
         youTubePlayer.currentTimePublisher()
