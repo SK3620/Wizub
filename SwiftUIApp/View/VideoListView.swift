@@ -17,6 +17,9 @@ struct VideoListView: View {
     
     @State var text: String = ""
     
+    // 初期値
+    private let initialSearchText: String = "How to speak English"
+    
     var body: some View {
         VStack {
             CustomSearchBar(
@@ -63,6 +66,10 @@ struct VideoListView: View {
             }
             
             Spacer()
+        }
+        .onAppear {
+            // 初期画面
+            videoListViewModel.apply(inputs: .serach(text: initialSearchText))
         }
     }
 }
