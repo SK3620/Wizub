@@ -23,7 +23,7 @@ struct PlayVideoView: View {
             YouTubePlayerView(studyViewModel.youTubePlayer) { state in
                 switch state {
                 case .idle: // 読み込み中
-                    ProgressView()
+                   CommonProgressView()
                 case .ready: // 動画読み込み完了
                     EmptyView()
                 case .error(let error):
