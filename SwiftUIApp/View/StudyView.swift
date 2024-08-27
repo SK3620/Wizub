@@ -66,7 +66,8 @@ struct StudyView: View {
                 
                 MenuTabBarView(
                     isTranscriptSync: $studyViewModel.isTranscriptSync,
-                    playbackSpeed: {},
+                    changePlaybackRate: {studyViewModel.changePlayBackRate() },
+                    playBackRate: studyViewModel.playBackRate,
                     changeDisplayMode: { studyViewModel.changeTranscriptDisplayMode() }
                 )
                 .offset(y: showMenuTabBar ? -49 : 0)

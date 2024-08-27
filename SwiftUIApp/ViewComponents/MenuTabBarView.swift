@@ -10,8 +10,8 @@ import SwiftUI
 struct MenuTabBarView: View {
     
     @Binding var isTranscriptSync: Bool
-    
-    var playbackSpeed: () -> Void
+    var changePlaybackRate: () -> Void
+    var playBackRate: PlayBackRate
     var changeDisplayMode: () -> Void
     
     var body: some View {
@@ -43,9 +43,9 @@ struct MenuTabBarView: View {
             // 再生速度
             VStack {
                 Button(action: {
-                    print("Custom Action 2")
+                    changePlaybackRate()
                 }) {
-                    Text("1.0×")
+                    Text("\(playBackRate.toString())")
                         .font(.system(size: 23, weight: .medium))
                 }
                 Text("再生速度")
