@@ -114,10 +114,13 @@ extension StudyViewModel {
         // 字幕同期が無効であればreturn
         guard !isTranscriptSync else { return }
         
-        if let index = transcriptDetail.firstIndex(where: { $0.start <= currentTime && currentTime < $0.start + $0.duration }) {
-            currentTranscriptIndex = index
-        } else {
-            currentTranscriptIndex = nil
+        for i in 0..<transcriptDetail.count - 1 {
+            if currentTime >= transcriptDetail[i].start && currentTime < transcriptDetail[i + 1].start {
+                currentTranscriptIndex = i
+                break
+            } else {
+                currentTranscriptIndex = nil
+            }
         }
     }
     
@@ -166,10 +169,16 @@ extension StudyViewModel {
     // リピート開始
     func startRepeat() {
         guard let index = currentTranscriptIndex else { return }
-        let transcript = transcriptDetail[index] // 指定のtranscript取得
-        let startTime = transcript.start // 字幕表示開始時間
-        let duration = transcript.duration // 字幕表示時間
-        let measurement = Measurement(value: startTime, unit: UnitDuration.seconds)
+        
+        let firstTranscript = transcriptDetail[index] // 指定のtranscript取得
+        let nextTranscript = transcriptDetail[index + 1] //次のtranscript取得
+        
+        let firstTrStartTime = firstTranscript.start // 字幕表示開始時間
+        let nextTrStartTime = nextTranscript.start // 字幕表示開始時間
+        
+        let duration = nextTrStartTime - firstTrStartTime
+        
+        let measurement = Measurement(value: firstTrStartTime, unit: UnitDuration.seconds)
         
         isRepeating = true
         
