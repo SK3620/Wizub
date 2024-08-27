@@ -41,7 +41,7 @@ struct StudyView: View {
                         if let newIndex = newIndex {
                             withAnimation {
                                 // 指定のtranscriptへ自動スクロール
-                                proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .top)
+                                proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .center)
                             }
                         }
                     })
