@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     
-    struct VideoInfo: Identifiable {
+    struct VideoInfo: Identifiable, Hashable {
         let id: UUID = UUID()
         let videoId: String
         let title: String

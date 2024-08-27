@@ -8,11 +8,22 @@
 import Foundation
 import SwiftUI
 
-enum NavigationPath: Int {
-    case auth, home, study, account, logout
+enum NavigationPath: Hashable {
+    
+    case auth
+    case home
+    case study(videoInfo: CardView.VideoInfo)
+    case account
+    case logout
     
     var toString: String {
-        ["認証", "ホーム", "勉強", "アカウント", "ログアウト"][self.rawValue]
+        switch self {
+        case .auth: return "認証"
+        case .home: return "ホーム"
+        case .study: return "勉強"
+        case .account: return "アカウント"
+        case .logout: return "ログアウト"
+        }
     }
     
     @ViewBuilder
@@ -20,7 +31,7 @@ enum NavigationPath: Int {
         switch self {
         case .auth: AuthPickerView()
         case .home: HomeView()
-        case .study: StudyView()
+        case .study(let videoInfo): StudyView(videoInfo: videoInfo) // videoInfoを渡す
         case .account: EmptyView()
         case .logout: EmptyView()
         }

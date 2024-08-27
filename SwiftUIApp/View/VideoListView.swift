@@ -47,7 +47,7 @@ struct VideoListView: View {
                                     .padding([.horizontal, .top])
                                     .onTapGesture {
                                         // StudyView()へ遷移
-                                        navigationPathEnv.path.append(.study)
+                                        navigationPathEnv.path.append(.study(videoInfo: videoInfo))
                                     }
                             }
                         } footer: {
