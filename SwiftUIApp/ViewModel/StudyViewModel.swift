@@ -16,6 +16,23 @@ enum TranscriptDisplayMode {
     case hideJapanese // 日本語字幕のみ非表示
     case hideAll // 字幕全て非表示
 }
+
+// 再生速度
+enum PlayBackRate: Double {
+    case normal = 1.0 // 通常
+    case fast = 1.25 // 早い
+    case slow = 0.75 // 遅い
+    
+    func toString() -> String {
+        switch self {
+        case .normal:
+            return "1.0x"
+        case .fast:
+            return "1.25x"
+        case .slow:
+            return "0.75x"
+        }
+    }
 }
 
 class StudyViewModel: ObservableObject {
@@ -229,7 +246,7 @@ extension StudyViewModel {
         timerCancellable = nil
     }
     
-    // 表示モードを順番に切り替えるメソッド
+    // 表示モードを順番に切り替え
     func changeTranscriptDisplayMode() {
         switch transcriptDisplayMode {
         case .showAll:
@@ -241,6 +258,20 @@ extension StudyViewModel {
         case .hideAll:
             transcriptDisplayMode = .showAll
         }
+    }
+    
+    // 再生速度切り替え
+    func changePlayBackRate() {
+        switch playBackRate {
+        case .normal:
+            playBackRate = .fast
+        case .fast:
+            playBackRate = .slow
+        case .slow:
+            playBackRate = .normal
+        }
+        
+        youTubePlayer.set(playbackRate: playBackRate.rawValue)
     }
 }
 
