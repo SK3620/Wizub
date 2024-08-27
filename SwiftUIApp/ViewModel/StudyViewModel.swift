@@ -11,10 +11,11 @@ import YouTubePlayerKit
 
 // 字幕表示モード
 enum TranscriptDisplayMode {
-    case showAll
-    case hideEnglish
-    case hideJapanese
-    case hideAll
+    case showAll // 字幕全て表示
+    case hideEnglish // 英語字幕のみ非表示
+    case hideJapanese // 日本語字幕のみ非表示
+    case hideAll // 字幕全て非表示
+}
 }
 
 class StudyViewModel: ObservableObject {
@@ -47,6 +48,9 @@ class StudyViewModel: ObservableObject {
     
     // 字幕の表示モード
     @Published var transcriptDisplayMode: TranscriptDisplayMode = .showAll
+    
+    // 再生速度
+    @Published var playBackRate: PlayBackRate = .normal
 
     init(apiService: APIServiceType, url: YouTubePlayer) {
         self.apiService = apiService
