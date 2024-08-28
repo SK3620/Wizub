@@ -68,6 +68,8 @@ class StudyViewModel: ObservableObject {
     
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
+    
+    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
 
     init(apiService: APIServiceType, youTubePlayer: YouTubePlayer) {
         self.apiService = apiService
@@ -297,8 +299,11 @@ extension StudyViewModel {
                 guard let self = self else { return }
                 switch completion {
                 case .finished:
+                    self.statusViewModel = StatusViewModel(isLoading: false)
                     break
                 case .failure(let error):
+                    let errorMessage = "この動画には字幕が含まれていません"
+                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: errorMessage)
                     break
                 }
             }, receiveValue: { [weak self] value in

@@ -25,18 +25,23 @@ struct VideoListView: View {
             CustomSearchBar(
                 text: $text,
                 onSearchButtonClick: {
-                // 一つ一つの動画情報を格納する配列をリセット
-                videoListViewModel.cardViewVideoInfo = []
-                // ローディング開始
-                videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
-                videoListViewModel.apply(inputs: .serach(text: text))
-            })
+                    // 一つ一つの動画情報を格納する配列をリセット
+                    videoListViewModel.cardViewVideoInfo = []
+                    // ローディング開始
+                    videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
+                    videoListViewModel.apply(inputs: .serach(text: text))
+                })
             .padding([.horizontal, .bottom])
             .background(.gray.opacity(0.15))
             
             // 非同期処理中はローディング
             if videoListViewModel.statusViewModel.isLoading {
-                CommonProgressView()
+                // 中央に表示
+                VStack {
+                    Spacer()
+                    CommonProgressView()
+                    Spacer()
+                }
             } else {
                 ScrollView {
                     LazyVStack() {

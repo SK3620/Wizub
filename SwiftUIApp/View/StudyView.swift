@@ -29,43 +29,61 @@ struct StudyView: View {
             
             PlayVideoView(studyViewModel: studyViewModel)
             
-            ScrollViewReader { proxy in
-                if studyViewModel.transcriptDisplayMode != .hideAll {
-                    List {
-                        ForEach(Array(studyViewModel.transcriptDetail.enumerated()), id: \.offset){
-                            index, transcript in
-                            TranscriptListView(
-                                transcriptDetailModel: transcript,
-                                isHighlighted: studyViewModel.currentTranscriptIndex == index, displayMode: studyViewModel.transcriptDisplayMode
-                            )
-                            .onTapGesture {
-                                // ハイライトされるtranscriptを更新
-                                studyViewModel.currentTranscriptIndex = index
-                                studyViewModel.seekToTranscript(at: index)
+            if studyViewModel.statusViewModel.isLoading {
+                // 中央に表示
+                VStack {
+                    Spacer()
+                    CommonProgressView()
+                    Spacer()
+                }
+            } else if studyViewModel.statusViewModel.showErrorMessage {
+                // エラーメッセージ表示
+                VStack {
+                    Spacer()
+                    Text(studyViewModel.statusViewModel.alertErrorMessage)
+                        .foregroundColor(Color(white: 0.5))
+                        .font(.headline)
+                    Spacer()
+                }
+            } else {
+                ScrollViewReader { proxy in
+                    if studyViewModel.transcriptDisplayMode != .hideAll {
+                        List {
+                            ForEach(Array(studyViewModel.transcriptDetail.enumerated()), id: \.offset){
+                                index, transcript in
+                                TranscriptListView(
+                                    transcriptDetailModel: transcript,
+                                    isHighlighted: studyViewModel.currentTranscriptIndex == index, displayMode: studyViewModel.transcriptDisplayMode
+                                )
+                                .onTapGesture {
+                                    // ハイライトされるtranscriptを更新
+                                    studyViewModel.currentTranscriptIndex = index
+                                    studyViewModel.seekToTranscript(at: index)
+                                }
                             }
                         }
-                    }
-                    // transcriptのindexの変更を監視
-                    .onChange(of: studyViewModel.currentTranscriptIndex, { oldIndex, newIndex in
-                        if let newIndex = newIndex {
-                            withAnimation {
-                                // 指定のtranscriptへ自動スクロール
-                                proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .center)
+                        // transcriptのindexの変更を監視
+                        .onChange(of: studyViewModel.currentTranscriptIndex, { oldIndex, newIndex in
+                            if let newIndex = newIndex {
+                                withAnimation {
+                                    // 指定のtranscriptへ自動スクロール
+                                    proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .center)
+                                }
                             }
+                        })
+                    } else {
+                        // 字幕表示モードが.hideAllの場合
+                        VStack {
+                            Spacer()
+                            Text("字幕非表示中")
+                                .foregroundColor(Color(white: 0.5))
+                                .font(.headline)
+                            Spacer()
                         }
-                    })
-                } else {
-                    // 字幕表示モードが.hideAllの場合
-                    VStack {
-                        Spacer()
-                        Text("字幕非表示中")
-                            .foregroundColor(Color(white: 0.5))
-                            .font(.headline)
-                        Spacer()
                     }
                 }
             }
-        
+            
             
             ZStack {
                 
@@ -92,6 +110,7 @@ struct StudyView: View {
             }
         }
         .onAppear {
+            studyViewModel.statusViewModel = StatusViewModel(isLoading: true)
             studyViewModel.getTranscripts(videoId: videoInfo.videoId)
         }
     }
