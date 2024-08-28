@@ -68,7 +68,8 @@ struct VideoListView: View {
             Spacer()
         }
         .onAppear {
-            // 初期画面
+            // ローディングアイコン表示開始
+            videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
             videoListViewModel.apply(inputs: .serach(text: initialSearchText))
         }
     }
