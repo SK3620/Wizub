@@ -46,8 +46,10 @@ extension VideoListViewModel {
     
     private func getVideos(inputText: String) -> Void {
         
+        // リクエスト組み立て
         var youTubeSearchRequest: YouTubeSearchRequest
         if shouldLoadMore {
+            // 追加で動画を読み込む
             youTubeSearchRequest = YouTubeSearchRequest(query: inputText, nextPageToken: nextPageToken)
         } else {
             youTubeSearchRequest = YouTubeSearchRequest(query: inputText)

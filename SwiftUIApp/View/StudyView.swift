@@ -20,6 +20,7 @@ struct StudyView: View {
     
     init(videoInfo: CardView.VideoInfo) {
         self.videoInfo = videoInfo
+        // '_' @StateObjectプロパティラッパーのバックアップストア（内部でデータを保持している場所）にアクセス
         _studyViewModel = StateObject(wrappedValue: StudyViewModel(apiService: APIService(), youTubePlayer: YouTubePlayer(stringLiteral: "https://youtube.com/watch?v=\(videoInfo.videoId)")))
     }
     

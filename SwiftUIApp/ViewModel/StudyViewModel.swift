@@ -287,7 +287,7 @@ extension StudyViewModel {
 extension StudyViewModel {
     
     // 字幕取得
-    internal func getTranscripts(videoId: String) -> Void {
+    func getTranscripts(videoId: String) -> Void {
         // 字幕取得処理リクエスト組み立て
         let getTranscriptRequest = GetTranscriptRequest(videoId: videoId)
         // リクエスト
