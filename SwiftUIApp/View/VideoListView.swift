@@ -20,6 +20,9 @@ struct VideoListView: View {
     // 検索初期値
     private let initialSearchText: String = "How to speak English"
     
+    // 初期値による検索は１回のみ呼ぶ
+    @State private var hasPerformedInitialSearch = false
+    
     var body: some View {
         VStack {
             CustomSearchBar(
@@ -73,9 +76,13 @@ struct VideoListView: View {
             Spacer()
         }
         .onAppear {
-            // ローディングアイコン表示開始
-            videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
-            videoListViewModel.apply(inputs: .serach(text: initialSearchText))
+            if !hasPerformedInitialSearch {
+                // ローディングアイコン表示開始
+                videoListViewModel.statusViewModel = StatusViewModel(isLoading: true)
+                videoListViewModel.apply(inputs: .serach(text: initialSearchText))
+                
+                hasPerformedInitialSearch = true
+            }
         }
     }
 }
