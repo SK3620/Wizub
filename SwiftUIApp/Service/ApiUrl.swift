@@ -33,6 +33,9 @@ struct ApiUrl {
     
     // 選択した動画の英語字幕情報取得 get
     static let getTranscript = "api/get_transcript"
+    
+    // 字幕翻訳 get
+    static let translateSubtitle = "api/get_open_ai_answer"
 
     // なし
     static let none = ""
