@@ -15,6 +15,13 @@ struct YouTubeSearchRequest: CommonHttpRouter {
     var baseUrlString: String { return ApiUrl.youTubeBaseUrl }
     var path: String { return ApiUrl.none }
     var method: HTTPMethod { return .get }
+    var headers: HTTPHeaders {
+        // YouTubeDataAPI使用時は"Authorization"は除外する
+        [
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        ]
+    }
     var parameters: Parameters? {
         var parameters: [String: String] = [
             "part": "snippet",
