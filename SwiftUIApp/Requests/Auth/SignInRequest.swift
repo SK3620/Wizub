@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class SignInRequest: CommonHttpRouter {
+struct SignInRequest: CommonHttpRouter {
   
     typealias Response = AuthModel
     var path: String { return ApiUrl.signInUrl }
