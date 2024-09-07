@@ -8,15 +8,16 @@
 import Foundation
 
 enum HttpStatus: Int {
+        
     // MARK: - Informational
 //    case continueCode = 100
 //    case switchingProtocols = 101
 //    case processing = 102
 
     // MARK: - Success
-//    case ok = 200
-//    case created = 201
-//    case accepted = 202
+    case ok = 200
+    case created = 201
+    case accepted = 202
 //    case nonAuthoritativeInformation = 203
 //    case noContent = 204
 //    case resetContent = 205
@@ -104,7 +105,7 @@ enum HttpStatus: Int {
 
 
 extension HttpStatus {
-  
+      
     // MARK: - Initializer, parameter code: The HTTP response code
     init(code: Int) {
         // 引数rawValueに指定した値に対応する要素がない場合はnil(.unknown)
@@ -138,26 +139,38 @@ extension HttpStatus {
         }
     }
     
-    // MARK: - Commonly seen status code
+    // MARK: - Commonly seen status code + Unknown Error
     var commonStatus: HttpError {
         let status = self
         switch status {
+            // Success
+        case .ok:
+            break
+        case .created:
+            break
+        case .accepted:
+            break
+            // Client Error
         case .badRequest:
-            <#code#>
+            return HttpError.badRequest
         case .unauthorized:
-            <#code#>
+            return HttpError.unauthorized
         case .forbidden:
-            <#code#>
+            return HttpError.forbidden
         case .methodNotAllowed:
-            <#code#>
+            return HttpError.methodNotAllowed
         case .notAcceptable:
-            <#code#>
+            return HttpError.notAcceptable
         case .requestTimeOut:
-            <#code#>
+            return HttpError.requestTimeOut
+            // Sever Error
         case .internalServerError:
-            <#code#>
+            return HttpError.serverError
+            // Unknown
         case .unknown:
-            <#code#>
+            return HttpError.unknown
         }
+        
+        return HttpError.unknown
     }
 }
