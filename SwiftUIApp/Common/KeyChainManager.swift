@@ -33,7 +33,7 @@ class KeyChainManager {
 extension KeyChainManager {
     
     // キーチェーンにデータを保存または更新
-    private func save(_ data: Data, service: Service, account: String) -> Bool {
+    private func save(_ data: Data, service: Service, account: String) {
         let query = [
             kSecValueData: data,
             kSecClass: kSecClassGenericPassword,
@@ -45,15 +45,14 @@ extension KeyChainManager {
         switch matchingStatus {
         case errSecItemNotFound:
             // データが存在しない場合は保存
-            let status = SecItemAdd(query, nil)
-            return status == noErr
+            SecItemAdd(query, nil)
+            print("Saved data successfully")
         case errSecSuccess:
             // データが存在する場合は更新
             SecItemUpdate(query, [kSecValueData as String: data] as CFDictionary)
-            return true
+            print("Updated data successfully")
         default:
             print("Failed to save data to keychain")
-            return false
         }
     }
     
