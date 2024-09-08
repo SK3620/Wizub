@@ -82,7 +82,7 @@ struct TranslateView: View {
                 )
             }
         }
-        .disabled(studyViewModel.statusViewModel.isLoading)
+        .disabled(studyViewModel.isLoading)
         .padding()
         .onAppear {
             // idが低い順にsort
