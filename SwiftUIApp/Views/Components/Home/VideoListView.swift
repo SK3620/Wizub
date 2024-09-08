@@ -58,12 +58,6 @@ struct VideoListView: View {
                                 // StudyView()へ遷移
                                 navigationPathEnv.path.append(.study(videoInfo: videoInfo))
                             }
-                            .onAppear {
-                                // 最下部までスクロールされた場合、追加動画を読み込む
-                                if videoInfo.id == videoListViewModel.cardViewVideoInfo.last?.id {
-                                    videoListViewModel.apply(inputs: .serach(text: text))
-                                }
-                            }
                     }
                 }
                 .listStyle(.inset)

@@ -34,12 +34,6 @@ struct SavedVideoListView: View {
                                 // StudyView()へ遷移
                                 navigationPathEnv.path.append(.study(videoInfo: videoInfo))
                             }
-                            .onAppear {
-                                // 最下部までスクロールされた場合、保存した追加動画を読み込む
-                                if videoInfo.id == videoListViewModel.cardViewVideoInfo.last?.id {
-                                   
-                                }
-                            }
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in

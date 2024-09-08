@@ -17,17 +17,14 @@ struct YouTubeSearchRequest: CommonHttpRouter {
     var parameters: Parameters? {
         var parameters: [String: String] = [
             "query": query,
-            "next_page_token": nextPageToken ?? ""
         ]
         
         return parameters
     }
     
     private let query: String
-    private let nextPageToken: String?
     
-    init(query: String, nextPageToken: String? = nil) {
+    init(query: String) {
         self.query = query
-        self.nextPageToken = nextPageToken
     }
 }

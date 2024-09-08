@@ -7,11 +7,9 @@
 
 struct YouTubeSearchResponseModel: Codable {
     let items: [Video]
-    let nextPageToken: String
     
     enum CodingKeys: String, CodingKey {
         case items
-        case nextPageToken = "next_page_token"
     }
     
     struct Video: Codable {

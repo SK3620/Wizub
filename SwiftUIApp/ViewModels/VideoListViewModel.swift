@@ -23,18 +23,16 @@ class VideoListViewModel: ObservableObject {
         case tappedCardView
     }
     
-    private let apiService: APIServiceType
-    
-    private var cancellableBag = Set<AnyCancellable>()
+    @Published var isLoading: Bool = false
+    @Published var isSuccess: Bool = false
+    @Published var isShowError: Bool = false
+    @Published var httpErrorMsg: String = ""
     
     @Published var cardViewVideoInfo: [CardView.VideoInfo] = []
-    
     @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
     
-    private var nextPageToken: String?
-
-    func apply(inputs: Inputs) {
-        switch inputs {
+    func apply(event: Event) {
+        switch event {
         case .serach(let inputText):
             getVideos(inputText: inputText)
         case .getSavedVideos:
@@ -57,11 +55,27 @@ extension VideoListViewModel {
     
     // 検索した動画を取得
     private func getVideos(inputText: String) -> Void {
-        
         // リクエスト組み立て
-        // nextPageToken: 追加で動画を取得
-        let youTubeSearchRequest = YouTubeSearchRequest(query: inputText, nextPageToken: nextPageToken)
+        let youTubeSearchRequest = YouTubeSearchRequest(query: inputText)
         
+        // リクエスト
+        apiService.request(with: youTubeSearchRequest)
+            .receive(on: RunLoop.main)
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
+                guard let self = self, let youTubeSerachResponse = YouTubeSearchResponseModel.handleResponse(value: value) else { return }
+                self.cardViewVideoInfo.append(contentsOf: convertSerachResponse(videos: youTubeSerachResponse.items))
+                self.isLoading = false
+                self.isSuccess = true
+            })
+            .store(in: &cancellableBag)
+        
+        /*
         // リクエスト
         apiService.request(with: youTubeSearchRequest)
             .receive(on: RunLoop.main)
@@ -81,6 +95,7 @@ extension VideoListViewModel {
                 self.nextPageToken = youTubeSerachResponse.nextPageToken
             })
             .store(in: &cancellableBag)
+         */
     }
     
     // 保存した動画を取得

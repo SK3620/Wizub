@@ -18,7 +18,6 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            // 背景色
             Color.gray.opacity(0.1).ignoresSafeArea()
             
             VStack(spacing: 0) {
