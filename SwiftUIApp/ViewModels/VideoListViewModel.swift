@@ -23,13 +23,13 @@ class VideoListViewModel: ObservableObject {
         case tappedCardView
     }
     
+    // MARK: - Outputs
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     
     @Published var cardViewVideoInfo: [CardView.VideoInfo] = []
-    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
     
     func apply(event: Event) {
         switch event {

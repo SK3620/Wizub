@@ -14,9 +14,6 @@ struct SubtitleListView: View {
     // 現在の字幕がハイライトされているかどうか
     private var isHighlighted: Bool
     
-    // 字幕表示モード
-    private var displayMode: SubtitleDisplayMode
-    
     // 編集
     private var editSubtitle: (Bool) -> Void
     
@@ -32,10 +29,16 @@ struct SubtitleListView: View {
     // 編集/翻訳アイコンを表示するかどうか
     private var showTranslateEditIcon: Bool = false
     
-    init(subtitleDetails: SubtitleModel.SubtitleDetailModel, isHighlighted: Bool, displayMode: SubtitleDisplayMode, showTranslateEditIcon: Bool, storeSubtitles: @escaping () -> Void, removeSubtitle: @escaping () -> Void, editSubtitle: @escaping (Bool) -> Void) {
+    init(
+         subtitleDetails: SubtitleModel.SubtitleDetailModel, 
+         isHighlighted: Bool,
+         showTranslateEditIcon: Bool,
+         storeSubtitles: @escaping () -> Void,
+         removeSubtitle: @escaping () -> Void,
+         editSubtitle: @escaping (Bool) -> Void
+    ) {
         self.subtitleDetails = subtitleDetails
         self.isHighlighted = isHighlighted
-        self.displayMode = displayMode
         self.showTranslateEditIcon = showTranslateEditIcon
         self.storeSubtitles = storeSubtitles
         self.removeSubtitle = removeSubtitle
@@ -46,32 +49,23 @@ struct SubtitleListView: View {
         HStack {
             HStack {
                 VStack(alignment: .leading) {
-                    if displayMode != .hideEnglish && displayMode != .hideAll {
-                        Text(subtitleDetails.enSubtitle)
-                            .font(.body)
-                            .foregroundColor(isHighlighted ? .red : .primary)
-                    }
-                    
-                    if displayMode != .hideJapanese && displayMode != .hideAll {
-                        HStack {
-                            // 日本語訳を取り出す
-                            Text(subtitleDetails.jaSubtitle)
-                        }
+                    // 英語字幕
+                    Text(subtitleDetails.enSubtitle)
                         .font(.body)
                         .foregroundColor(isHighlighted ? .red : .primary)
-                    }
+                    // 日本語字幕
+                    Text(subtitleDetails.jaSubtitle)
+                        .font(.body)
+                        .foregroundColor(isHighlighted ? .red : .primary)
                 }
                 .padding(.vertical, 4)
-                
                 Spacer()
                 
                 // 編集/翻訳アイコンを非/表示
                 if showTranslateEditIcon {
                     // ハイライトされている字幕のみ
                     VStack(spacing: 24) {
-                        
                         Spacer()
-                        
                         // 編集ボタン
                         Button {
                             // 編集画面の表示フラグ
@@ -81,34 +75,31 @@ struct SubtitleListView: View {
                                 .font(.system(size: 20))
                         }
                         .buttonStyle(BorderlessButtonStyle())
-                        
+                        // 翻訳ボタン
                         Button {
                             // 配列から除外 or 配列に格納
                             toggleTranslateIcon ? removeSubtitle() : storeSubtitles()
                             toggleTranslateIcon.toggle()
                         } label: {
-                            ZStack {
-                                if toggleTranslateIcon {
-                                    Image(systemName: "translate")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.white)
-                                        .padding(7)
-                                        .background(
-                                            Circle()
-                                                .fill(ColorCodes.primary.color().opacity(0.7))
-                                                .overlay(Circle().stroke(ColorCodes.primary.color(), lineWidth: 2))
-                                        )
-                                } else {
-                                    Image(systemName: "translate")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.black)
-                                        .padding(7)
-                                        .background(Circle().stroke(Color.gray, lineWidth: 1))
-                                }
+                            if toggleTranslateIcon {
+                                Image(systemName: "translate")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.white)
+                                    .padding(7)
+                                    .background(
+                                        Circle()
+                                            .fill(ColorCodes.primary.color().opacity(0.7))
+                                            .overlay(Circle().stroke(ColorCodes.primary.color(), lineWidth: 2))
+                                    )
+                            } else {
+                                Image(systemName: "translate")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.black)
+                                    .padding(7)
+                                    .background(Circle().stroke(Color.gray, lineWidth: 1))
                             }
                         }
                         .buttonStyle(BorderlessButtonStyle())
-                        
                         Spacer()
                     }
                 }

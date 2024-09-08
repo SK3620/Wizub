@@ -36,7 +36,6 @@
 		83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* HttpError.swift */; };
 		83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8D2C6F826C00B4179D /* HttpStatus.swift */; };
 		83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAAC772C705393002AE74E /* KeyChainManager.swift */; };
-		83AAAC7C2C719F37002AE74E /* StatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */; };
 		83CB33402C7F065600E8E7E8 /* TranslateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB333F2C7F065600E8E7E8 /* TranslateRequest.swift */; };
 		83CB33442C7F11C200E8E7E8 /* OpenAIResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */; };
 		83CB33462C80263400E8E7E8 /* TranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB33452C80263400E8E7E8 /* TranslateView.swift */; };
@@ -102,7 +101,6 @@
 		83A63E8B2C6F81B500B4179D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		83A63E8D2C6F826C00B4179D /* HttpStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
 		83AAAC772C705393002AE74E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
-		83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewModel.swift; sourceTree = "<group>"; };
 		83CB333F2C7F065600E8E7E8 /* TranslateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateRequest.swift; sourceTree = "<group>"; };
 		83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIResponseModel.swift; sourceTree = "<group>"; };
 		83CB33452C80263400E8E7E8 /* TranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateView.swift; sourceTree = "<group>"; };
@@ -348,7 +346,6 @@
 				83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */,
 				83D3DEEA2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift */,
 				83D3DED82C8533F000CD2916 /* NoneModel.swift */,
-				83AAAC7B2C719F37002AE74E /* StatusViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -578,7 +575,6 @@
 				83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */,
 				83D3DEE12C85BE3600CD2916 /* GetSavedVideosResponseModel.swift in Sources */,
 				834795D02C75CBA200B98359 /* NavigationPathEnvironment.swift in Sources */,
-				83AAAC7C2C719F37002AE74E /* StatusViewModel.swift in Sources */,
 				83CD5E062C8B05CA00B5ADF1 /* CommonDialog.swift in Sources */,
 				835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */,
 				834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */,

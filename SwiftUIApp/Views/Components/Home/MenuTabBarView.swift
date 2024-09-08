@@ -13,7 +13,6 @@ struct MenuTabBarView: View {
     var toggleTranslateEditIcon: () -> Void
     var changePlaybackRate: () -> Void
     var playBackRate: PlayBackRate
-    var changeDisplayMode: () -> Void
     
     // 翻訳/編集アイコンボタンにスラッシュを入れるかどうか
     @State var isTranslateEditIconSlashed: Bool = true
@@ -31,20 +30,6 @@ struct MenuTabBarView: View {
                 Text("字幕同期")
                     .font(.footnote)
             }
-                       
-            // 字幕表示モード切り替え
-            /*
-            VStack {
-                Button(action: {
-                    changeDisplayMode()
-                }) {
-                    Image(systemName: "textformat.size.larger")
-                        .font(.system(size: 28))
-                }
-                Text("切り替え")
-                    .font(.footnote)
-            }
-             */
             
             // 再生速度
             VStack {

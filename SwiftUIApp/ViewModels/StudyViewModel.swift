@@ -9,14 +9,6 @@ import SwiftUI
 import Combine
 import YouTubePlayerKit
 
-// 字幕表示モード
-enum SubtitleDisplayMode {
-    case showAll // 字幕全て表示
-    case hideEnglish // 英語字幕のみ非表示
-    case hideJapanese // 日本語字幕のみ非表示
-    case hideAll // 字幕全て非表示
-}
-
 // 再生速度
 enum PlayBackRate: Double {
     case normal = 1.0 // 通常
@@ -98,14 +90,8 @@ class StudyViewModel: ObservableObject {
     // 字幕同期中かどうか
     @Published var isSubtitleSync: Bool = false
     
-    // 字幕の表示モード
-    @Published var subtitleDisplayMode: SubtitleDisplayMode = .showAll
-    
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
-    
-    // 画面の状態を発行
-    @Published var statusViewModel: StatusViewModel = StatusViewModel(isLoading: false, shouldTransition: false, showErrorMessage: false, alertErrorMessage: "")
     
     // 編集ダイアログを表示するかどうか
     @Published var showEditDialog: Bool = false
@@ -338,20 +324,6 @@ extension StudyViewModel {
     private func stopTimer() {
         timerCancellable?.cancel()
         timerCancellable = nil
-    }
-    
-    // 表示モードを順番に切り替え
-    func changeSubtitleDisplayMode() {
-        switch subtitleDisplayMode {
-        case .showAll:
-            subtitleDisplayMode = .hideEnglish
-        case .hideEnglish:
-            subtitleDisplayMode = .hideJapanese
-        case .hideJapanese:
-            subtitleDisplayMode = .hideAll
-        case .hideAll:
-            subtitleDisplayMode = .showAll
-        }
     }
     
     // 再生速度切り替え
