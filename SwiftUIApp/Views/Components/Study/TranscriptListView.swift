@@ -7,27 +7,24 @@
 
 import SwiftUI
 
-struct TranscriptListView: View {
+struct SubtitleListView: View {
     
-    private var transcriptDetailModel: TranscriptModel.TranscriptDetailModel
-    
-    // 翻訳された字幕（日本語）
-    // private var translatedSubtitles: [OpenAIResponseModel2]
+    private var subtitleDetails: SubtitleModel.SubtitleDetailModel
     
     // 現在の字幕がハイライトされているかどうか
     private var isHighlighted: Bool
     
     // 字幕表示モード
-    private var displayMode: TranscriptDisplayMode
+    private var displayMode: SubtitleDisplayMode
     
     // 編集
-    private var editTranscript: (Bool) -> Void
+    private var editSubtitle: (Bool) -> Void
     
     // 翻訳する字幕を配列に格納する
-    private var storeTranscript: () -> Void
+    private var storeSubtitles: () -> Void
     
     // 格納した字幕を配列から除外する
-    private var removeTranscript: () -> Void
+    private var removeSubtitle: () -> Void
     
     // 翻訳アイコン切り替え
     @State private var toggleTranslateIcon: Bool = false
@@ -35,14 +32,14 @@ struct TranscriptListView: View {
     // 編集/翻訳アイコンを表示するかどうか
     private var showTranslateEditIcon: Bool = false
     
-    init(transcriptDetailModel: TranscriptModel.TranscriptDetailModel, isHighlighted: Bool, displayMode: TranscriptDisplayMode, showTranslateEditIcon: Bool, storeTranscript: @escaping () -> Void, removeTranscript: @escaping () -> Void, editTranscript: @escaping (Bool) -> Void) {
-        self.transcriptDetailModel = transcriptDetailModel
+    init(subtitleDetails: SubtitleModel.SubtitleDetailModel, isHighlighted: Bool, displayMode: SubtitleDisplayMode, showTranslateEditIcon: Bool, storeSubtitles: @escaping () -> Void, removeSubtitle: @escaping () -> Void, editSubtitle: @escaping (Bool) -> Void) {
+        self.subtitleDetails = subtitleDetails
         self.isHighlighted = isHighlighted
         self.displayMode = displayMode
         self.showTranslateEditIcon = showTranslateEditIcon
-        self.storeTranscript = storeTranscript
-        self.removeTranscript = removeTranscript
-        self.editTranscript = editTranscript
+        self.storeSubtitles = storeSubtitles
+        self.removeSubtitle = removeSubtitle
+        self.editSubtitle = editSubtitle
     }
     
     var body: some View {
@@ -50,7 +47,7 @@ struct TranscriptListView: View {
             HStack {
                 VStack(alignment: .leading) {
                     if displayMode != .hideEnglish && displayMode != .hideAll {
-                        Text(transcriptDetailModel.enSubtitle)
+                        Text(subtitleDetails.enSubtitle)
                             .font(.body)
                             .foregroundColor(isHighlighted ? .red : .primary)
                     }
@@ -58,7 +55,7 @@ struct TranscriptListView: View {
                     if displayMode != .hideJapanese && displayMode != .hideAll {
                         HStack {
                             // 日本語訳を取り出す
-                            Text(transcriptDetailModel.jaSubtitle)
+                            Text(subtitleDetails.jaSubtitle)
                         }
                         .font(.body)
                         .foregroundColor(isHighlighted ? .red : .primary)
@@ -78,7 +75,7 @@ struct TranscriptListView: View {
                         // 編集ボタン
                         Button {
                             // 編集画面の表示フラグ
-                            editTranscript(true)
+                            editSubtitle(true)
                         } label: {
                             Image(systemName: "pencil")
                                 .font(.system(size: 20))
@@ -87,7 +84,7 @@ struct TranscriptListView: View {
                         
                         Button {
                             // 配列から除外 or 配列に格納
-                            toggleTranslateIcon ? removeTranscript() : storeTranscript()
+                            toggleTranslateIcon ? removeSubtitle() : storeSubtitles()
                             toggleTranslateIcon.toggle()
                         } label: {
                             ZStack {
@@ -117,6 +114,6 @@ struct TranscriptListView: View {
                 }
             }
         }
-        .id(transcriptDetailModel.id)
+        .id(subtitleDetails.id)
     }
 }

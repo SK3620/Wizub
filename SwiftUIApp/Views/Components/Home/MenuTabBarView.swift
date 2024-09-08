@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuTabBarView: View {
     
-    @Binding var isTranscriptSync: Bool
+    @Binding var isSubtitleSync: Bool
     var toggleTranslateEditIcon: () -> Void
     var changePlaybackRate: () -> Void
     var playBackRate: PlayBackRate
@@ -23,9 +23,9 @@ struct MenuTabBarView: View {
             // 字幕同期
             VStack {
                 Button(action: {
-                    isTranscriptSync.toggle()
+                    isSubtitleSync.toggle()
                 }) {
-                    Image(systemName: isTranscriptSync ? "doc.plaintext" : "doc.text.below.ecg")
+                    Image(systemName: isSubtitleSync ? "doc.plaintext" : "doc.text.below.ecg")
                         .font(.system(size: 22, weight: .medium))
                 }
                 Text("字幕同期")

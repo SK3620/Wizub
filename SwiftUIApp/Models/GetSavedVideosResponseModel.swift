@@ -17,14 +17,14 @@ struct GetSavedVideosResponseModel: Codable {
         let videoId: String
         let title: String
         let thumbnailUrl: String
-        let transcripts: [TranscriptModel.TranscriptDetailModel]
+        let subtitles: [SubtitleModel.SubtitleDetailModel]
         
         enum CodingKeys: String, CodingKey {
             case id
             case videoId = "video_id"
             case title
             case thumbnailUrl = "thumbnail_url"
-            case transcripts
+            case subtitles
         }
     }
     

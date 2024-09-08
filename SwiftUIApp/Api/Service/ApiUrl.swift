@@ -33,22 +33,22 @@ struct ApiUrl {
     static let deleteSavedVideos = "api/delete_saved_videos"
     
     // DBに保存した字幕情報取得
-    static let getSavedTranscripts = "api/get_saved_transcripts"
+    static let getSavedSubtitles = "api/get_saved_subtitles"
     
     // 選択した動画の字幕情報取得 get
-    static let getTranscript = "api/get_transcript"
+    static let getSubtitles = "api/get_subtitles"
     
     // 字幕翻訳 get
-    static let translateSubtitle = "api/get_open_ai_answer"
+    static let translateSubtitles = "api/get_open_ai_answer"
     
-    // 動画情報とトランスクリプト保存 post
-    static let storeTranscripts = "api/store_transcripts"
+    // 動画情報と字幕の保存 post
+    static let storeSubtitles = "api/store_subtitles"
     
     // 動画がすでに保存済みか否か
     static let checkVideoAlreadySaved = "api/check_video_already_saved"
     
-    // トランスクリプト更新 put
-    static let updateTranscripts = "api/update_transcripts"
+    // 字幕更新 put
+    static let updateSubtitles = "api/update_subtitles"
 
     // なし
     static let none = ""

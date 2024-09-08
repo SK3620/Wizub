@@ -12,7 +12,7 @@ struct TranslateRequest: CommonHttpRouter {
     
     typealias Response = OpenAIResponseModel
     
-    var path: String { return ApiUrl.translateSubtitle }
+    var path: String { return ApiUrl.translateSubtitles }
     var method: HTTPMethod { return .get }
     var parameters: Parameters? {
         return ["content": content]

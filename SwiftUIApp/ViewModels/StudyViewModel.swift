@@ -10,7 +10,7 @@ import Combine
 import YouTubePlayerKit
 
 // 字幕表示モード
-enum TranscriptDisplayMode {
+enum SubtitleDisplayMode {
     case showAll // 字幕全て表示
     case hideEnglish // 英語字幕のみ非表示
     case hideJapanese // 日本語字幕のみ非表示
@@ -39,11 +39,11 @@ class StudyViewModel: ObservableObject {
     
     enum ApiEvent {
         // 字幕取得
-        case getTranscripts(videoId: String)
+        case getSubtitles(videoId: String)
         // DBに保存した字幕取得
-        case getSavedTranscripts(videoId: String)
+        case getSavedSubtitles(videoId: String)
         // 翻訳
-        case translate(pendingTranslatedSubtitles: [TranscriptModel.TranscriptDetailModel])
+        case translate(pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel])
         // DBに動画＆字幕情報の保存
         case store(videoInfo: CardView.VideoInfo)
         // DBに保存した字幕情報更新
@@ -52,10 +52,10 @@ class StudyViewModel: ObservableObject {
     
     func apply(event: ApiEvent) {
         switch event {
-        case .getTranscripts(let videoId):
-            getTranscripts(videoId: videoId)
-        case .getSavedTranscripts(let videoId):
-            getSavedTranscript(videoId: videoId)
+        case .getSubtitles(let videoId):
+            getSubtitles(videoId: videoId)
+        case .getSavedSubtitles(let videoId):
+            getSavedSubtitles(videoId: videoId)
         case .translate(let pendingTranslatedSubtitles):
             translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
         case .store(let videoInfo):
@@ -84,10 +84,10 @@ class StudyViewModel: ObservableObject {
     @Published var httpErrorMsg: String = ""
     
     // 字幕情報が格納されたモデル
-    @Published var transcriptDetail: [TranscriptModel.TranscriptDetailModel] = []
+    @Published var subtitleDetails: [SubtitleModel.SubtitleDetailModel] = []
     
     // 現在表示すべき字幕のインデックス
-    @Published var currentTranscriptIndex: Int?
+    @Published var currentSubtitleIndex: Int?
     
     // 動画が一時停止中かどうか
     @Published var isPaused: Bool = false
@@ -96,10 +96,10 @@ class StudyViewModel: ObservableObject {
     @Published var isRepeating: Bool = false
     
     // 字幕同期中かどうか
-    @Published var isTranscriptSync: Bool = false
+    @Published var isSubtitleSync: Bool = false
     
     // 字幕の表示モード
-    @Published var transcriptDisplayMode: TranscriptDisplayMode = .showAll
+    @Published var subtitleDisplayMode: SubtitleDisplayMode = .showAll
     
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
@@ -110,17 +110,17 @@ class StudyViewModel: ObservableObject {
     // 編集ダイアログを表示するかどうか
     @Published var showEditDialog: Bool = false
     
-    // 編集するtranscript
-    @Published var editedTranscriptDeital: TranscriptModel.TranscriptDetailModel?
+    // 編集する字幕
+    @Published var editedSubtitleDetail: SubtitleModel.SubtitleDetailModel?
     
-    // 押下されたtranscriptを発行するPublisher（append）
-    var translateButtonPressed = PassthroughSubject<TranscriptModel.TranscriptDetailModel, Never>()
+    // 押下された字幕を発行するPublisher（append）
+    var translateButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     
-    // 押下されたtranscriptを発行するPublisher（remove）
-    var removeTranscriptButtonPressed = PassthroughSubject<TranscriptModel.TranscriptDetailModel, Never>()
+    // 押下された字幕を発行するPublisher（remove）
+    var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     
-    // 押下されたtranscriptを保持する配列
-    @Published var translatedTranscripts: [TranscriptModel.TranscriptDetailModel] = []
+    // 押下された字幕を保持する配列
+    @Published var pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel] = []
     
     // 翻訳レスポンスを発行する
     @Published var translatedSubtitles: [JaTranslation] = []
@@ -135,7 +135,7 @@ class StudyViewModel: ObservableObject {
             .sink { [weak self] currentTime in
                 guard let self = self, !self.isRepeating else { return }
                 let currentTime = currentTime.value
-                self.updateCurrentTranscriptIndex(for: currentTime)
+                self.updateCurrentSubtitleIndex(for: currentTime)
             }
             .store(in: &cancellableBag)
         
@@ -154,24 +154,23 @@ class StudyViewModel: ObservableObject {
             }
             .store(in: &cancellableBag)
         
-        // 押下されたtranscriptを発行する
+        // 押下された字幕を発行する
         translateButtonPressed
             .receive(on: RunLoop.main)
-            .sink { [weak self] transcript in
+            .sink { [weak self] subtitleDetail in
                 guard let self = self else { return }
                 // 配列に格納
-                self.translatedTranscripts.append(transcript)
+                self.pendingTranslatedSubtitles.append(subtitleDetail)
             }
             .store(in: &cancellableBag)
         
-        // 押下されたtranscriptを発行する
-        removeTranscriptButtonPressed
+        // 押下された字幕を発行する
+        removeSubtitleButtonPressed
             .receive(on: RunLoop.main)
-            .sink { [weak self] transcript in
+            .sink { [weak self] subtitleDetail in
                 guard let self = self else { return }
                 // 配列から除外
-                self.translatedTranscripts.removeAll { $0.id == transcript.id }
-                print(self.translatedTranscripts)
+                self.pendingTranslatedSubtitles.removeAll { $0.id == subtitleDetail.id }
             }
             .store(in: &cancellableBag)
         
@@ -196,16 +195,16 @@ class StudyViewModel: ObservableObject {
 extension StudyViewModel {
     
     // ハイライトされる字幕のindexを更新
-    func updateCurrentTranscriptIndex(for currentTime: Double) {
+    func updateCurrentSubtitleIndex(for currentTime: Double) {
         // 字幕同期が無効であればreturn
-        guard !isTranscriptSync else { return }
+        guard !isSubtitleSync else { return }
         
-        for i in 0..<transcriptDetail.count - 1 {
-            if currentTime >= transcriptDetail[i].start && currentTime < transcriptDetail[i + 1].start {
-                currentTranscriptIndex = i
+        for i in 0..<subtitleDetails.count - 1 {
+            if currentTime >= subtitleDetails[i].start && currentTime < subtitleDetails[i + 1].start {
+                currentSubtitleIndex = i
                 break
             } else {
-                currentTranscriptIndex = nil
+                currentSubtitleIndex = nil
             }
         }
     }
@@ -216,14 +215,14 @@ extension StudyViewModel {
     }
     
     // 指定の時間へシーク
-    func seekToTranscript(at index: Int) {
-        guard index >= 0 && index < transcriptDetail.count else { return }
+    func seekToSubtitle(at index: Int) {
+        guard index >= 0 && index < subtitleDetails.count else { return }
         // リピート中に字幕が押下された場合
         if isRepeating {
             startRepeat()
         }
-        // タップされたリストのtranscripの開始時間取得
-        let startTime = transcriptDetail[index].start
+        // タップされたリストの字幕の開始時間取得
+        let startTime = subtitleDetails[index].start
         let measurement = Measurement(value: startTime, unit: UnitDuration.seconds)
         seek(to: measurement)
     }
@@ -254,17 +253,17 @@ extension StudyViewModel {
     
     // リピート開始
     func startRepeat() {
-        guard let index = currentTranscriptIndex else { return }
+        guard let index = currentSubtitleIndex else { return }
         
-        let firstTranscript = transcriptDetail[index] // 指定のtranscript取得
-        let nextTranscript = transcriptDetail[index + 1] //次のtranscript取得
+        let firstSubtitle = subtitleDetails[index] // 指定の字幕取得
+        let nextSubtitle = subtitleDetails[index + 1] //次の字幕取得
         
-        let firstTrStartTime = firstTranscript.start // 字幕表示開始時間
-        let nextTrStartTime = nextTranscript.start // 字幕表示開始時間
+        let firstSubtitleStartTime = firstSubtitle.start // 字幕表示開始時間
+        let nextSubtitleStartTime = nextSubtitle.start // 字幕表示開始時間
         
-        let duration = nextTrStartTime - firstTrStartTime
+        let duration = nextSubtitleStartTime - firstSubtitleStartTime
         
-        let measurement = Measurement(value: firstTrStartTime, unit: UnitDuration.seconds)
+        let measurement = Measurement(value: firstSubtitleStartTime, unit: UnitDuration.seconds)
         
         isRepeating = true
         
@@ -326,7 +325,7 @@ extension StudyViewModel {
                         let currentTime = try await self.youTubePlayer.getCurrentTime()
                         DispatchQueue.main.async {
                             // ハイライトされる字幕のindexを更新
-                            self.updateCurrentTranscriptIndex(for: currentTime.value)
+                            self.updateCurrentSubtitleIndex(for: currentTime.value)
                         }
                     } catch {
                         print("Error fetching current time: \(error)")
@@ -342,16 +341,16 @@ extension StudyViewModel {
     }
     
     // 表示モードを順番に切り替え
-    func changeTranscriptDisplayMode() {
-        switch transcriptDisplayMode {
+    func changeSubtitleDisplayMode() {
+        switch subtitleDisplayMode {
         case .showAll:
-            transcriptDisplayMode = .hideEnglish
+            subtitleDisplayMode = .hideEnglish
         case .hideEnglish:
-            transcriptDisplayMode = .hideJapanese
+            subtitleDisplayMode = .hideJapanese
         case .hideJapanese:
-            transcriptDisplayMode = .hideAll
+            subtitleDisplayMode = .hideAll
         case .hideAll:
-            transcriptDisplayMode = .showAll
+            subtitleDisplayMode = .showAll
         }
     }
     
@@ -373,11 +372,11 @@ extension StudyViewModel {
 extension StudyViewModel {
     
     // 字幕取得
-   private func getTranscripts(videoId: String) -> Void {
+   private func getSubtitles(videoId: String) -> Void {
         // 字幕取得処理リクエスト組み立て
-        let getTranscriptRequest = GetTranscriptsRequest(videoId: videoId)
+        let getSubtitlesRequest = GetSubtitlesRequest(videoId: videoId)
         // リクエスト
-        apiService.request(with: getTranscriptRequest)
+        apiService.request(with: getSubtitlesRequest)
             .receive(on: RunLoop.main)
             .catch { [weak self] (error) -> Empty<Decodable, Never> in
                 // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
@@ -386,9 +385,9 @@ extension StudyViewModel {
                 return .init()
             }
             .sink(receiveValue: { [weak self] value in
-                guard let self = self, let transcriptModel = TranscriptModel.handleResponse(value: value) else { return }
+                guard let self = self, let subtitleModel = SubtitleModel.handleResponse(value: value) else { return }
                 // idが小さい順にsort
-                self.transcriptDetail = transcriptModel.transcripts.sorted(by: { $0.id < $1.id })
+                self.subtitleDetails = subtitleModel.subtitles.sorted(by: { $0.id < $1.id })
                 self.isLoading = false
                 self.isSuccess = true
             })
@@ -396,12 +395,12 @@ extension StudyViewModel {
     }
     
     // DBに保存済みの字幕取得
-   private func getSavedTranscript(videoId: String) {
+   private func getSavedSubtitles(videoId: String) {
         // リクエスト組み立て
-        let getSavedTranscriptsRequest = GetSavedTranscritpsRequest(videoId: videoId)
+        let getSavedSubtitlesRequest = GetSavedSubtitlesRequest(videoId: videoId)
         
         // リクエスト
-        apiService.request(with: getSavedTranscriptsRequest)
+        apiService.request(with: getSavedSubtitlesRequest)
             .receive(on: RunLoop.main)
             .catch { [weak self] (error) -> Empty<Decodable, Never> in
                 // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
@@ -410,9 +409,9 @@ extension StudyViewModel {
                 return .init()
             }
             .sink(receiveValue: { [weak self] value in
-                guard let self = self, let transcriptModel = TranscriptModel.handleResponse(value: value) else { return }
+                guard let self = self, let subtitleModel = SubtitleModel.handleResponse(value: value) else { return }
                 // idが小さい順にsort
-                self.transcriptDetail = transcriptModel.transcripts.sorted(by: { $0.id < $1.id })
+                self.subtitleDetails = subtitleModel.subtitles.sorted(by: { $0.id < $1.id })
                 self.isLoading = false
                 self.isSuccess = true
             })
@@ -420,7 +419,7 @@ extension StudyViewModel {
     }
     
     // 翻訳
-   private func translate(pendingTranslatedSubtitles: [TranscriptModel.TranscriptDetailModel]) -> Void {
+    private func translate(pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel]) -> Void {
         // 質問内容組み立て
         var content: String = ""
         pendingTranslatedSubtitles.forEach {
@@ -441,17 +440,17 @@ extension StudyViewModel {
                 // answerは[id: 日本語字幕]の形式
                 let answer: [String: String] = openAIResponseModel.answer
                 // 新しい配列を作成して更新
-                var updatedTranscripts = transcriptDetail
-                // answerに含まれる字幕IDに対応する日本語字幕を、updatedTranscripts配列の該当する要素に上書き
+                var updatedSubtitleDetails = subtitleDetails
+                // answerに含まれる字幕IDに対応する日本語字幕を、updatedSubtitleDetails配列の該当する要素に上書き
                 for (idString, jaSubtitle) in answer {
                     if let id = Int(idString) {
-                        if let index = updatedTranscripts.firstIndex(where: { $0.id == id }) {
-                            updatedTranscripts[index].jaSubtitle = jaSubtitle
+                        if let index = updatedSubtitleDetails.firstIndex(where: { $0.id == id }) {
+                            updatedSubtitleDetails[index].jaSubtitle = jaSubtitle
                         }
                     }
                 }
                 // 更新された配列を再代入して、変更を発行
-                transcriptDetail = updatedTranscripts
+                subtitleDetails = updatedSubtitleDetails
                 
                 self.isLoading = false
                 self.isSuccess = true
@@ -469,10 +468,10 @@ extension StudyViewModel {
         let thumbnailUrl = videoInfo.thumbnailURL
         
         // リクエスト組み立て
-        let storeTranscriptRequestModel = StoreTranscriptRequestModel(videoId: videoId, title: title, thumbnailUrl: thumbnailUrl, transcripts: transcriptDetail)
-        let storeTranscriptRequest = StoreTranscriptsRequest(model: storeTranscriptRequestModel)
+        let storeSubtitlesRequestModel = StoreSubtitlesRequestModel(videoId: videoId, title: title, thumbnailUrl: thumbnailUrl, subtitles: subtitleDetails)
+        let storeSubtitlesRequest = StoreSubtitlesRequest(model: storeSubtitlesRequestModel)
         
-        apiService.request(with: storeTranscriptRequest)
+        apiService.request(with: storeSubtitlesRequest)
             .receive(on: RunLoop.main)
             .catch { [weak self] (error) -> Empty<Decodable, Never> in
                 // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
@@ -490,10 +489,10 @@ extension StudyViewModel {
     
     // DB更新
     private func update(id: Int) {
-        let transciptModel = TranscriptModel(transcripts: transcriptDetail)
-        let updateTranscriptsRequest = UpdateTranscriptRequest(id: id, model: transciptModel)
+        let subtitleModel = SubtitleModel(subtitles: subtitleDetails)
+        let updateSubtitlesRequest = UpdateSubtitlesRequest(id: id, model: subtitleModel)
         
-        apiService.request(with: updateTranscriptsRequest)
+        apiService.request(with: updateSubtitlesRequest)
             .receive(on: RunLoop.main)
             .catch { [weak self] (error) -> Empty<Decodable, Never> in
                 // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す

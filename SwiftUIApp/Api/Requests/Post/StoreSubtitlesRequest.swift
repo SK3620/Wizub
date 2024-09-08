@@ -7,19 +7,19 @@
 
 import Alamofire
 
-struct StoreTranscriptsRequest: CommonHttpRouter {
+struct StoreSubtitlesRequest: CommonHttpRouter {
     typealias Response = NoneModel
     
-    var path: String { return ApiUrl.storeTranscripts }
+    var path: String { return ApiUrl.storeSubtitles }
     var method: HTTPMethod { return .post }
     
     func body() throws -> Data? {
         try JSONEncoder().encode(model)
     }
     
-    private let model : StoreTranscriptRequestModel
+    private let model : StoreSubtitlesRequestModel
     
-    init(model: StoreTranscriptRequestModel) {
+    init(model: StoreSubtitlesRequestModel) {
         self.model = model
     }
 }

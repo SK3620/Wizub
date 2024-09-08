@@ -9,10 +9,6 @@ import SwiftUI
 import YouTubePlayerKit
 import Algorithms
 
-protocol UpdateVideoInfoDelegate: AnyObject {
-    func updateVideoInfo(videoInfo: CardView.VideoInfo)
-}
-
 struct StudyView: View {
     
     @StateObject var studyViewModel: StudyViewModel
@@ -27,8 +23,8 @@ struct StudyView: View {
     // 編集画面を表示するかどうか
     @State private var showEditDialog = false
     
-    // 編集するtranscript
-    @State private var transcriptDetailModel: TranscriptModel.TranscriptDetailModel?
+    // 編集する字幕
+    @State private var editedSubtitleDetail: SubtitleModel.SubtitleDetailModel?
     
     // リスト内で押下された動画の情報
     private let videoInfo: CardView.VideoInfo
@@ -66,43 +62,43 @@ struct StudyView: View {
                     }
                 } else {
                     ScrollViewReader { proxy in
-                        if studyViewModel.transcriptDisplayMode != .hideAll {
+                        if studyViewModel.subtitleDisplayMode != .hideAll {
                             ZStack {
                                 List {
-                                    ForEach(Array(studyViewModel.transcriptDetail.enumerated()), id: \.offset){
-                                        index, transcript in
-                                        TranscriptListView(
-                                            transcriptDetailModel: transcript,
-                                            isHighlighted: studyViewModel.currentTranscriptIndex == index,
-                                            displayMode: studyViewModel.transcriptDisplayMode,
+                                    ForEach(Array(studyViewModel.subtitleDetails.enumerated()), id: \.offset){
+                                        index, subtitleDetail in
+                                        SubtitleListView(
+                                            subtitleDetails: subtitleDetail,
+                                            isHighlighted: studyViewModel.currentSubtitleIndex == index,
+                                            displayMode: studyViewModel.subtitleDisplayMode,
                                             showTranslateEditIcon: showTranslateEditIcon,
-                                            storeTranscript: {
-                                                studyViewModel.translateButtonPressed.send(transcript)
+                                            storeSubtitles: {
+                                                studyViewModel.translateButtonPressed.send(subtitleDetail)
                                             },
-                                            removeTranscript: {
-                                                studyViewModel.removeTranscriptButtonPressed.send(transcript)
+                                            removeSubtitle: {
+                                                studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
                                             },
-                                            editTranscript: { showEditDialog in
+                                            editSubtitle: { showEditDialog in
                                                 // 編集する字幕
-                                                self.transcriptDetailModel = transcript
+                                                self.editedSubtitleDetail = subtitleDetail
                                                 // 編集画面の表示フラグ
                                                 self.showEditDialog = showEditDialog
                                             }
                                         )
                                         .onTapGesture {
-                                            // ハイライトされるtranscriptを更新
-                                            studyViewModel.currentTranscriptIndex = index
-                                            studyViewModel.seekToTranscript(at: index)
+                                            // ハイライトされる字幕を更新
+                                            studyViewModel.currentSubtitleIndex = index
+                                            studyViewModel.seekToSubtitle(at: index)
                                         }
                                     }
                                 }
                                 .listStyle(.inset)
-                                // transcriptのindexの変更を監視
-                                .onChange(of: studyViewModel.currentTranscriptIndex, { oldIndex, newIndex in
+                                // subtitleのindexの変更を監視
+                                .onChange(of: studyViewModel.currentSubtitleIndex, { oldIndex, newIndex in
                                     if let newIndex = newIndex {
                                         withAnimation {
-                                            // 指定のtranscriptへ自動スクロール
-                                            proxy.scrollTo(studyViewModel.transcriptDetail[newIndex].id, anchor: .center)
+                                            // 指定の字幕へ自動スクロール
+                                            proxy.scrollTo(studyViewModel.subtitleDetails[newIndex].id, anchor: .center)
                                         }
                                     }
                                 })
@@ -157,11 +153,11 @@ struct StudyView: View {
                 ZStack {
                     
                     MenuTabBarView(
-                        isTranscriptSync: $studyViewModel.isTranscriptSync, 
+                        isSubtitleSync: $studyViewModel.isSubtitleSync,
                         toggleTranslateEditIcon: { showTranslateEditIcon.toggle() },
                         changePlaybackRate: { studyViewModel.changePlayBackRate() },
                         playBackRate: studyViewModel.playBackRate,
-                        changeDisplayMode: { studyViewModel.changeTranscriptDisplayMode() }
+                        changeDisplayMode: { studyViewModel.changeSubtitleDisplayMode() }
                     )
                     .offset(y: showMenuTabBar ? -49 : 0)
                     .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
@@ -182,27 +178,27 @@ struct StudyView: View {
             .onAppear {
                 studyViewModel.isLoading = true
                 let videoId = videoInfo.videoId
-                // 動画がすでに保存されている場合は、DBに保存したtranscriptsを取得
+                // 動画がすでに保存されている場合は、DBに保存した字幕を取得
                 videoInfo.isVideoAlradySaved ?
-                studyViewModel.apply(event: .getSavedTranscripts(videoId: videoId)) :
-                studyViewModel.apply(event: .getTranscripts(videoId: videoId))
+                studyViewModel.apply(event: .getSavedSubtitles(videoId: videoId)) :
+                studyViewModel.apply(event: .getSubtitles(videoId: videoId))
             }
             // 字幕編集画面
             if showEditDialog {
                 EditDialogView(
-                    editedEnSubtitle: transcriptDetailModel?.enSubtitle,
-                    editedJaSubtitle: transcriptDetailModel?.jaSubtitle,
+                    editedEnSubtitle: editedSubtitleDetail?.enSubtitle,
+                    editedJaSubtitle: editedSubtitleDetail?.jaSubtitle,
                     isPresented: $showEditDialog,
                     onConfirm: { editedEnSubtitle, editedJaSubtitle in
-                        if var transcriptDetailModel = self.transcriptDetailModel, let index = studyViewModel.transcriptDetail.firstIndex(where: {
-                            // 編集したtranscriptのidと一致するindexを取得
-                            $0.id == transcriptDetailModel.id
+                        if var editedSubtitleDetail = self.editedSubtitleDetail, let index = studyViewModel.subtitleDetails.firstIndex(where: {
+                            // 編集した字幕のidと一致するindexを取得
+                            $0.id == editedSubtitleDetail.id
                         }) {
                             // 編集した英語/日本語字幕で上書き
-                            transcriptDetailModel.enSubtitle = editedEnSubtitle
-                            transcriptDetailModel.jaSubtitle = editedJaSubtitle
-                            // 編集したtranscriptで上書き @Publishedにより、変更を発行
-                            studyViewModel.transcriptDetail[index] = transcriptDetailModel
+                            editedSubtitleDetail.enSubtitle = editedEnSubtitle
+                            editedSubtitleDetail.jaSubtitle = editedJaSubtitle
+                            // 編集した字幕で上書き @Publishedにより、変更を発行
+                            studyViewModel.subtitleDetails[index] = editedSubtitleDetail
                         }
                     })
             }

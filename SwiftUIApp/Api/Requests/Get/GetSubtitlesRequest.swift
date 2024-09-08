@@ -1,17 +1,18 @@
 //
-//  GetSavedTrancsritpRequest.swift
+//  GetTranscriptRequest.swift
 //  SwiftUIApp
 //
-//  Created by 鈴木 健太 on 2024/09/03.
+//  Created by 鈴木 健太 on 2024/08/21.
 //
 
+import Foundation
 import Alamofire
 
-struct GetSavedTranscritpsRequest: CommonHttpRouter {
+struct GetSubtitlesRequest: CommonHttpRouter {
     
-    typealias Response = TranscriptModel
+    typealias Response = SubtitleModel
     
-    var path: String { return ApiUrl.getSavedTranscripts }
+    var path: String { return ApiUrl.getSubtitles }
     var method: HTTPMethod { return .get }
     var parameters: Parameters? {
         return ["video_id": videoId]
@@ -23,3 +24,4 @@ struct GetSavedTranscritpsRequest: CommonHttpRouter {
         self.videoId = videoId
     }
 }
+

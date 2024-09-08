@@ -7,11 +7,11 @@
 
 import Alamofire
 
-struct UpdateTranscriptRequest: CommonHttpRouter {
+struct UpdateSubtitlesRequest: CommonHttpRouter {
     
     typealias Response = NoneModel
     
-    var path: String { return ApiUrl.updateTranscripts }
+    var path: String { return ApiUrl.updateSubtitles }
     var method: HTTPMethod { return .put }
     var parameters: Parameters? {
         return ["id": id]
@@ -22,9 +22,9 @@ struct UpdateTranscriptRequest: CommonHttpRouter {
     }
     
     private let id: Int
-    private let model: TranscriptModel
+    private let model: SubtitleModel
     
-    init(id: Int, model: TranscriptModel) {
+    init(id: Int, model: SubtitleModel) {
         self.id = id
         self.model = model
     }

@@ -32,7 +32,7 @@ struct TranslateView: View {
             if segmentType == .selected {
                 // 選択中の字幕
                 List {
-                    ForEach(studyViewModel.translatedTranscripts) {
+                    ForEach(studyViewModel.pendingTranslatedSubtitles) {
                         Text($0.enSubtitle)
                     }
                 }
@@ -45,7 +45,7 @@ struct TranslateView: View {
             } else {
                 // 全ての字幕
                 List {
-                    ForEach(studyViewModel.transcriptDetail) {
+                    ForEach(studyViewModel.subtitleDetails) {
                         Text($0.enSubtitle)
                     }
                 }
@@ -63,10 +63,10 @@ struct TranslateView: View {
                 studyViewModel.isLoading = true
                 if segmentType == .selected {
                     // 選択中の字幕の翻訳
-                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.translatedTranscripts))
+                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.pendingTranslatedSubtitles))
                 } else {
                     // 全ての字幕の翻訳
-                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.transcriptDetail))
+                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.subtitleDetails))
                 }
             }) {
                 HStack(spacing: 16) {
@@ -86,7 +86,7 @@ struct TranslateView: View {
         .padding()
         .onAppear {
             // idが低い順にsort
-            studyViewModel.translatedTranscripts.sort(by: { $0.id < $1.id })
+            studyViewModel.pendingTranslatedSubtitles.sort(by: { $0.id < $1.id })
         }
     }
 }
