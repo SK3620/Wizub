@@ -10,7 +10,7 @@ import Combine
 
 class VideoListViewModel: ObservableObject {
     
-    enum Inputs {
+    enum Event {
         // 検索した動画を取得
         case serach(text: String)
         // 保存した動画を取得
@@ -46,8 +46,22 @@ class VideoListViewModel: ObservableObject {
         }
     }
     
+    private let apiService: APIServiceType
+    private var cancellableBag = Set<AnyCancellable>()
+    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    
     init(apiService: APIServiceType) {
         self.apiService = apiService
+        
+        httpErrorSubject
+            .sink(receiveValue: { [weak self] (error) in
+                guard let self = self else { return }
+                self.isLoading = false
+                self.isSuccess = false
+                self.isShowError = true
+                self.httpErrorMsg = error.localizedDescription
+            })
+            .store(in: &cancellableBag)
     }
 }
 
@@ -74,28 +88,6 @@ extension VideoListViewModel {
                 self.isSuccess = true
             })
             .store(in: &cancellableBag)
-        
-        /*
-        // リクエスト
-        apiService.request(with: youTubeSearchRequest)
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    // ローディングアイコン表示終了
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                case .failure(let error):
-                    // エラーアラート表示
-                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] value in
-                guard let self = self, let youTubeSerachResponse = YouTubeSearchResponseModel.handleResponse(value: value) else { return }
-                self.cardViewVideoInfo.append(contentsOf: convertSerachResponse(videos: youTubeSerachResponse.items))
-                self.nextPageToken = youTubeSerachResponse.nextPageToken
-            })
-            .store(in: &cancellableBag)
-         */
     }
     
     // 保存した動画を取得
@@ -106,19 +98,17 @@ extension VideoListViewModel {
         // リクエスト
         apiService.request(with: getSavedVideosRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    // ローディングアイコン表示終了
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                case .failure(let error):
-                    // エラーアラート表示
-                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] value in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let getSavedVideosResponse = GetSavedVideosResponseModel.handleResponse(value: value) else { return }
                 self.cardViewVideoInfo.append(contentsOf: convertGetSavedVideosResponse(videos: getSavedVideosResponse.items))
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
@@ -128,24 +118,21 @@ extension VideoListViewModel {
         // リクエスト組み立て
         let deleteSavedVideosRequest = DeleteSavedVideosRequest(id: id)
         
+        // リクエスト
         apiService.request(with: deleteSavedVideosRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    break
-                    // ローディングアイコン表示終了
-//                    self.statusViewModel = StatusViewModel(isLoading: false)
-                case .failure(let error):
-                    break
-                    // エラーアラート表示
-//                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] _ in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let index = self.cardViewVideoInfo.firstIndex(where: { $0.id == id }) else { return }
                 // 要素を配列から削除
                 self.cardViewVideoInfo.remove(at: index)
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
@@ -179,23 +166,16 @@ extension VideoListViewModel {
         // リクエスト組み立て
         let checkVideoAlreadySavedRequest = CheckVideoAlreadySavedRequest(videoId: videoId)
         
+        // リクエスト
         apiService.request(with: checkVideoAlreadySavedRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    break
-                    // ローディングアイコン表示終了
-//                    self.statusViewModel = StatusViewModel(isLoading: false)
-                case .failure(let error):
-                    break
-                    // エラーアラート表示
-//                    self.statusViewModel = StatusViewModel(showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] value in
-                print("video already saved checked successfully")
-                
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let checkVideoAlreadySavedResponse = CheckVideoAlreadySavedResponseModel.handleResponse(value: value) else { return }
                 let isVideoAlreadySaved = checkVideoAlreadySavedResponse.isVideoAlreadySaved
                 
@@ -212,8 +192,9 @@ extension VideoListViewModel {
                 
                 // 更新された配列を再代入して、変更を発行
                 cardViewVideoInfo = updatedCardViewViewInfo
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
-    
 }

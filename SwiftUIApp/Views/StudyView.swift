@@ -36,9 +36,6 @@ struct StudyView: View {
     // 現在の画面を閉じて前の画面に戻るための環境変数
     @Environment(\.dismiss) var dismiss
     
-    // 保存完了後、親Viewで"videoInfo"を更新するように委譲
-    weak var delegate: UpdateVideoInfoDelegate?
-    
     init(videoInfo: CardView.VideoInfo) {
         self.videoInfo = videoInfo
         // '_' @StateObjectプロパティラッパーのバックアップストア（内部でデータを保持している場所）にアクセス
@@ -51,18 +48,18 @@ struct StudyView: View {
                 
                 PlayVideoView(studyViewModel: studyViewModel)
                 
-                if studyViewModel.statusViewModel.isLoading {
+                if studyViewModel.isLoading {
                     // 中央に表示
                     VStack {
                         Spacer()
                         CommonProgressView()
                         Spacer()
                     }
-                } else if studyViewModel.statusViewModel.showErrorMessage {
+                } else if studyViewModel.isShowError {
                     // エラーメッセージ表示
                     VStack {
                         Spacer()
-                        Text(studyViewModel.statusViewModel.alertErrorMessage)
+                        Text(studyViewModel.httpErrorMsg)
                             .foregroundColor(Color(white: 0.5))
                             .font(.headline)
                         Spacer()
@@ -183,13 +180,12 @@ struct StudyView: View {
                 }
             }
             .onAppear {
-                studyViewModel.statusViewModel = StatusViewModel(isLoading: true)
+                studyViewModel.isLoading = true
+                let videoId = videoInfo.videoId
                 // 動画がすでに保存されている場合は、DBに保存したtranscriptsを取得
-                if videoInfo.isVideoAlradySaved {
-                    studyViewModel.getSavedTranscript(videoId: videoInfo.videoId)
-                } else {
-                    studyViewModel.getTranscripts(videoId: videoInfo.videoId)
-                }
+                videoInfo.isVideoAlradySaved ?
+                studyViewModel.apply(event: .getSavedTranscripts(videoId: videoId)) :
+                studyViewModel.apply(event: .getTranscripts(videoId: videoId))
             }
             // 字幕編集画面
             if showEditDialog {
@@ -214,11 +210,11 @@ struct StudyView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    guard let id = videoInfo.id else { return }
                     // 動画がすでに保存されている場合は、DB更新
                     videoInfo.isVideoAlradySaved ?
-                    studyViewModel.update(videoInfo: videoInfo) :
-                    studyViewModel.store(videoInfo: videoInfo)
-                    
+                    studyViewModel.apply(event: .update(id: id)) :
+                    studyViewModel.apply(event: .store(videoInfo: videoInfo))
                 } label: {
                     Text("保存/終了")
                 }

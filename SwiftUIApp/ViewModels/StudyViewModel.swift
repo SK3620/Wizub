@@ -37,6 +37,34 @@ enum PlayBackRate: Double {
 
 class StudyViewModel: ObservableObject {
     
+    enum ApiEvent {
+        // 字幕取得
+        case getTranscripts(videoId: String)
+        // DBに保存した字幕取得
+        case getSavedTranscripts(videoId: String)
+        // 翻訳
+        case translate(pendingTranslatedSubtitles: [TranscriptModel.TranscriptDetailModel])
+        // DBに動画＆字幕情報の保存
+        case store(videoInfo: CardView.VideoInfo)
+        // DBに保存した字幕情報更新
+        case update(id: Int)
+    }
+    
+    func apply(event: ApiEvent) {
+        switch event {
+        case .getTranscripts(let videoId):
+            getTranscripts(videoId: videoId)
+        case .getSavedTranscripts(let videoId):
+            getSavedTranscript(videoId: videoId)
+        case .translate(let pendingTranslatedSubtitles):
+            translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
+        case .store(let videoInfo):
+            store(videoInfo: videoInfo)
+        case .update(let id):
+            update(id: id)
+        }
+    }
+    
     private let apiService: APIServiceType
     
     var youTubePlayer: YouTubePlayer
@@ -47,6 +75,13 @@ class StudyViewModel: ObservableObject {
     
     // リピートタスクの管理用プロパティ
     private var repeatTask: Task<Void, Never>?
+    
+    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    
+    @Published var isLoading: Bool = false
+    @Published var isSuccess: Bool = false
+    @Published var isShowError: Bool = false
+    @Published var httpErrorMsg: String = ""
     
     // 字幕情報が格納されたモデル
     @Published var transcriptDetail: [TranscriptModel.TranscriptDetailModel] = []
@@ -138,6 +173,16 @@ class StudyViewModel: ObservableObject {
                 self.translatedTranscripts.removeAll { $0.id == transcript.id }
                 print(self.translatedTranscripts)
             }
+            .store(in: &cancellableBag)
+        
+        httpErrorSubject
+            .sink(receiveValue: { [weak self] (error) in
+                guard let self = self else { return }
+                self.isLoading = false
+                self.isSuccess = false
+                self.isShowError = true
+                self.httpErrorMsg = error.localizedDescription
+            })
             .store(in: &cancellableBag)
     }
     
@@ -328,90 +373,75 @@ extension StudyViewModel {
 extension StudyViewModel {
     
     // 字幕取得
-    func getTranscripts(videoId: String) -> Void {
+   private func getTranscripts(videoId: String) -> Void {
         // 字幕取得処理リクエスト組み立て
         let getTranscriptRequest = GetTranscriptsRequest(videoId: videoId)
         // リクエスト
         apiService.request(with: getTranscriptRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                    break
-                case .failure(let error):
-                    let errorMessage = "この動画には字幕が含まれていません"
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: errorMessage)
-                    break
-                }
-            }, receiveValue: { [weak self] value in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let transcriptModel = TranscriptModel.handleResponse(value: value) else { return }
                 // idが小さい順にsort
                 self.transcriptDetail = transcriptModel.transcripts.sorted(by: { $0.id < $1.id })
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
     
     // DBに保存済みの字幕取得
-    func getSavedTranscript(videoId: String) {
+   private func getSavedTranscript(videoId: String) {
         // リクエスト組み立て
         let getSavedTranscriptsRequest = GetSavedTranscritpsRequest(videoId: videoId)
         
         // リクエスト
         apiService.request(with: getSavedTranscriptsRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                    break
-                case .failure(let error):
-                    let errorMessage = "この動画には字幕が含まれていません"
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: errorMessage)
-                    break
-                }
-            }, receiveValue: { [weak self] value in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let transcriptModel = TranscriptModel.handleResponse(value: value) else { return }
                 // idが小さい順にsort
                 self.transcriptDetail = transcriptModel.transcripts.sorted(by: { $0.id < $1.id })
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
     
     // 翻訳
-    func translate(translatedTranscript2: [TranscriptModel.TranscriptDetailModel]) -> Void {
-        
+   private func translate(pendingTranslatedSubtitles: [TranscriptModel.TranscriptDetailModel]) -> Void {
         // 質問内容組み立て
         var content: String = ""
-        translatedTranscript2.forEach {
+        pendingTranslatedSubtitles.forEach {
             content += "''''(ID:\($0.id)) \($0.enSubtitle)'''\n"
         }
         let translateRequest = TranslateRequest(content: content)
         
         apiService.request(with: translateRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                    break
-                case .failure(let error):
-                    let errorMessage = "翻訳に失敗しました。再度お試しください。"
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: errorMessage)
-                    break
-                }
-            }, receiveValue: { [weak self] value in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] value in
                 guard let self = self, let openAIResponseModel = OpenAIResponseModel.handleResponse(value: value) else  { return }
-                
                 // answerは[id: 日本語字幕]の形式
                 let answer: [String: String] = openAIResponseModel.answer
-
                 // 新しい配列を作成して更新
                 var updatedTranscripts = transcriptDetail
-
                 // answerに含まれる字幕IDに対応する日本語字幕を、updatedTranscripts配列の該当する要素に上書き
                 for (idString, jaSubtitle) in answer {
                     if let id = Int(idString) {
@@ -420,15 +450,17 @@ extension StudyViewModel {
                         }
                     }
                 }
-
                 // 更新された配列を再代入して、変更を発行
                 transcriptDetail = updatedTranscripts
+                
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
     
     // DBに動画＆字幕情報の保存
-    func store(videoInfo: CardView.VideoInfo) {
+   private func store(videoInfo: CardView.VideoInfo) {
         // 動画のID
         let videoId = videoInfo.videoId
         // 動画のタイトル
@@ -442,43 +474,37 @@ extension StudyViewModel {
         
         apiService.request(with: storeTranscriptRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] _ in
                 guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                    break
-                case .failure(let error):
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                    break
-                }
-            }, receiveValue: { _ in
-                
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }
     
     // DB更新
-    func update(videoInfo: CardView.VideoInfo) {
-        // 更新対象のレコードID
-        guard let id = videoInfo.id else { return }
+    private func update(id: Int) {
         let transciptModel = TranscriptModel(transcripts: transcriptDetail)
         let updateTranscriptsRequest = UpdateTranscriptRequest(id: id, model: transciptModel)
         
         apiService.request(with: updateTranscriptsRequest)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
+            .catch { [weak self] (error) -> Empty<Decodable, Never> in
+                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
+                self?.httpErrorSubject.send(error)
+                // 空のPublisherに置き換えストリームを中断
+                return .init()
+            }
+            .sink(receiveValue: { [weak self] _ in
                 guard let self = self else { return }
-                switch completion {
-                case .finished:
-                    self.statusViewModel = StatusViewModel(isLoading: false)
-                    break
-                case .failure(let error):
-                    self.statusViewModel = StatusViewModel(isLoading: false, showErrorMessage: true, alertErrorMessage: error.localizedDescription)
-                    break
-                }
-            }, receiveValue: { _ in
-               print("updated successfully")
+                self.isLoading = false
+                self.isSuccess = true
             })
             .store(in: &cancellableBag)
     }

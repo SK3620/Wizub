@@ -60,13 +60,13 @@ struct TranslateView: View {
             // 翻訳ボタン
             Button(action: {
                 // ローディングアイコン表示開始
-                studyViewModel.statusViewModel = StatusViewModel(isLoading: true)
+                studyViewModel.isLoading = true
                 if segmentType == .selected {
                     // 選択中の字幕の翻訳
-                    studyViewModel.translate(translatedTranscript2: studyViewModel.translatedTranscripts)
+                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.translatedTranscripts))
                 } else {
                     // 全ての字幕の翻訳
-                    studyViewModel.translate(translatedTranscript2: studyViewModel.transcriptDetail)
+                    studyViewModel.apply(event: .translate(pendingTranslatedSubtitles: studyViewModel.transcriptDetail))
                 }
             }) {
                 HStack(spacing: 16) {
