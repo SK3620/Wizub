@@ -342,6 +342,21 @@ extension StudyViewModel {
 }
 
 extension StudyViewModel {
+    // リクエスト
+    private func handleRequest<T, R>(request: R) -> AnyPublisher<T, Never> where R: CommonHttpRouter, T: Decodable {
+        apiService.request(with: request)
+            .receive(on: RunLoop.main)
+            .catch { [weak self] error -> Empty<Decodable, Never> in
+                guard let self = self else { return .init() }
+                self.httpErrorSubject.send(error)
+                return .init()
+            }
+            .flatMap { value -> AnyPublisher<T, Never> in
+                guard let castedValue = value as? T else { return Empty().eraseToAnyPublisher() }
+                return Just(castedValue).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
     
     // 字幕取得
    private func getSubtitles(videoId: String) -> Void {
