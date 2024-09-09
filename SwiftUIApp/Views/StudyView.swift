@@ -13,24 +13,8 @@ struct StudyView: View {
     
     @StateObject var studyViewModel: StudyViewModel
     
-    @State private var showMenuTabBar = false
-    
-    @State private var isShowSheet = false
-    
-    // 編集/翻訳アイコンを表示するかどうか
-    @State private var showTranslateEditIcon = false
-    
-    // 編集画面を表示するかどうか
-    @State private var showEditDialog = false
-    
-    // 編集する字幕
-    @State private var editedSubtitleDetail: SubtitleModel.SubtitleDetailModel?
-    
-    // リスト内で押下された動画の情報
+    // VideoListViewで押下された動画の情報を格納
     private let videoInfo: VideoListRow.VideoInfo
-    
-    // 現在の画面を閉じて前の画面に戻るための環境変数
-    @Environment(\.dismiss) var dismiss
     
     init(videoInfo: VideoListRow.VideoInfo) {
         self.videoInfo = videoInfo
@@ -59,18 +43,16 @@ struct StudyView: View {
                                     SubtitleListView(
                                         subtitleDetails: subtitleDetail,
                                         isHighlighted: studyViewModel.currentSubtitleIndex == index,
-                                        showTranslateEditIcon: showTranslateEditIcon,
+                                        isShowTranslateEditIcon: studyViewModel.isShowTranslateEditIcon,
                                         storeSubtitles: {
                                             studyViewModel.translateButtonPressed.send(subtitleDetail)
                                         },
                                         removeSubtitle: {
                                             studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
                                         },
-                                        editSubtitle: { showEditDialog in
-                                            // 編集する字幕
-                                            self.editedSubtitleDetail = subtitleDetail
-                                            // 編集画面の表示フラグ
-                                            self.showEditDialog = showEditDialog
+                                        editSubtitle: {
+                                            // 編集する字幕を保持させておく
+                                            studyViewModel.currentlyEditedSubtitleDetail = subtitleDetail
                                         }
                                     )
                                     .onTapGesture {
@@ -93,13 +75,13 @@ struct StudyView: View {
                             
                             // 右下に翻訳リスト表示ボタン配置
                             ShowTranslateViewButton(
-                                isShowTranslateView: { isShowSheet.toggle() }
+                                isShowTranslateView: { studyViewModel.isShowSheet.toggle() }
                             )
                             .padding([.bottom, .trailing])
                             .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
-                            .offset(y: showMenuTabBar ? -49 : 0)
-                            .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
-                            .sheet(isPresented: $isShowSheet) {
+                            .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
+                            .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)
+                            .sheet(isPresented: $studyViewModel.isShowSheet) {
                                 // 翻訳リストシート
                                 TranslateView(pendingTranslatedSubtitles: studyViewModel.pendingTranslatedSubtitles,
                                               allSubtitles: studyViewModel.subtitleDetails,
@@ -118,15 +100,15 @@ struct StudyView: View {
                     
                     MenuTabBarView(
                         isSubtitleSync: $studyViewModel.isSubtitleSync,
-                        toggleTranslateEditIcon: { showTranslateEditIcon.toggle() },
+                        toggleTranslateEditIcon: { studyViewModel.isShowTranslateEditIcon.toggle() },
                         changePlaybackRate: { studyViewModel.changePlayBackRate() },
                         playBackRate: studyViewModel.playBackRate
                     )
-                    .offset(y: showMenuTabBar ? -49 : 0)
-                    .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
+                    .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
+                    .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)
                     
                     StudyTabBarView(
-                        showMenuTabBar: { showMenuTabBar.toggle() },
+                        showMenuTabBar: { studyViewModel.isShowMenuTabBar.toggle() },
                         rewindAction: { studyViewModel.rewind() },
                         pauseAction: { studyViewModel.togglePlayback() },
                         fastForwardAction: { studyViewModel.fastForward()},
@@ -146,22 +128,14 @@ struct StudyView: View {
                 studyViewModel.apply(event: .getSubtitles(videoId: videoId))
             }
             // 字幕編集画面
-            if showEditDialog {
+            if studyViewModel.isShowEditDialog {
                 EditDialogView(
-                    editedEnSubtitle: editedSubtitleDetail?.enSubtitle,
-                    editedJaSubtitle: editedSubtitleDetail?.jaSubtitle,
-                    isPresented: $showEditDialog,
+                    editedEnSubtitle: studyViewModel.currentlyEditedSubtitleDetail?.enSubtitle,
+                    editedJaSubtitle: studyViewModel.currentlyEditedSubtitleDetail?.jaSubtitle,
+                    isPresented: $studyViewModel.isShowEditDialog,
                     onConfirm: { editedEnSubtitle, editedJaSubtitle in
-                        if var editedSubtitleDetail = self.editedSubtitleDetail, let index = studyViewModel.subtitleDetails.firstIndex(where: {
-                            // 編集した字幕のidと一致するindexを取得
-                            $0.id == editedSubtitleDetail.id
-                        }) {
-                            // 編集した英語/日本語字幕で上書き
-                            editedSubtitleDetail.enSubtitle = editedEnSubtitle
-                            editedSubtitleDetail.jaSubtitle = editedJaSubtitle
-                            // 編集した字幕で上書き @Publishedにより、変更を発行
-                            studyViewModel.subtitleDetails[index] = editedSubtitleDetail
-                        }
+                        // 編集処理
+                        studyViewModel.editSubtitleButtonPressed.send((editedEnSubtitle, editedJaSubtitle))
                     })
             }
         }

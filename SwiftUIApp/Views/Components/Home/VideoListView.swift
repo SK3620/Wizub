@@ -15,26 +15,14 @@ struct VideoListView: View {
     
     @StateObject private var videoListViewModel: VideoListViewModel = VideoListViewModel(apiService: APIService())
     
-    // 検索値
-    @State private var text: String = ""
-    
-    // 検索初期値
-    private let initialSearchText: String = "How to speak English"
-    
-    // 初期値による検索は１回のみ呼ぶ
-    @State private var hasPerformedInitialSearch = false
-    
-    // 押下された動画を保持する
-    @State private var tappedVideo: (VideoListRow.VideoInfo)?
-    
     var body: some View {
         VStack {
             CustomSearchBar(
-                text: $text,
+                text: $videoListViewModel.text,
                 onSearchButtonClick: {
                     // 一つ一つの動画情報を格納する配列をリセット
                     videoListViewModel.cardViewVideoInfo = []
-                    videoListViewModel.apply(event: .serach(text: text))
+                    videoListViewModel.apply(event: .serach(text: videoListViewModel.text))
                 })
             .padding([.horizontal, .bottom])
             .background(.gray.opacity(0.15))
@@ -52,7 +40,7 @@ struct VideoListView: View {
                         VideoListRow(videoInfo: videoInfo)
                             .onTapGesture {
                                 // 押下された動画を保持しておく
-                                tappedVideo = videoInfo
+                                videoListViewModel.tappedVideoInfo = videoInfo
                                 // StudyView()へ遷移
                                 navigationPathEnv.path.append(.study(videoInfo: videoInfo))
                             }
@@ -64,14 +52,14 @@ struct VideoListView: View {
             Spacer()
         }
         .onAppear {
-            if !hasPerformedInitialSearch {
-                videoListViewModel.apply(event: .serach(text: initialSearchText))
-                hasPerformedInitialSearch = true
+            if !videoListViewModel.hasPerformedInitialSearch {
+                videoListViewModel.apply(event: .serach(text: videoListViewModel.text))
+                videoListViewModel.hasPerformedInitialSearch = true
             }
             
             // StudyView画面から戻ってきた時
-            guard let tappedVideo = tappedVideo else { return }
-            let videoId = tappedVideo.videoId
+            guard let tappedVideoInfo = videoListViewModel.tappedVideoInfo else { return }
+            let videoId = tappedVideoInfo.videoId
             videoListViewModel.apply(event: .checkVideoAlreadySaved(videoId: videoId))
         }
         .alert(isPresented: $videoListViewModel.isShowError) {

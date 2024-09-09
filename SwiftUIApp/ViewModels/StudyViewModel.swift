@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import YouTubePlayerKit
 
-// 再生速度
+// MARK: - 再生速度
 enum PlayBackRate: Double {
     case normal = 1.0 // 通常
     case fast = 1.25 // 早い
@@ -27,8 +27,9 @@ enum PlayBackRate: Double {
     }
 }
 
+// MARK: - StudyViewModel
 class StudyViewModel: ObservableObject {
-    
+    // MARK: - ApiEvent Enum
     enum ApiEvent {
         // 字幕取得
         case getSubtitles(videoId: String)
@@ -42,6 +43,77 @@ class StudyViewModel: ObservableObject {
         case update(id: Int)
     }
     
+    // MARK: - Inputs
+    // 押下された字幕を発行するPublisher（append）
+    var translateButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
+    // 押下された字幕を発行するPublisher（remove）
+    var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
+    // 編集された英語/日本語字幕を発行するPublisher
+    var editSubtitleButtonPressed = PassthroughSubject<(String, String), Never>()
+    // エラーを発行するPublisher
+    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    
+    // MARK: - Outputs
+    // API通信ステータス
+    @Published var isLoading: Bool = false
+    @Published var isSuccess: Bool = false
+    @Published var isShowError: Bool = false
+    @Published var httpErrorMsg: String = ""
+    
+    // 現在表示すべき字幕のインデックス
+    @Published var currentSubtitleIndex: Int?
+    // 動画が一時停止中かどうか
+    @Published var isPaused: Bool = false
+    // リピート中かどうか
+    @Published var isRepeating: Bool = false
+    // 字幕同期中かどうか
+    @Published var isSubtitleSync: Bool = false
+    // 再生速度
+    @Published var playBackRate: PlayBackRate = .normal
+    // 翻訳リストシートを表示するかどうか
+    @Published var isShowSheet = false
+    // メニュータブバーを出現させるかどうか
+    @Published var isShowMenuTabBar = false
+    // 編集/翻訳アイコンを表示するかどうか
+    @Published var isShowTranslateEditIcon = false
+    // 編集ダイアログを表示するかどうか
+    @Published var isShowEditDialog: Bool = false
+    
+    // 字幕情報を格納する配列
+    @Published var subtitleDetails: [SubtitleModel.SubtitleDetailModel] = []
+    // （押下された）翻訳される字幕を保持する配列
+    @Published var pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel] = []
+    // 翻訳レスポンスを発行する
+    @Published var translatedSubtitles: [JaTranslation] = []
+    
+    // 現在編集中の字幕を保持
+    var currentlyEditedSubtitleDetail: SubtitleModel.SubtitleDetailModel? {
+        didSet {
+            // 編集する字幕がセットされたら字幕編集画面表示
+            isShowEditDialog = true
+        }
+    }
+    
+    // MARK: - Dependencies
+    private let apiService: APIServiceType
+    var youTubePlayer: YouTubePlayer
+    
+    // MARK: - Other Properties
+    var cancellableBag = Set<AnyCancellable>()
+    private var timerCancellable: Cancellable?
+    // リピートタスクの管理用プロパティ
+    private var repeatTask: Task<Void, Never>?
+    
+    // MARK: - Deinitializer
+    init(apiService: APIServiceType, youTubePlayer: YouTubePlayer) {
+        self.apiService = apiService
+        self.youTubePlayer = youTubePlayer
+        
+        // 各Publisherをセットアップ
+        setupBindings()
+    }
+    
+    // MARK: - Apply API Event
     func apply(event: ApiEvent) {
         switch event {
         case .getSubtitles(let videoId):
@@ -60,63 +132,8 @@ class StudyViewModel: ObservableObject {
         }
     }
     
-    private let apiService: APIServiceType
-    
-    var youTubePlayer: YouTubePlayer
-    
-    var cancellableBag = Set<AnyCancellable>()
-    
-    private var timerCancellable: Cancellable?
-    
-    // リピートタスクの管理用プロパティ
-    private var repeatTask: Task<Void, Never>?
-    
-    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
-    
-    @Published var isLoading: Bool = false
-    @Published var isSuccess: Bool = false
-    @Published var isShowError: Bool = false
-    @Published var httpErrorMsg: String = ""
-    
-    // 字幕情報が格納されたモデル
-    @Published var subtitleDetails: [SubtitleModel.SubtitleDetailModel] = []
-    
-    // 現在表示すべき字幕のインデックス
-    @Published var currentSubtitleIndex: Int?
-    
-    // 動画が一時停止中かどうか
-    @Published var isPaused: Bool = false
-    
-    // リピート中かどうか
-    @Published var isRepeating: Bool = false
-    
-    // 字幕同期中かどうか
-    @Published var isSubtitleSync: Bool = false
-    
-    // 再生速度
-    @Published var playBackRate: PlayBackRate = .normal
-    
-    // 編集ダイアログを表示するかどうか
-    @Published var showEditDialog: Bool = false
-    
-    // 編集する字幕
-    @Published var editedSubtitleDetail: SubtitleModel.SubtitleDetailModel?
-    
-    // 押下された字幕を発行するPublisher（append）
-    var translateButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
-    // 押下された字幕を発行するPublisher（remove）
-    var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
-    
-    // 押下された字幕を保持する配列
-    @Published var pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel] = []
-    
-    // 翻訳レスポンスを発行する
-    @Published var translatedSubtitles: [JaTranslation] = []
-    
-    init(apiService: APIServiceType, youTubePlayer: YouTubePlayer) {
-        self.apiService = apiService
-        self.youTubePlayer = youTubePlayer
-        
+    // MARK: - Setup Bindings
+    private func setupBindings() {
         // 動画の現在の時間を発行する
         youTubePlayer.currentTimePublisher()
             .receive(on: RunLoop.main)
@@ -164,6 +181,26 @@ class StudyViewModel: ObservableObject {
             }
             .store(in: &cancellableBag)
         
+        // 現在編集中の字幕＆編集された英語/日本語字幕を発行する
+        editSubtitleButtonPressed
+            .receive(on: RunLoop.main)
+            .sink { [weak self] editedEnSubtitle, editedJaSubtitle in
+                guard let self = self,
+                      let currentSubtitle = self.currentlyEditedSubtitleDetail,
+                      let index = self.subtitleDetails.firstIndex(where: { $0.id == currentSubtitle.id }) else {
+                    return
+                }
+                // 編集した英語/日本語字幕を更新
+                var updatedSubtitle = currentSubtitle
+                updatedSubtitle.enSubtitle = editedEnSubtitle
+                updatedSubtitle.jaSubtitle = editedJaSubtitle
+                
+                // @Publishedにより変更を発行
+                self.subtitleDetails[index] = updatedSubtitle
+            }
+            .store(in: &cancellableBag)
+        
+        // HTTP通信時のエラーを発行する
         httpErrorSubject
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
@@ -175,6 +212,7 @@ class StudyViewModel: ObservableObject {
             .store(in: &cancellableBag)
     }
     
+    // MARK: - Deinitializer
     deinit {
         cancellableBag.removeAll()
         stopTimer()
@@ -182,7 +220,12 @@ class StudyViewModel: ObservableObject {
     }
 }
 
+// MARK: - Playback Controls
 extension StudyViewModel {
+    // 共通のシーク処理
+    private func seek(to measurement: Measurement<UnitDuration>) {
+        youTubePlayer.seek(to: measurement, allowSeekAhead: true)
+    }
     
     // ハイライトされる字幕のindexを更新
     func updateCurrentSubtitleIndex(for currentTime: Double) {
@@ -197,11 +240,6 @@ extension StudyViewModel {
                 currentSubtitleIndex = nil
             }
         }
-    }
-    
-    // 共通のシーク処理
-    private func seek(to measurement: Measurement<UnitDuration>) {
-        youTubePlayer.seek(to: measurement, allowSeekAhead: true)
     }
     
     // 指定の時間へシーク
@@ -232,14 +270,10 @@ extension StudyViewModel {
     }
     
     // 3秒巻き戻し 秒数は固定
-    func rewind() {
-        seek(by: -3.0)
-    }
+    func rewind() { seek(by: -3.0) }
     
     // 3秒早送り 秒数は固定
-    func fastForward() {
-        seek(by: 3.0)
-    }
+    func fastForward() { seek(by: 3.0) }
     
     // リピート開始
     func startRepeat() {
@@ -344,6 +378,7 @@ extension StudyViewModel {
     }
 }
 
+// MARK: - API Request
 extension StudyViewModel {
     // リクエスト
     private func handleRequest<T, R>(request: R) -> AnyPublisher<T, Never> where R: CommonHttpRouter, T: Decodable {

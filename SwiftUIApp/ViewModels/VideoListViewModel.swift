@@ -27,6 +27,13 @@ class VideoListViewModel: ObservableObject {
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     
+    // 検索値 初期値あり
+    @Published var text = "How to speak English"
+    // 初期値による検索は一度のみ
+    @Published var hasPerformedInitialSearch = false
+    // 押下された動画を保持する
+    @Published var tappedVideoInfo: (VideoListRow.VideoInfo)?
+    // 取得した動画情報を配列で格納
     @Published var cardViewVideoInfo: [VideoListRow.VideoInfo] = []
     
     func apply(event: Event) {
