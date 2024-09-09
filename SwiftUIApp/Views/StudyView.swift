@@ -184,11 +184,12 @@ struct StudyView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    guard let id = videoInfo.id else { return }
-                    // 動画がすでに保存されている場合は、DB更新
-                    videoInfo.isVideoAlradySaved ?
-                    studyViewModel.apply(event: .update(id: id)) :
-                    studyViewModel.apply(event: .store(videoInfo: videoInfo))
+                    if let id = videoInfo.id, videoInfo.isVideoAlradySaved {
+                        // 動画がすでに保存されている場合は、DB更新
+                        studyViewModel.apply(event: .update(id: id))
+                    } else {
+                        studyViewModel.apply(event: .store(videoInfo: videoInfo))
+                    }                  
                 } label: {
                     Text("保存/終了")
                 }
