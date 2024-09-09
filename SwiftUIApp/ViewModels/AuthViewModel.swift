@@ -18,6 +18,11 @@ class AuthViewModel: ObservableObject {
         case signIn
     }
     
+    // MARK: - Inputs
+    @Published var userName: String = ""
+    @Published var email: String = ""
+    @Published var password: String = ""
+    
     // MARK: - Outputs
     @Published var segmentType: SegmentType = .signInSegment
     
@@ -26,13 +31,8 @@ class AuthViewModel: ObservableObject {
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
             
-    @Published var userName: String = ""
     @Published var userNameError: String = ""
-    
-    @Published var email: String = ""
     @Published var emailError: String = ""
-    
-    @Published var password: String = ""
     @Published var passwordError: String = ""
     
     @Published var enableSignUp: Bool = false
@@ -59,21 +59,21 @@ class AuthViewModel: ObservableObject {
     private var cancellableBag = Set<AnyCancellable>()
     
     // MARK: - AnyPublisher
-    private var usernameValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
+    private var usernameValidPublisher: AnyPublisher<InputValidation, Never> {
         return $userName
             .map {
-                let error = MyAppError.InputValidation.self
+                let error = InputValidation.self
                 return $0.isEmpty ? error.missingUsername : error.noError
             }
             .eraseToAnyPublisher()
     }
     
-    private var emailValidPublisher: AnyPublisher<(email: String, error: MyAppError.InputValidation), Never> {
+    private var emailValidPublisher: AnyPublisher<(email: String, error: InputValidation), Never> {
         return $email
         // SignIn/SignUpセグメントの切り替え時、$segmentTyepを発火
             .combineLatest($segmentType)
             .map { email, segmentType in
-                let error = MyAppError.InputValidation.self
+                let error = InputValidation.self
                 switch true {
                 case email.isEmpty:
                     return (email: email, error: error.missingEmail)
@@ -86,7 +86,7 @@ class AuthViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    private var emailServerValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
+    private var emailServerValidPublisher: AnyPublisher<InputValidation, Never> {
         return emailValidPublisher
             .filter {
                 return $0.error == .noError
@@ -98,16 +98,16 @@ class AuthViewModel: ObservableObject {
                 return self.checkEmail(email: value.email)
             }
             .map {
-                let error = MyAppError.InputValidation.self
+                let error = InputValidation.self
                 return !$0 ? error.noError : error.emailAlreadyUsed
             }
             .eraseToAnyPublisher()
     }
     
-    private var passwordValidPublisher: AnyPublisher<MyAppError.InputValidation, Never> {
+    private var passwordValidPublisher: AnyPublisher<InputValidation, Never> {
         return $password
             .map {
-                let error = MyAppError.InputValidation.self
+                let error = InputValidation.self
                 switch true {
                 case $0.isEmpty:
                     return error.missingPassword
@@ -139,14 +139,14 @@ class AuthViewModel: ObservableObject {
         usernameValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { $0.rawValue }
+            .map { $0.errorDescription }
             .assign(to: \.userNameError, on: self)
             .store(in: &cancellableBag)
         
         emailValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { $0.error.rawValue }
+            .map { $0.error.errorDescription }
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)
         
@@ -156,7 +156,7 @@ class AuthViewModel: ObservableObject {
             .map { [weak self] (error) in
                 guard let self = self else { return "" }
                 // 重複チェックはサインアップ時のみ適用
-                return (error == .emailAlreadyUsed && self.segmentType == .signInSegment) ? "" : error.rawValue
+                return (error == .emailAlreadyUsed && self.segmentType == .signInSegment) ? "" : error.errorDescription
             }
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)
@@ -164,7 +164,7 @@ class AuthViewModel: ObservableObject {
         passwordValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
-            .map { $0.rawValue }
+            .map { $0.errorDescription }
             .assign(to: \.passwordError, on: self)
             .store(in: &cancellableBag)
         
