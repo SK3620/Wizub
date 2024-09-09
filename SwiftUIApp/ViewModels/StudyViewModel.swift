@@ -336,7 +336,6 @@ extension StudyViewModel {
         case .slow:
             playBackRate = .normal
         }
-        
         youTubePlayer.set(playbackRate: playBackRate.rawValue)
     }
 }
@@ -359,22 +358,15 @@ extension StudyViewModel {
     }
     
     // 字幕取得
-   private func getSubtitles(videoId: String) -> Void {
+    private func getSubtitles(videoId: String) -> Void {
         // 字幕取得処理リクエスト組み立て
         let getSubtitlesRequest = GetSubtitlesRequest(videoId: videoId)
         // リクエスト
-        apiService.request(with: getSubtitlesRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let subtitleModel = SubtitleModel.handleResponse(value: value) else { return }
+        handleRequest(request: getSubtitlesRequest)
+            .sink(receiveValue: { [weak self] (value: SubtitleModel) in
+                guard let self = self else { return }
                 // idが小さい順にsort
-                self.subtitleDetails = subtitleModel.subtitles.sorted(by: { $0.id < $1.id })
+                self.subtitleDetails = value.subtitles.sorted(by: { $0.id < $1.id })
                 self.isLoading = false
                 self.isSuccess = true
             })
@@ -382,23 +374,15 @@ extension StudyViewModel {
     }
     
     // DBに保存済みの字幕取得
-   private func getSavedSubtitles(videoId: String) {
+    private func getSavedSubtitles(videoId: String) {
         // リクエスト組み立て
         let getSavedSubtitlesRequest = GetSavedSubtitlesRequest(videoId: videoId)
-        
         // リクエスト
-        apiService.request(with: getSavedSubtitlesRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let subtitleModel = SubtitleModel.handleResponse(value: value) else { return }
+        handleRequest(request: getSavedSubtitlesRequest)
+            .sink(receiveValue: { [weak self] (value: SubtitleModel) in
+                guard let self = self else { return }
                 // idが小さい順にsort
-                self.subtitleDetails = subtitleModel.subtitles.sorted(by: { $0.id < $1.id })
+                self.subtitleDetails = value.subtitles.sorted(by: { $0.id < $1.id })
                 self.isLoading = false
                 self.isSuccess = true
             })
@@ -413,19 +397,12 @@ extension StudyViewModel {
             content += "''''(ID:\($0.id)) \($0.enSubtitle)'''\n"
         }
         let translateRequest = TranslateRequest(content: content)
-        
-        apiService.request(with: translateRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let openAIResponseModel = OpenAIResponseModel.handleResponse(value: value) else  { return }
+        // リクエスト
+        handleRequest(request: translateRequest)
+            .sink(receiveValue: { [weak self] (value: OpenAIResponseModel) in
+                guard let self = self else  { return }
                 // answerは[id: 日本語字幕]の形式
-                let answer: [String: String] = openAIResponseModel.answer
+                let answer: [String: String] = value.answer
                 // 新しい配列を作成して更新
                 var updatedSubtitleDetails = subtitleDetails
                 // answerに含まれる字幕IDに対応する日本語字幕を、updatedSubtitleDetails配列の該当する要素に上書き
@@ -446,7 +423,7 @@ extension StudyViewModel {
     }
     
     // DBに動画＆字幕情報の保存
-   private func store(videoInfo: VideoListRow.VideoInfo) {
+    private func store(videoInfo: VideoListRow.VideoInfo) {
         // 動画のID
         let videoId = videoInfo.videoId
         // 動画のタイトル
@@ -458,15 +435,9 @@ extension StudyViewModel {
         let storeSubtitlesRequestModel = StoreSubtitlesRequestModel(videoId: videoId, title: title, thumbnailUrl: thumbnailUrl, subtitles: subtitleDetails)
         let storeSubtitlesRequest = StoreSubtitlesRequest(model: storeSubtitlesRequestModel)
         
-        apiService.request(with: storeSubtitlesRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] _ in
+        // リクエスト
+        handleRequest(request: storeSubtitlesRequest)
+            .sink(receiveValue: { [weak self] (_: EmptyModel) in
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
@@ -476,18 +447,12 @@ extension StudyViewModel {
     
     // DB更新
     private func update(id: Int) {
+        // リクエスト組み立て
         let subtitleModel = SubtitleModel(subtitles: subtitleDetails)
         let updateSubtitlesRequest = UpdateSubtitlesRequest(id: id, model: subtitleModel)
-        
-        apiService.request(with: updateSubtitlesRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] _ in
+        // リクエスト
+        handleRequest(request: updateSubtitlesRequest)
+            .sink(receiveValue: { [weak self] (_: EmptyModel) in
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
