@@ -35,7 +35,7 @@ class StudyViewModel: ObservableObject {
         // DBに保存した字幕取得
         case getSavedSubtitles(videoId: String)
         // 翻訳
-        case translate(pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel])
+        case translate(subtitles: [SubtitleModel.SubtitleDetailModel])
         // DBに動画＆字幕情報の保存
         case store(videoInfo: VideoListRow.VideoInfo)
         // DBに保存した字幕情報更新
@@ -45,10 +45,13 @@ class StudyViewModel: ObservableObject {
     func apply(event: ApiEvent) {
         switch event {
         case .getSubtitles(let videoId):
+            isLoading = true
             getSubtitles(videoId: videoId)
         case .getSavedSubtitles(let videoId):
+            isLoading = true
             getSavedSubtitles(videoId: videoId)
         case .translate(let pendingTranslatedSubtitles):
+            isLoading = true
             translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
         case .store(let videoInfo):
             store(videoInfo: videoInfo)
@@ -101,7 +104,6 @@ class StudyViewModel: ObservableObject {
     
     // 押下された字幕を発行するPublisher（append）
     var translateButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
-    
     // 押下された字幕を発行するPublisher（remove）
     var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     
@@ -147,6 +149,8 @@ class StudyViewModel: ObservableObject {
                 guard let self = self else { return }
                 // 配列に格納
                 self.pendingTranslatedSubtitles.append(subtitleDetail)
+                // idが低い順にsort
+                self.pendingTranslatedSubtitles.sort(by: { $0.id < $1.id })
             }
             .store(in: &cancellableBag)
         

@@ -100,11 +100,15 @@ struct StudyView: View {
                             .offset(y: showMenuTabBar ? -49 : 0)
                             .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
                             .sheet(isPresented: $isShowSheet) {
-                                TranslateView(studyViewModel: studyViewModel)
-                                    .background(.gray.opacity(0.2))
-                                    .presentationDetents(
-                                        [.medium, .large]
-                                    )
+                                // 翻訳リストシート
+                                TranslateView(pendingTranslatedSubtitles: studyViewModel.pendingTranslatedSubtitles,
+                                              allSubtitles: studyViewModel.subtitleDetails,
+                                              translateSelected: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.pendingTranslatedSubtitles)) },
+                                              translateAll: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.subtitleDetails)) })
+                                .background(.gray.opacity(0.2))
+                                .presentationDetents(
+                                    [.medium, .large]
+                                )
                             }
                         }
                     }
@@ -122,7 +126,7 @@ struct StudyView: View {
                     .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
                     
                     StudyTabBarView(
-                        showMenuTabBar: $showMenuTabBar,
+                        showMenuTabBar: { showMenuTabBar.toggle() },
                         rewindAction: { studyViewModel.rewind() },
                         pauseAction: { studyViewModel.togglePlayback() },
                         fastForwardAction: { studyViewModel.fastForward()},
@@ -135,7 +139,6 @@ struct StudyView: View {
                 }
             }
             .onAppear {
-                studyViewModel.isLoading = true
                 let videoId = videoInfo.videoId
                 // 動画がすでに保存されている場合は、DBに保存した字幕を取得
                 videoInfo.isVideoAlradySaved ?

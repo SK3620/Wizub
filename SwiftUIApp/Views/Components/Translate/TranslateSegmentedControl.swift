@@ -7,6 +7,37 @@
 
 import SwiftUI
 
+protocol TranslateSegmentTypeProtocol: CaseIterable, Identifiable<TranslateSegmentType>, Equatable {
+    var title: String { get }
+    var tintColor: Color { get }
+}
+
+enum TranslateSegmentType: TranslateSegmentTypeProtocol {
+    
+    // 選択された字幕の翻訳を行うセグメント
+    case selected
+    // 全ての字幕の翻訳を行うセグメント
+    case all
+    
+    // 自身のインスタンスを識別子とする
+    var id: Self {
+        return self
+    }
+
+    var title: String {
+        switch self {
+        case .selected:
+            return "選択中の字幕"
+        case .all:
+            return "全ての字幕"
+        }
+    }
+    
+    var tintColor: Color {
+        return ColorCodes.buttonBackground.color()
+    }
+}
+
 struct TranslateSegmentedControl<TranslateSegmentType: TranslateSegmentTypeProtocol>: View where TranslateSegmentType.AllCases == [TranslateSegmentType] {
     
     struct Configuration {
@@ -56,36 +87,5 @@ struct TranslateSegmentedControl<TranslateSegmentType: TranslateSegmentTypeProto
 
     private func isSelected(segment: TranslateSegmentType) -> Bool {
         selectedSegment == segment
-    }
-}
-
-protocol TranslateSegmentTypeProtocol: CaseIterable, Identifiable<TranslateSegmentType>, Equatable {
-    var title: String { get }
-    var tintColor: Color { get }
-}
-
-enum TranslateSegmentType: TranslateSegmentTypeProtocol {
-    
-    // 選択された字幕の翻訳を行うセグメント
-    case selected
-    // 全ての字幕の翻訳を行うセグメント
-    case all
-    
-    // 自身のインスタンスを識別子とする
-    var id: Self {
-        return self
-    }
-
-    var title: String {
-        switch self {
-        case .selected:
-            return "選択中の字幕"
-        case .all:
-            return "全ての字幕"
-        }
-    }
-    
-    var tintColor: Color {
-        return ColorCodes.buttonBackground.color()
     }
 }

@@ -104,26 +104,3 @@ struct EditDialogView: View {
         }
     }
 }
-
-
-struct HogeView: View {
-    var body: some View {
-        VStack {
-            Text("編集")
-                .font(.title2)
-                .fontWeight(.medium)
-            
-            Text("英語字幕")
-                .font(.subheadline)
-                .fontWeight(.medium)
-            
-            Text("日本語字幕")
-                .font(.subheadline)
-                .fontWeight(.medium)
-        }
-    }
-}
-
-#Preview(body: {
-    HogeView()
-})

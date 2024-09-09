@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct StudyTabBarView: View {
-    
-    @Binding var showMenuTabBar: Bool
-    
+        
+    var showMenuTabBar: () -> Void
     var rewindAction: () -> Void
     var pauseAction: () -> Void
     var fastForwardAction: () -> Void
@@ -68,7 +67,7 @@ struct StudyTabBarView: View {
             
             // メニューボタン
             Button {
-                showMenuTabBar.toggle()
+                showMenuTabBar()
             } label: {
                 Image(systemName: "ellipsis.circle")
                     .font(.system(size: 24))
