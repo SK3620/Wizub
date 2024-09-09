@@ -33,7 +33,7 @@ struct SavedVideoListView: View {
             } else {
                 List {
                     ForEach(videoListViewModel.cardViewVideoInfo, id: \.self) { videoInfo in
-                        CardView(videoInfo: videoInfo)
+                        VideoListRow(videoInfo: videoInfo)
                             .onTapGesture {
                                 // StudyView()へ遷移
                                 navigationPathEnv.path.append(.study(videoInfo: videoInfo))

@@ -11,7 +11,7 @@ import SwiftUI
 enum NavigationPath: Hashable {
     
     case home
-    case study(videoInfo: CardView.VideoInfo)
+    case study(videoInfo: VideoListRow.VideoInfo)
     
     var toString: String {
         switch self {

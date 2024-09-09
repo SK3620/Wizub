@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardView: View {
+struct VideoListRow: View {
     
     struct VideoInfo: Identifiable, Hashable {
         var id: Int?

@@ -16,7 +16,7 @@ struct VideoListView: View {
     @StateObject private var videoListViewModel: VideoListViewModel = VideoListViewModel(apiService: APIService())
     
     // 検索値
-    @State var text: String = ""
+    @State private var text: String = ""
     
     // 検索初期値
     private let initialSearchText: String = "How to speak English"
@@ -25,7 +25,7 @@ struct VideoListView: View {
     @State private var hasPerformedInitialSearch = false
     
     // 押下された動画を保持する
-    @State private var tappedVideo: (CardView.VideoInfo)?
+    @State private var tappedVideo: (VideoListRow.VideoInfo)?
     
     var body: some View {
         VStack {
@@ -34,7 +34,6 @@ struct VideoListView: View {
                 onSearchButtonClick: {
                     // 一つ一つの動画情報を格納する配列をリセット
                     videoListViewModel.cardViewVideoInfo = []
-                    videoListViewModel.isLoading = true
                     videoListViewModel.apply(event: .serach(text: text))
                 })
             .padding([.horizontal, .bottom])
@@ -42,7 +41,6 @@ struct VideoListView: View {
             
             // 非同期処理中はローディング
             if videoListViewModel.isLoading {
-                // 中央に表示
                 VStack {
                     Spacer()
                     CommonProgressView()
@@ -51,7 +49,7 @@ struct VideoListView: View {
             } else {
                 List {
                     ForEach(videoListViewModel.cardViewVideoInfo, id: \.self) { videoInfo in
-                        CardView(videoInfo: videoInfo)
+                        VideoListRow(videoInfo: videoInfo)
                             .onTapGesture {
                                 // 押下された動画を保持しておく
                                 tappedVideo = videoInfo
@@ -67,7 +65,6 @@ struct VideoListView: View {
         }
         .onAppear {
             if !hasPerformedInitialSearch {
-                videoListViewModel.isLoading = true
                 videoListViewModel.apply(event: .serach(text: initialSearchText))
                 hasPerformedInitialSearch = true
             }

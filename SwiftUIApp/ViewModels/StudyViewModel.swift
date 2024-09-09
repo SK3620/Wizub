@@ -37,7 +37,7 @@ class StudyViewModel: ObservableObject {
         // 翻訳
         case translate(pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel])
         // DBに動画＆字幕情報の保存
-        case store(videoInfo: CardView.VideoInfo)
+        case store(videoInfo: VideoListRow.VideoInfo)
         // DBに保存した字幕情報更新
         case update(id: Int)
     }
@@ -431,7 +431,7 @@ extension StudyViewModel {
     }
     
     // DBに動画＆字幕情報の保存
-   private func store(videoInfo: CardView.VideoInfo) {
+   private func store(videoInfo: VideoListRow.VideoInfo) {
         // 動画のID
         let videoId = videoInfo.videoId
         // 動画のタイトル

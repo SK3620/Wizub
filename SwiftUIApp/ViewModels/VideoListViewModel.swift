@@ -19,8 +19,6 @@ class VideoListViewModel: ObservableObject {
         case deleteSavedVideos(id: Int)
         // 保存済みの動画かチェック
         case checkVideoAlreadySaved(videoId: String)
-        // CardView（動画）タップ時
-        case tappedCardView
     }
     
     // MARK: - Outputs
@@ -29,20 +27,19 @@ class VideoListViewModel: ObservableObject {
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     
-    @Published var cardViewVideoInfo: [CardView.VideoInfo] = []
+    @Published var cardViewVideoInfo: [VideoListRow.VideoInfo] = []
     
     func apply(event: Event) {
         switch event {
         case .serach(let inputText):
+            isLoading = true
             getVideos(inputText: inputText)
         case .getSavedVideos:
             getSavedVideos()
         case .deleteSavedVideos(let id):
             deleteSavedVideos(id: id)
-        case.checkVideoAlreadySaved(let videoId):
+        case .checkVideoAlreadySaved(let videoId):
             checkVideoAlreadySaved(videoId: videoId)
-        case .tappedCardView:
-            print("Tapped")
         }
     }
     
@@ -83,9 +80,9 @@ extension VideoListViewModel {
             .eraseToAnyPublisher()
     }
     
-    private func convertResponse<T>(videos: [T]) -> [CardView.VideoInfo] where T: VideoProtocol {
+    private func convertResponse<T>(videos: [T]) -> [VideoListRow.VideoInfo] where T: VideoProtocol {
         return videos.map { video in
-            CardView.VideoInfo(
+            VideoListRow.VideoInfo(
                 id: video.id,
                 isVideoAlradySaved: video.isVideoAlreadySaved,
                 videoId: video.videoId,

@@ -27,12 +27,12 @@ struct StudyView: View {
     @State private var editedSubtitleDetail: SubtitleModel.SubtitleDetailModel?
     
     // リスト内で押下された動画の情報
-    private let videoInfo: CardView.VideoInfo
+    private let videoInfo: VideoListRow.VideoInfo
     
     // 現在の画面を閉じて前の画面に戻るための環境変数
     @Environment(\.dismiss) var dismiss
     
-    init(videoInfo: CardView.VideoInfo) {
+    init(videoInfo: VideoListRow.VideoInfo) {
         self.videoInfo = videoInfo
         // '_' @StateObjectプロパティラッパーのバックアップストア（内部でデータを保持している場所）にアクセス
         _studyViewModel = StateObject(wrappedValue: StudyViewModel(apiService: APIService(), youTubePlayer: YouTubePlayer(stringLiteral: "https://youtube.com/watch?v=\(videoInfo.videoId)")))
@@ -189,7 +189,7 @@ struct StudyView: View {
                         studyViewModel.apply(event: .update(id: id))
                     } else {
                         studyViewModel.apply(event: .store(videoInfo: videoInfo))
-                    }                  
+                    }
                 } label: {
                     Text("保存/終了")
                 }
