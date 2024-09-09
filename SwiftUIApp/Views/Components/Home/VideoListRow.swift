@@ -25,8 +25,9 @@ struct VideoListRow: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            // 左側のサムネイル画像
+            // サムネイル画像
             if let url = URL(string: videoInfo.thumbnailURL) {
+                // 非同期的に画像取得/表示
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .empty:
@@ -58,10 +59,8 @@ struct VideoListRow: View {
             // 右側の動画タイトル
             Text(videoInfo.title)
                 .font(.headline)
-                .lineLimit(2)
+                .lineLimit(3)
                 .padding(.leading, 8)
-            
-            Spacer()
         }
         .background(Color.white)
     }
