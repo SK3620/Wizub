@@ -83,6 +83,17 @@ extension VideoListViewModel {
             .eraseToAnyPublisher()
     }
     
+    private func convertResponse<T>(videos: [T]) -> [CardView.VideoInfo] where T: VideoProtocol {
+        return videos.map { video in
+            CardView.VideoInfo(
+                id: video.id,
+                isVideoAlradySaved: video.isVideoAlreadySaved,
+                videoId: video.videoId,
+                title: video.title,
+                thumbnailURL: video.thumbnailUrl
+            )
+        }
+    }
     
     // 動画検索
     private func getVideos(inputText: String) -> Void {
