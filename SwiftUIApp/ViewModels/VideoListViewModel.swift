@@ -67,25 +67,34 @@ class VideoListViewModel: ObservableObject {
 
 extension VideoListViewModel {
     
-    // 検索した動画を取得
+    // リクエスト
+    private func handleRequest<T, R>(request: R) -> AnyPublisher<T, Never> where R: CommonHttpRouter, T: Decodable {
+        apiService.request(with: request)
+            .receive(on: RunLoop.main)
+            .catch { [weak self] error -> Empty<Decodable, Never> in
+                guard let self = self else { return .init() }
+                self.httpErrorSubject.send(error)
+                return .init()
+            }
+            .flatMap { value -> AnyPublisher<T, Never> in
+                guard let castedValue = value as? T else { return Empty().eraseToAnyPublisher() }
+                return Just(castedValue).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    
+    // 動画検索
     private func getVideos(inputText: String) -> Void {
         // リクエスト組み立て
         let youTubeSearchRequest = YouTubeSearchRequest(query: inputText)
-        
         // リクエスト
-        apiService.request(with: youTubeSearchRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let youTubeSerachResponse = YouTubeSearchResponseModel.handleResponse(value: value) else { return }
-                self.cardViewVideoInfo.append(contentsOf: convertSerachResponse(videos: youTubeSerachResponse.items))
+        handleRequest(request: youTubeSearchRequest)
+            .sink(receiveValue: { [weak self] (value: GetVideosResponseModel) in
+                guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
+                self.cardViewVideoInfo.append(contentsOf: self.convertResponse(videos: value.items))
             })
             .store(in: &cancellableBag)
     }
@@ -94,21 +103,13 @@ extension VideoListViewModel {
     private func getSavedVideos() {
         // リクエスト組み立て
         let getSavedVideosRequest = GetSavedVideosRequest()
-        
         // リクエスト
-        apiService.request(with: getSavedVideosRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let getSavedVideosResponse = GetSavedVideosResponseModel.handleResponse(value: value) else { return }
-                self.cardViewVideoInfo.append(contentsOf: convertGetSavedVideosResponse(videos: getSavedVideosResponse.items))
+        handleRequest(request: getSavedVideosRequest)
+            .sink(receiveValue: { [weak self] (value: GetVideosResponseModel) in
+                guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
+                self.cardViewVideoInfo.append(contentsOf: self.convertResponse(videos: value.items))
             })
             .store(in: &cancellableBag)
     }
@@ -117,17 +118,9 @@ extension VideoListViewModel {
     private func deleteSavedVideos(id: Int) {
         // リクエスト組み立て
         let deleteSavedVideosRequest = DeleteSavedVideosRequest(id: id)
-        
         // リクエスト
-        apiService.request(with: deleteSavedVideosRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
+        handleRequest(request: deleteSavedVideosRequest)
+            .sink(receiveValue: { [weak self] (_: EmptyModel) in
                 guard let self = self, let index = self.cardViewVideoInfo.firstIndex(where: { $0.id == id }) else { return }
                 // 要素を配列から削除
                 self.cardViewVideoInfo.remove(at: index)
@@ -137,45 +130,13 @@ extension VideoListViewModel {
             .store(in: &cancellableBag)
     }
     
-    private func convertSerachResponse(videos: [YouTubeSearchResponseModel.Video]) -> [CardView.VideoInfo] {
-        return videos.map { video in
-            CardView.VideoInfo(
-                id: video.id,
-                isVideoAlradySaved: video.isVideoAlreadySaved,
-                videoId: video.videoId,
-                title: video.title,
-                thumbnailURL: video.thumbnailUrl
-            )
-        }
-    }
-    
-    private func convertGetSavedVideosResponse(videos: [GetSavedVideosResponseModel.Video]) -> [CardView.VideoInfo] {
-        return videos.map { video in
-            CardView.VideoInfo(
-                id: video.id,
-                isVideoAlradySaved: true, // "videos"には保存済みの動画しか格納されていないため"true"
-                videoId: video.videoId,
-                title: video.title,
-                thumbnailURL: video.thumbnailUrl
-            )
-        }
-    }
-    
     // 保存済みの動画かチェック
     private func checkVideoAlreadySaved(videoId: String) {
         // リクエスト組み立て
         let checkVideoAlreadySavedRequest = CheckVideoAlreadySavedRequest(videoId: videoId)
-        
         // リクエスト
-        apiService.request(with: checkVideoAlreadySavedRequest)
-            .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
-                return .init()
-            }
-            .sink(receiveValue: { [weak self] value in
+        handleRequest(request: checkVideoAlreadySavedRequest)
+            .sink(receiveValue: { [weak self] (value: CheckVideoAlreadySavedResponseModel) in
                 guard let self = self, let checkVideoAlreadySavedResponse = CheckVideoAlreadySavedResponseModel.handleResponse(value: value) else { return }
                 let isVideoAlreadySaved = checkVideoAlreadySavedResponse.isVideoAlreadySaved
                 
