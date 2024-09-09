@@ -45,7 +45,6 @@ struct StudyView: View {
                 PlayVideoView(studyViewModel: studyViewModel)
                 
                 if studyViewModel.isLoading {
-                    // 中央に表示
                     VStack {
                         Spacer()
                         CommonProgressView()
@@ -93,28 +92,13 @@ struct StudyView: View {
                             })
                             
                             // 右下に翻訳リスト表示ボタン配置
-                            Button(action: {
-                                isShowSheet.toggle()
-                            }) {
-                                VStack {
-                                    Spacer()
-                                    HStack {
-                                        Spacer()
-                                        Text("翻訳リスト")
-                                            .font(.headline)
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, 24)
-                                            .padding(.vertical, 12)
-                                            .background(
-                                                Capsule()
-                                                    .fill(ColorCodes.primary.color())
-                                                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 0, y: 5)
-                                            )
-                                    }
-                                }
-                            }
+                            ShowTranslateViewButton(
+                                isShowTranslateView: { isShowSheet.toggle() }
+                            )
                             .padding([.bottom, .trailing])
                             .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
+                            .offset(y: showMenuTabBar ? -49 : 0)
+                            .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
                             .sheet(isPresented: $isShowSheet) {
                                 TranslateView(studyViewModel: studyViewModel)
                                     .background(.gray.opacity(0.2))
@@ -122,9 +106,6 @@ struct StudyView: View {
                                         [.medium, .large]
                                     )
                             }
-                            .presentationDetents([.medium])
-                            .offset(y: showMenuTabBar ? -49 : 0)
-                            .animation(.easeInOut(duration: 0.3), value: showMenuTabBar)
                         }
                     }
                 }
