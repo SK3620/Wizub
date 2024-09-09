@@ -53,9 +53,6 @@ struct SavedVideoListView: View {
             }
         }
         .onAppear {
-            // 配列を空にしてリセット
-            videoListViewModel.cardViewVideoInfo = []
-            videoListViewModel.isLoading = true
             // 保存した動画を取得
             videoListViewModel.apply(event: .getSavedVideos)
         }

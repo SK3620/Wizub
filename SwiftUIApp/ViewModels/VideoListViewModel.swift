@@ -35,6 +35,9 @@ class VideoListViewModel: ObservableObject {
             isLoading = true
             getVideos(inputText: inputText)
         case .getSavedVideos:
+            // 配列を空にしてリセット
+            cardViewVideoInfo = []
+            isLoading = true
             getSavedVideos()
         case .deleteSavedVideos(let id):
             deleteSavedVideos(id: id)
