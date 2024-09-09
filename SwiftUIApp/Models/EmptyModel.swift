@@ -8,4 +8,4 @@
 import Foundation
 
 // ステータス200 レスポンスをデコードしない場合に使用
-struct NoneModel: Codable {}
+struct EmptyModel: Codable {}

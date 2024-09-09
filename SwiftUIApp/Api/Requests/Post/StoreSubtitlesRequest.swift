@@ -8,7 +8,7 @@
 import Alamofire
 
 struct StoreSubtitlesRequest: CommonHttpRouter {
-    typealias Response = NoneModel
+    typealias Response = EmptyModel
     
     var path: String { return ApiUrl.storeSubtitles }
     var method: HTTPMethod { return .post }

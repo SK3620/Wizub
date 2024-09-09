@@ -9,7 +9,7 @@ import Alamofire
 
 struct UpdateSubtitlesRequest: CommonHttpRouter {
     
-    typealias Response = NoneModel
+    typealias Response = EmptyModel
     
     var path: String { return ApiUrl.updateSubtitles }
     var method: HTTPMethod { return .put }

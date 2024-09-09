@@ -9,7 +9,7 @@ import Alamofire
 
 struct DeleteSavedVideosRequest: CommonHttpRouter {
     
-    typealias Response = NoneModel
+    typealias Response = EmptyModel
     
     var path: String { return ApiUrl.deleteSavedVideos }
     var method: HTTPMethod { return .delete }
