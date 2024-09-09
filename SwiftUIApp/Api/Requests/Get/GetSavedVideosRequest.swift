@@ -9,7 +9,7 @@ import Alamofire
 
 struct GetSavedVideosRequest: CommonHttpRouter {
     
-    typealias Response = GetSavedVideosResponseModel
+    typealias Response = GetVideosResponseModel
     
     var path: String { return ApiUrl.getSavedVideos }
     var method: HTTPMethod { return .get }

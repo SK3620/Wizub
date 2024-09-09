@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
-		834795C02C737B1300B98359 /* YouTubeSearchResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BF2C737B1300B98359 /* YouTubeSearchResponseModel.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
 		834795C92C7454D500B98359 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C82C7454D500B98359 /* CardView.swift */; };
@@ -46,11 +45,11 @@
 		83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED22C81DF2900CD2916 /* EditDialogView.swift */; };
 		83D3DED52C83106300CD2916 /* TranslateSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED42C83106300CD2916 /* TranslateSegmentedControl.swift */; };
 		83D3DED72C852F4F00CD2916 /* StoreSubtitlesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED62C852F4F00CD2916 /* StoreSubtitlesRequest.swift */; };
-		83D3DED92C8533F000CD2916 /* NoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED82C8533F000CD2916 /* NoneModel.swift */; };
+		83D3DED92C8533F000CD2916 /* EmptyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED82C8533F000CD2916 /* EmptyModel.swift */; };
 		83D3DEDB2C8573BF00CD2916 /* StoreSubtitlesRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEDA2C8573BF00CD2916 /* StoreSubtitlesRequestModel.swift */; };
 		83D3DEDD2C85935E00CD2916 /* SavedVideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEDC2C85935E00CD2916 /* SavedVideoListView.swift */; };
 		83D3DEDF2C85A33B00CD2916 /* GetSavedVideosRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEDE2C85A33B00CD2916 /* GetSavedVideosRequest.swift */; };
-		83D3DEE12C85BE3600CD2916 /* GetSavedVideosResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE02C85BE3600CD2916 /* GetSavedVideosResponseModel.swift */; };
+		83D3DEE12C85BE3600CD2916 /* GetVideosResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE02C85BE3600CD2916 /* GetVideosResponseModel.swift */; };
 		83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE22C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift */; };
 		83D3DEE52C869DB400CD2916 /* UpdateSubtitlesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE42C869DB400CD2916 /* UpdateSubtitlesRequest.swift */; };
 		83D3DEE72C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE62C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift */; };
@@ -74,7 +73,6 @@
 /* Begin PBXFileReference section */
 		1823F9E8DEFA08F59FD5A96A /* Pods-SwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
-		834795BF2C737B1300B98359 /* YouTubeSearchResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchResponseModel.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
 		834795C82C7454D500B98359 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -111,11 +109,11 @@
 		83D3DED22C81DF2900CD2916 /* EditDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDialogView.swift; sourceTree = "<group>"; };
 		83D3DED42C83106300CD2916 /* TranslateSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateSegmentedControl.swift; sourceTree = "<group>"; };
 		83D3DED62C852F4F00CD2916 /* StoreSubtitlesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSubtitlesRequest.swift; sourceTree = "<group>"; };
-		83D3DED82C8533F000CD2916 /* NoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneModel.swift; sourceTree = "<group>"; };
+		83D3DED82C8533F000CD2916 /* EmptyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyModel.swift; sourceTree = "<group>"; };
 		83D3DEDA2C8573BF00CD2916 /* StoreSubtitlesRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSubtitlesRequestModel.swift; sourceTree = "<group>"; };
 		83D3DEDC2C85935E00CD2916 /* SavedVideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideoListView.swift; sourceTree = "<group>"; };
 		83D3DEDE2C85A33B00CD2916 /* GetSavedVideosRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSavedVideosRequest.swift; sourceTree = "<group>"; };
-		83D3DEE02C85BE3600CD2916 /* GetSavedVideosResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSavedVideosResponseModel.swift; sourceTree = "<group>"; };
+		83D3DEE02C85BE3600CD2916 /* GetVideosResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVideosResponseModel.swift; sourceTree = "<group>"; };
 		83D3DEE22C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSavedVideosRequest.swift; sourceTree = "<group>"; };
 		83D3DEE42C869DB400CD2916 /* UpdateSubtitlesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSubtitlesRequest.swift; sourceTree = "<group>"; };
 		83D3DEE62C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSavedSubtitlesRequest.swift; sourceTree = "<group>"; };
@@ -340,12 +338,11 @@
 			children = (
 				83EC0AE62C6C1B2A00E316E6 /* AuthModel.swift */,
 				83D3DEDA2C8573BF00CD2916 /* StoreSubtitlesRequestModel.swift */,
-				834795BF2C737B1300B98359 /* YouTubeSearchResponseModel.swift */,
 				834795D32C75DF5B00B98359 /* SubtitleModel.swift */,
-				83D3DEE02C85BE3600CD2916 /* GetSavedVideosResponseModel.swift */,
+				83D3DEE02C85BE3600CD2916 /* GetVideosResponseModel.swift */,
 				83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */,
 				83D3DEEA2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift */,
-				83D3DED82C8533F000CD2916 /* NoneModel.swift */,
+				83D3DED82C8533F000CD2916 /* EmptyModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -546,7 +543,7 @@
 				83CD5E082C8C2EB200B5ADF1 /* AFErrorStatus.swift in Sources */,
 				83EC0AEB2C6C6F3300E316E6 /* ApiUrl.swift in Sources */,
 				836F82392C89B0160091C294 /* AuthTextField.swift in Sources */,
-				83D3DED92C8533F000CD2916 /* NoneModel.swift in Sources */,
+				83D3DED92C8533F000CD2916 /* EmptyModel.swift in Sources */,
 				834795CD2C75B8D300B98359 /* StudyView.swift in Sources */,
 				83D3DED72C852F4F00CD2916 /* StoreSubtitlesRequest.swift in Sources */,
 				83D01FFD2C7CA5B000E09D5F /* MenuTabBarView.swift in Sources */,
@@ -568,12 +565,11 @@
 				834795D22C75DE1A00B98359 /* GetSubtitlesRequest.swift in Sources */,
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
 				83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */,
-				834795C02C737B1300B98359 /* YouTubeSearchResponseModel.swift in Sources */,
 				834795DB2C76B73700B98359 /* TranscriptListView.swift in Sources */,
 				83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */,
 				834795D42C75DF5B00B98359 /* SubtitleModel.swift in Sources */,
 				83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */,
-				83D3DEE12C85BE3600CD2916 /* GetSavedVideosResponseModel.swift in Sources */,
+				83D3DEE12C85BE3600CD2916 /* GetVideosResponseModel.swift in Sources */,
 				834795D02C75CBA200B98359 /* NavigationPathEnvironment.swift in Sources */,
 				83CD5E062C8B05CA00B5ADF1 /* CommonDialog.swift in Sources */,
 				835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */,

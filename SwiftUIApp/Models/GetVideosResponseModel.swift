@@ -1,23 +1,28 @@
 //
-//  YouTubeDataModel.swift
+//  GetSavedVideosResponseModel.swift
 //  SwiftUIApp
 //
-//  Created by 鈴木 健太 on 2024/08/19.
+//  Created by 鈴木 健太 on 2024/09/02.
 //
 
-struct YouTubeSearchResponseModel: Codable {
+protocol VideoProtocol {
+    var id: Int? { get }
+    var videoId: String { get }
+    var title: String { get }
+    var thumbnailUrl: String { get }
+    var isVideoAlreadySaved: Bool { get }
+}
+
+struct GetVideosResponseModel: Codable {
     let items: [Video]
     
-    enum CodingKeys: String, CodingKey {
-        case items
-    }
-    
-    struct Video: Codable {
+    struct Video: Codable, VideoProtocol {
         let id: Int?
         let videoId: String
         let title: String
         let thumbnailUrl: String
         let isVideoAlreadySaved: Bool
+        let subtitles: [SubtitleModel.SubtitleDetailModel]
         
         enum CodingKeys: String, CodingKey {
             case id
@@ -25,6 +30,7 @@ struct YouTubeSearchResponseModel: Codable {
             case title
             case thumbnailUrl = "thumbnail_url"
             case isVideoAlreadySaved = "is_video_already_saved"
+            case subtitles
         }
     }
     
