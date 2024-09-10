@@ -1,15 +1,13 @@
-//
-//  CustomDialog.swift
-//  SwiftUIApp
-//
-//  Created by 鈴木 健太 on 2024/08/30.
-//
-
-import SwiftUI
-
 import SwiftUI
 
 struct EditDialogView: View {
+    // フォーカスが当たるTextEditorを判断する
+    enum Editor: Hashable {
+        case enSubtitle
+        case jaSubtitle
+        case memo
+    }
+    
     // 編集中の英語字幕
     @State private var editedEnSubtitle: String
     // 編集中の日本語字幕
@@ -19,8 +17,8 @@ struct EditDialogView: View {
     
     @Binding var isPresented: Bool
     
-    // TextEditorのフォーカス状態の管理（共通管理）
-    @FocusState private var isFocused: Bool
+    // TextEditorのフォーカス状態の管理
+    @FocusState private var focusedEditor: Editor?
     
     // OKボタン押下時
     var onConfirm: (String, String, String) -> Void
@@ -28,7 +26,7 @@ struct EditDialogView: View {
     init(editedEnSubtitle: String?, editedJaSubtitle: String?, editedMemo: String?, isPresented: Binding<Bool>, onConfirm: @escaping (String, String, String) -> Void) {
         self.editedEnSubtitle = editedEnSubtitle ?? ""
         self.editedJaSubtitle = editedJaSubtitle ?? ""
-        self.editedMemo =  editedMemo ?? ""
+        self.editedMemo = editedMemo ?? ""
         self._isPresented = isPresented
         self.onConfirm = onConfirm
         
@@ -41,15 +39,17 @@ struct EditDialogView: View {
             ZStack {
                 Color.black.opacity(0.7)
                     .ignoresSafeArea()
+                
                 ZStack {
                     VStack(spacing: 16) {
                         Text("編集")
                             .font(.title2)
                             .fontWeight(.medium)
                         
-                        CustomTextEditor(text: $editedEnSubtitle, title: "英語字幕", isFocused: $isFocused)
-                        CustomTextEditor(text: $editedJaSubtitle, title: "日本語字幕", isFocused: $isFocused)
-                        CustomTextEditor(text: $editedMemo, title: "学習メモ", isFocused: $isFocused)
+                        // フォーカス制御付きのCustomTextEditor
+                        CustomTextEditor(text: $editedEnSubtitle, title: "英語字幕", focusedEditor: $focusedEditor, currentEditor: .enSubtitle)
+                        CustomTextEditor(text: $editedJaSubtitle, title: "日本語字幕", focusedEditor: $focusedEditor, currentEditor: .jaSubtitle)
+                        CustomTextEditor(text: $editedMemo, title: "学習メモ", focusedEditor: $focusedEditor, currentEditor: .memo)
 
                         HStack {
                             Button {
@@ -77,13 +77,12 @@ struct EditDialogView: View {
                     .frame(height: 600)
                     .background(Color(white: 0.9))
                     .clipShape(RoundedRectangle(cornerRadius: 16.0))
-                    // キーボードに閉じるボタン配置
                     .toolbar {
                         ToolbarItemGroup(placement: .keyboard) {
                             Spacer()
                             Button {
-                                // フォーカスを外してキーボードを閉じる
-                                isFocused = false
+                                // キーボードを閉じる
+                                focusedEditor = nil
                             } label: {
                                 Text("閉じる")
                                     .fontWeight(.medium)
@@ -93,6 +92,7 @@ struct EditDialogView: View {
                 }
                 .padding(.horizontal)
             }
+            .ignoresSafeArea(isPresented ? .keyboard : .all)
         }
     }
 }
@@ -100,9 +100,8 @@ struct EditDialogView: View {
 struct CustomTextEditor: View {
     @Binding var text: String
     let title: String
-    
-    // 親ビューで管理されるフォーカス状態をバインド 現在のフォーカス状態の読み書き可能
-    @FocusState.Binding var isFocused: Bool
+    @FocusState.Binding var focusedEditor: EditDialogView.Editor?
+    let currentEditor: EditDialogView.Editor
     
     var body: some View {
         VStack {
@@ -118,7 +117,8 @@ struct CustomTextEditor: View {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.gray, lineWidth: 0)
                 )
-                .focused($isFocused)
+                .focused($focusedEditor, equals: currentEditor) // フォーカスの状態を管理
+                .frame(minHeight: 100, maxHeight: 150) // テキストエディタの高さを制限
         }
     }
 }
