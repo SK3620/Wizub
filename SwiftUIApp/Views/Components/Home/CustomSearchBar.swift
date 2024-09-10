@@ -10,10 +10,10 @@ import UIKit
 import SwiftUIIntrospect
 
 struct CustomSearchBar: View {
-    
-    @State private var isEditing = false // 編集中かどうか
-    
-    @Binding var text: String // 入力値
+    // TextFieldのフォーカス状態の管理
+    @FocusState private var isFocused: Bool
+    // 入力値
+    @Binding var text: String
 
     var onSearchButtonClick: () -> Void
 
@@ -31,6 +31,20 @@ struct CustomSearchBar: View {
                             self.onSearchButtonClick()
                           }
                 )
+                .focused($isFocused) // フォーカス状態を管理
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        // 閉じるボタン
+                        Button {
+                            // フォーカスを外してキーボードを閉じる
+                            isFocused = false
+                        } label: {
+                            Text("閉じる")
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
                 .introspect(.textField, on: .iOS(.v13, .v14, .v15, .v16, .v17, .v18), customize: { textField in
                     // SwiftUIIntrospectでカスタマイズ
                     textField.returnKeyType = .search
@@ -40,13 +54,12 @@ struct CustomSearchBar: View {
                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
                     )
                 })
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
                 .onTapGesture {
-                    self.isEditing = true
+                    isFocused = true
                 }
               
-                if isEditing {
+                if isFocused {
                     Button(action: {
                         self.text = ""
                     }, label: {
