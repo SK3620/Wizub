@@ -20,7 +20,7 @@ struct MenuTabBarView: View {
     var body: some View {
         HStack(spacing: 48) {
             // 字幕同期
-            VStack {
+            VStack(spacing: 0) {
                 Button(action: {
                     isSubtitleSync.toggle()
                 }) {
