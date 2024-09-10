@@ -31,8 +31,16 @@ struct StudyTabBarView: View {
                     repeatAction()
                 }
             }) {
-                Image(systemName: isRepeating ? "repeat.1" : "repeat")
-                    .font(.system(size: 24))
+                ZStack {
+                    Image(systemName: "repeat")
+                        .font(.system(size: 24))
+                    
+                    // アイコンにスラッシュを入れる
+                    Divider()
+                        .frame(width: 55, height: 2.0)
+                        .background(isRepeating ? .clear : .blue)
+                        .rotationEffect(.degrees(10))
+                }
             }
             
             Spacer()

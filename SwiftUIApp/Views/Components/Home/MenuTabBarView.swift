@@ -24,8 +24,16 @@ struct MenuTabBarView: View {
                 Button(action: {
                     isSubtitleSync.toggle()
                 }) {
-                    Image(systemName: isSubtitleSync ? "doc.plaintext" : "doc.text.below.ecg")
-                        .font(.system(size: 22, weight: .medium))
+                    ZStack {
+                        Image(systemName: "doc.text.below.ecg")
+                            .font(.system(size: 22, weight: .medium))
+                        
+                        // アイコンにスラッシュを入れる
+                        Divider()
+                            .frame(width: 55, height: 2.0)
+                            .background(isSubtitleSync ? .clear : .blue)
+                            .rotationEffect(.degrees(10))
+                    }
                 }
                 Text("字幕同期")
                     .font(.footnote)
@@ -61,12 +69,10 @@ struct MenuTabBarView: View {
                         }
                         
                         // アイコンにスラッシュを入れる
-                        if isTranslateEditIconSlashed {
-                            Divider()
-                                .frame(width: 55, height: 2.0)
-                                .background(.blue)
-                                .rotationEffect(.degrees(10))
-                        }
+                        Divider()
+                            .frame(width: 55, height: 2.0)
+                            .background(isTranslateEditIconSlashed ? .blue : .clear)
+                            .rotationEffect(.degrees(10))
                     }
                 }
                 Text("翻訳/編集")
