@@ -17,7 +17,7 @@
 		834795D42C75DF5B00B98359 /* SubtitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795D32C75DF5B00B98359 /* SubtitleModel.swift */; };
 		834795D62C75E6EB00B98359 /* StudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795D52C75E6EB00B98359 /* StudyViewModel.swift */; };
 		834795D92C76B0E900B98359 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 834795D82C76B0E900B98359 /* YouTubePlayerKit */; };
-		834795DB2C76B73700B98359 /* TranscriptListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795DA2C76B73700B98359 /* TranscriptListView.swift */; };
+		834795DB2C76B73700B98359 /* SubtitleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795DA2C76B73700B98359 /* SubtitleListView.swift */; };
 		834795DD2C76CDC300B98359 /* PlayVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795DC2C76CDC300B98359 /* PlayVideoView.swift */; };
 		834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795DE2C76DAE500B98359 /* StudyTabBarView.swift */; };
 		834795E22C77115A00B98359 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 834795E12C77115A00B98359 /* Algorithms */; };
@@ -28,6 +28,7 @@
 		836747302C8FFB3000046E23 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8367472F2C8FFB3000046E23 /* SegmentedControl.swift */; };
 		836747322C90017600046E23 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747312C90017600046E23 /* CustomTextEditor.swift */; };
 		836747342C900A4300046E23 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747332C900A4300046E23 /* KeyboardObserver.swift */; };
+		836747362C903EC100046E23 /* CommonSlashDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747352C903EC100046E23 /* CommonSlashDivider.swift */; };
 		836F82392C89B0160091C294 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F82382C89B0160091C294 /* AuthTextField.swift */; };
 		836F823B2C89B0410091C294 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F823A2C89B0410091C294 /* AuthButton.swift */; };
 		83730B8C2C898483007D5D4F /* EditModeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83730B8B2C898483007D5D4F /* EditModeModifier.swift */; };
@@ -85,7 +86,7 @@
 		834795D12C75DE1A00B98359 /* GetSubtitlesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSubtitlesRequest.swift; sourceTree = "<group>"; };
 		834795D32C75DF5B00B98359 /* SubtitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleModel.swift; sourceTree = "<group>"; };
 		834795D52C75E6EB00B98359 /* StudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewModel.swift; sourceTree = "<group>"; };
-		834795DA2C76B73700B98359 /* TranscriptListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptListView.swift; sourceTree = "<group>"; };
+		834795DA2C76B73700B98359 /* SubtitleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleListView.swift; sourceTree = "<group>"; };
 		834795DC2C76CDC300B98359 /* PlayVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoView.swift; sourceTree = "<group>"; };
 		834795DE2C76DAE500B98359 /* StudyTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTabBarView.swift; sourceTree = "<group>"; };
 		835F292E2C6623CE005BC174 /* SwiftUIAppStg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIAppStg.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +97,7 @@
 		8367472F2C8FFB3000046E23 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		836747312C90017600046E23 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		836747332C900A4300046E23 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		836747352C903EC100046E23 /* CommonSlashDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSlashDivider.swift; sourceTree = "<group>"; };
 		836F82382C89B0160091C294 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		836F823A2C89B0410091C294 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		83730B8B2C898483007D5D4F /* EditModeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModeModifier.swift; sourceTree = "<group>"; };
@@ -315,7 +317,7 @@
 		837472E12C8AA9A200961850 /* Study */ = {
 			isa = PBXGroup;
 			children = (
-				834795DA2C76B73700B98359 /* TranscriptListView.swift */,
+				834795DA2C76B73700B98359 /* SubtitleListView.swift */,
 				834795DC2C76CDC300B98359 /* PlayVideoView.swift */,
 				83D3DED22C81DF2900CD2916 /* EditDialogView.swift */,
 				836747312C90017600046E23 /* CustomTextEditor.swift */,
@@ -377,6 +379,7 @@
 				83D01FFA2C7C6CDC00E09D5F /* CommonProgressView.swift */,
 				83CD5E052C8B05C900B5ADF1 /* CommonDialog.swift */,
 				8367472F2C8FFB3000046E23 /* SegmentedControl.swift */,
+				836747352C903EC100046E23 /* CommonSlashDivider.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -580,7 +583,7 @@
 				834795D22C75DE1A00B98359 /* GetSubtitlesRequest.swift in Sources */,
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
 				83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */,
-				834795DB2C76B73700B98359 /* TranscriptListView.swift in Sources */,
+				834795DB2C76B73700B98359 /* SubtitleListView.swift in Sources */,
 				83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */,
 				834795D42C75DF5B00B98359 /* SubtitleModel.swift in Sources */,
 				83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */,
@@ -598,6 +601,7 @@
 				83CB33402C7F065600E8E7E8 /* TranslateRequest.swift in Sources */,
 				83EC0AE72C6C1B2A00E316E6 /* AuthModel.swift in Sources */,
 				836747302C8FFB3000046E23 /* SegmentedControl.swift in Sources */,
+				836747362C903EC100046E23 /* CommonSlashDivider.swift in Sources */,
 				83CB33462C80263400E8E7E8 /* TranslateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
