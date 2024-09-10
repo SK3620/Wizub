@@ -34,6 +34,7 @@ struct ShowTranslateViewButton: View {
                                 .shadow(color: .gray.opacity(0.7), radius: 5, x: 0, y: 5)
                         )
                 }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 32))
             }
         }
     }

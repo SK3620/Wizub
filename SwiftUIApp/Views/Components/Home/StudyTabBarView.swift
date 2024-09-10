@@ -36,10 +36,10 @@ struct StudyTabBarView: View {
                         .font(.system(size: 24))
                     
                     // アイコンにスラッシュを入れる
-                    Divider()
-                        .frame(width: 55, height: 2.0)
-                        .background(isRepeating ? .clear : .blue)
-                        .rotationEffect(.degrees(10))
+                    CommonSlashDivider(
+                        color: isRepeating ? .clear : .blue,
+                        width: 55
+                    )
                 }
             }
             
@@ -77,8 +77,13 @@ struct StudyTabBarView: View {
             Button {
                 showMenuTabBar()
             } label: {
-                Image(systemName: "ellipsis.circle")
-                    .font(.system(size: 24))
+                ZStack {
+                    Image(systemName: "ellipsis.circle")
+                        .font(.system(size: 24))
+                    
+                    // 故意的にアイコンにスラッシュを入れ、TabのItem全体の間隔を調整
+                    CommonSlashDivider(color: .clear, width: 55)
+                }
             }
             
             Spacer()

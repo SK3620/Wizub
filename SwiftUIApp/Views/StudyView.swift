@@ -77,7 +77,6 @@ struct StudyView: View {
                             ShowTranslateViewButton(
                                 isShowTranslateView: { studyViewModel.isShowSheet.toggle() }
                             )
-                            .padding([.bottom, .trailing], 8)
                             .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
                             .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
                             .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)

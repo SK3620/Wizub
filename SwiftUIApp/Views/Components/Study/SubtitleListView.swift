@@ -91,7 +91,7 @@ struct SubtitleListView: View {
             } label: {
                 if toggleTranslateIcon {
                     Image(systemName: "translate")
-                        .font(.system(size: 18))
+                        .font(.system(size: 16))
                         .foregroundColor(.white)
                         .padding(7)
                         .background(
@@ -101,7 +101,7 @@ struct SubtitleListView: View {
                         )
                 } else {
                     Image(systemName: "translate")
-                        .font(.system(size: 18))
+                        .font(.system(size: 16))
                         .foregroundColor(.black)
                         .padding(7)
                         .background(Circle().stroke(Color.gray, lineWidth: 1))

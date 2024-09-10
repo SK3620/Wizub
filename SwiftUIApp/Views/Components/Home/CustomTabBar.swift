@@ -43,21 +43,36 @@ struct CustomTabBar: View {
                     Button {
                         currentTab = tab
                     } label: {
-                        Image(systemName: tab.symbolName())
-                            .font(.system(size: 30))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(currentTab == tab ? .white : .gray)
+                        VStack(spacing: 4) {
+                            Image(systemName: tab.symbolName())
+                                .font(.system(size: 30))
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(currentTab == tab ? .white : .gray)
+                            
+                            Text(tab.tabTitle())
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(currentTab == tab ? .white : .gray)
+                        }
                     }
-                    
-                    // 暫定でコメントアウト中
-//                    Text(tab.tabTitle())
-//                        .font(.system(size: 14, weight: .bold))
-//                        .foregroundColor(currentTab == tab ? .white : .gray)
                 }
+                .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
+                .padding(.top, 16)
             }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 49)
         .background(ColorCodes.primary.color())
+    }
+}
+
+#Preview {
+    HogeView()
+}
+
+struct HogeView: View {
+    @State var a: Tab = .videoList
+
+    var body: some View {
+        CustomTabBar(currentTab: $a)
     }
 }

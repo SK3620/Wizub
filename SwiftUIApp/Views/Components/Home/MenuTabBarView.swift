@@ -29,10 +29,10 @@ struct MenuTabBarView: View {
                             .font(.system(size: 22, weight: .medium))
                         
                         // アイコンにスラッシュを入れる
-                        Divider()
-                            .frame(width: 55, height: 2.0)
-                            .background(isSubtitleSync ? .clear : .blue)
-                            .rotationEffect(.degrees(10))
+                        CommonSlashDivider(
+                            color: isSubtitleSync ? .clear : .blue,
+                            width: 55
+                        )
                     }
                 }
                 Text("字幕同期")
@@ -69,10 +69,10 @@ struct MenuTabBarView: View {
                         }
                         
                         // アイコンにスラッシュを入れる
-                        Divider()
-                            .frame(width: 55, height: 2.0)
-                            .background(isTranslateEditIconSlashed ? .blue : .clear)
-                            .rotationEffect(.degrees(10))
+                        CommonSlashDivider(
+                            color: isTranslateEditIconSlashed ? .blue : .clear,
+                            width: 55
+                        )
                     }
                 }
                 Text("翻訳/編集")

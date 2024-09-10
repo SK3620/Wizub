@@ -20,7 +20,7 @@ struct HomeView: View {
         ZStack {
             Color.gray.opacity(0.1).ignoresSafeArea()
             
-            VStack(spacing: 0) {
+            VStack {
                 
                 TabView(selection: $currentTab) {
                     
@@ -33,6 +33,7 @@ struct HomeView: View {
                 CustomTabBar(currentTab: $currentTab)
             }
         }
+        .ignoresSafeArea(.keyboard) // SerachBarへのフォーカス時、BottomTabBarも持ち上げない
     }
 }
 
