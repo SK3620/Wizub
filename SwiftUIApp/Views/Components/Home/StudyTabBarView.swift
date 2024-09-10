@@ -19,7 +19,7 @@ struct StudyTabBarView: View {
     var isRepeating: Bool
     
     var body: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 16) {
             
             Spacer()
             
@@ -82,7 +82,7 @@ struct StudyTabBarView: View {
                         .font(.system(size: 24))
                     
                     // 故意的にアイコンにスラッシュを入れ、TabのItem全体の間隔を調整
-                    CommonSlashDivider(color: .clear, width: 55)
+                     CommonSlashDivider(color: .clear, width: 55)
                 }
             }
             
