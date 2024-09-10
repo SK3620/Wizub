@@ -61,6 +61,9 @@ struct StudyView: View {
                                         studyViewModel.seekToSubtitle(at: index)
                                     }
                                 }
+                                // Listの最下部に空白を挿入する
+                                   Color.clear.padding(.bottom, 80)
+                                    .listRowSeparator(.hidden) // 最下部の区切り線は非表示
                             }
                             .listStyle(.inset)
                             // subtitleのindexの変更を監視
