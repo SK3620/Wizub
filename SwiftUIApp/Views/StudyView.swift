@@ -97,7 +97,6 @@ struct StudyView: View {
                 }
                 
                 ZStack {
-                    
                     MenuTabBarView(
                         isSubtitleSync: $studyViewModel.isSubtitleSync,
                         toggleTranslateEditIcon: { studyViewModel.isShowTranslateEditIcon.toggle() },
@@ -141,18 +140,23 @@ struct StudyView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    if let id = videoInfo.id, videoInfo.isVideoAlradySaved {
-                        // 動画がすでに保存されている場合は、DB更新
-                        studyViewModel.apply(event: .update(id: id))
-                    } else {
-                        studyViewModel.apply(event: .store(videoInfo: videoInfo))
+            // 編集画面表示中はtoolbarを非表示
+            if !studyViewModel.isShowEditDialog {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        if let id = videoInfo.id, videoInfo.isVideoAlradySaved {
+                            // 動画がすでに保存されている場合は、DB更新
+                            studyViewModel.apply(event: .update(id: id))
+                        } else {
+                            studyViewModel.apply(event: .store(videoInfo: videoInfo))
+                        }
+                    } label: {
+                        Text("保存/終了")
                     }
-                } label: {
-                    Text("保存/終了")
                 }
             }
         }
+        .navigationBarBackButtonHidden(studyViewModel.isShowEditDialog) // 編集画面表示中は非表示
+        .navigationTitle(studyViewModel.isShowEditDialog ? "" : "プレイ") // 編集画面表示中は非表示
     }
 }
