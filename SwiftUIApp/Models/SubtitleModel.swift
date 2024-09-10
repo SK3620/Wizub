@@ -19,6 +19,7 @@ struct SubtitleModel: Codable {
         let subtitleId: Int
         var enSubtitle: String // 英語字幕
         var jaSubtitle: String // 日本語字幕
+        var memo: String // 学習メモ
         let start: Double // 字幕表示開始時間
         let duration: Double // 字幕が表示されている時間の長さ
         
@@ -27,6 +28,7 @@ struct SubtitleModel: Codable {
             case subtitleId = "subtitle_id"
             case enSubtitle = "en_subtitle"
             case jaSubtitle = "ja_subtitle"
+            case memo
             case start
             case duration
         }

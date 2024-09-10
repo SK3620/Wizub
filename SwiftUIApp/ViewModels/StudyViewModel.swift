@@ -49,7 +49,7 @@ class StudyViewModel: ObservableObject {
     // 押下された字幕を発行するPublisher（remove）
     var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     // 編集された英語/日本語字幕を発行するPublisher
-    var editSubtitleButtonPressed = PassthroughSubject<(String, String), Never>()
+    var editSubtitleButtonPressed = PassthroughSubject<(String, String, String), Never>()
     // エラーを発行するPublisher
     private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
     
@@ -184,7 +184,7 @@ class StudyViewModel: ObservableObject {
         // 現在編集中の字幕＆編集された英語/日本語字幕を発行する
         editSubtitleButtonPressed
             .receive(on: RunLoop.main)
-            .sink { [weak self] editedEnSubtitle, editedJaSubtitle in
+            .sink { [weak self] editedEnSubtitle, editedJaSubtitle, memo in
                 guard let self = self,
                       let currentSubtitle = self.currentlyEditedSubtitleDetail,
                       let index = self.subtitleDetails.firstIndex(where: { $0.id == currentSubtitle.id }) else {
@@ -194,6 +194,7 @@ class StudyViewModel: ObservableObject {
                 var updatedSubtitle = currentSubtitle
                 updatedSubtitle.enSubtitle = editedEnSubtitle
                 updatedSubtitle.jaSubtitle = editedJaSubtitle
+                updatedSubtitle.memo = memo
                 
                 // @Publishedにより変更を発行
                 self.subtitleDetails[index] = updatedSubtitle

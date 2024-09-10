@@ -132,10 +132,11 @@ struct StudyView: View {
                 EditDialogView(
                     editedEnSubtitle: studyViewModel.currentlyEditedSubtitleDetail?.enSubtitle,
                     editedJaSubtitle: studyViewModel.currentlyEditedSubtitleDetail?.jaSubtitle,
+                    editedMemo: studyViewModel.currentlyEditedSubtitleDetail?.memo,
                     isPresented: $studyViewModel.isShowEditDialog,
-                    onConfirm: { editedEnSubtitle, editedJaSubtitle in
+                    onConfirm: { editedEnSubtitle, editedJaSubtitle, memo in
                         // 編集処理
-                        studyViewModel.editSubtitleButtonPressed.send((editedEnSubtitle, editedJaSubtitle))
+                        studyViewModel.editSubtitleButtonPressed.send((editedEnSubtitle, editedJaSubtitle, memo))
                     })
             }
         }

@@ -14,6 +14,8 @@ struct EditDialogView: View {
     @State private var editedEnSubtitle: String
     // 編集中の日本語字幕
     @State private var editedJaSubtitle: String
+    // 学習メモ
+    @State private var editedMemo: String
     
     @Binding var isPresented: Bool
     
@@ -21,11 +23,12 @@ struct EditDialogView: View {
     @FocusState private var isFocused: Bool
     
     // OKボタン押下時
-    var onConfirm: (String, String) -> Void
+    var onConfirm: (String, String, String) -> Void
     
-    init(editedEnSubtitle: String?, editedJaSubtitle: String?, isPresented: Binding<Bool>, onConfirm: @escaping (String, String) -> Void) {
+    init(editedEnSubtitle: String?, editedJaSubtitle: String?, editedMemo: String?, isPresented: Binding<Bool>, onConfirm: @escaping (String, String, String) -> Void) {
         self.editedEnSubtitle = editedEnSubtitle ?? ""
         self.editedJaSubtitle = editedJaSubtitle ?? ""
+        self.editedMemo =  editedMemo ?? ""
         self._isPresented = isPresented
         self.onConfirm = onConfirm
         
@@ -46,7 +49,8 @@ struct EditDialogView: View {
                         
                         CustomTextEditor(text: $editedEnSubtitle, title: "英語字幕", isFocused: $isFocused)
                         CustomTextEditor(text: $editedJaSubtitle, title: "日本語字幕", isFocused: $isFocused)
-                        
+                        CustomTextEditor(text: $editedMemo, title: "学習メモ", isFocused: $isFocused)
+
                         HStack {
                             Button {
                                 isPresented = false
@@ -58,7 +62,7 @@ struct EditDialogView: View {
                             }
                             
                             Button {
-                                onConfirm(editedEnSubtitle, editedJaSubtitle)
+                                onConfirm(editedEnSubtitle, editedJaSubtitle, editedMemo)
                                 isPresented = false
                             } label: {
                                 Text("OK")
