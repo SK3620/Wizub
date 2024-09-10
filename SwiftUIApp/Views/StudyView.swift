@@ -152,6 +152,7 @@ struct StudyView: View {
                         }
                     } label: {
                         Text("保存/終了")
+                            .fontWeight(.medium)
                     }
                 }
             }
