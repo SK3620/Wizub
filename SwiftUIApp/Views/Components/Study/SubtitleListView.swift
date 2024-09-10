@@ -71,8 +71,7 @@ struct SubtitleListView: View {
     }
     
     private var translationEditIcons: some View {
-        VStack(spacing: 24) {
-            Spacer()
+        VStack(spacing: 16) {
             
             // 編集ボタン
             Button {
@@ -81,7 +80,7 @@ struct SubtitleListView: View {
                 Image(systemName: "pencil")
                     .font(.system(size: 20))
             }
-            .buttonStyle(BorderlessButtonStyle())
+            .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
             
             // 翻訳ボタン
             Button {
@@ -91,9 +90,9 @@ struct SubtitleListView: View {
             } label: {
                 if toggleTranslateIcon {
                     Image(systemName: "translate")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(.white)
-                        .padding(7)
+                        .padding(6)
                         .background(
                             Circle()
                                 .fill(ColorCodes.primary.color().opacity(0.7))
@@ -101,15 +100,13 @@ struct SubtitleListView: View {
                         )
                 } else {
                     Image(systemName: "translate")
-                        .font(.system(size: 16))
+                        .font(.system(size: 15))
                         .foregroundColor(.black)
-                        .padding(7)
+                        .padding(6)
                         .background(Circle().stroke(Color.gray, lineWidth: 1))
                 }
             }
-            .buttonStyle(BorderlessButtonStyle())
-            
-            Spacer()
+            .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
         }
     }
     
