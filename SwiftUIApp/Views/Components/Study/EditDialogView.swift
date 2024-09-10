@@ -27,6 +27,7 @@ struct EditDialogView: View {
         case jaSubtitle
         case memo
     }
+    
     // 字幕/学習メモ セグメント選択
     @State var segmentType: EditSubtitleSegmentType = .memo
     // 編集中の英語字幕
@@ -37,9 +38,10 @@ struct EditDialogView: View {
     @State private var editedMemo: String
     
     @Binding var isPresented: Bool
-    
     // TextEditorのフォーカス状態の管理
     @FocusState private var focusedEditor: Editor?
+    // キーボードの表示・非表示を監視し、その状態と高さを管理
+    @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
     
     // OKボタン押下時
     var onConfirm: (String, String, String) -> Void
@@ -119,8 +121,19 @@ struct EditDialogView: View {
                     }
                 }
                 .padding(.horizontal)
+                // キーボードの高さに応じて下部にパディング調整
+                .padding(.bottom, focusedEditor != .enSubtitle ? keyboard.height - 90 : 0)
+                .animation(.easeInOut(duration: 0.3), value: keyboard.height)
             }
-            .ignoresSafeArea(isPresented ? .keyboard : .all)
+            .ignoresSafeArea(.keyboard)
+            .onAppear {
+                // キーボードの状態を監視
+                keyboard.addObserver()
+            }
+            .onDisappear {
+                // キーボードの状態の監視終了
+                keyboard.removeObserver()
+            }
         }
     }
 }
