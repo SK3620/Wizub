@@ -47,18 +47,20 @@ struct SubtitleListView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 // 英語字幕
                 Text(subtitleDetails.enSubtitle)
                     .font(.body)
                     .foregroundColor(isHighlighted ? .red : .primary)
                 
-                // 日本語字幕
-                Text(subtitleDetails.jaSubtitle)
-                    .font(.body)
-                    .foregroundColor(isHighlighted ? .red : .primary)
+                if !subtitleDetails.jaSubtitle.isEmpty {
+                    // 日本語字幕
+                    Text(subtitleDetails.jaSubtitle)
+                        .font(.body)
+                        .foregroundColor(isHighlighted ? .red : .primary)
+                }
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, 8)
             
             Spacer()
             
