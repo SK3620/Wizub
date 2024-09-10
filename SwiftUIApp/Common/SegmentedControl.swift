@@ -1,44 +1,20 @@
 //
-//  TranslateSegmentedControl.swift
+//  SegmentedControl.swift
 //  SwiftUIApp
 //
-//  Created by 鈴木 健太 on 2024/08/31.
+//  Created by 鈴木 健太 on 2024/09/10.
 //
 
 import SwiftUI
 
-protocol TranslateSegmentTypeProtocol: CaseIterable, Identifiable<TranslateSegmentType>, Equatable {
+// CaseIterable: enumが持つすべてのケースを.allCasesを使用し、自動的に配列として提供できる
+protocol CommonSegmentTypeProtocol: CaseIterable, Identifiable, Equatable {
     var title: String { get }
     var tintColor: Color { get }
 }
 
-enum TranslateSegmentType: TranslateSegmentTypeProtocol {
-    
-    // 選択された字幕の翻訳を行うセグメント
-    case selected
-    // 全ての字幕の翻訳を行うセグメント
-    case all
-    
-    // 自身のインスタンスを識別子とする
-    var id: Self {
-        return self
-    }
-
-    var title: String {
-        switch self {
-        case .selected:
-            return "選択中の字幕"
-        case .all:
-            return "全ての字幕"
-        }
-    }
-    
-    var tintColor: Color {
-        return ColorCodes.buttonBackground.color()
-    }
-}
-
-struct TranslateSegmentedControl<TranslateSegmentType: TranslateSegmentTypeProtocol>: View where TranslateSegmentType.AllCases == [TranslateSegmentType] {
+// SegmentType.AllCases は[SegmentType] 型である
+struct CommonSegmentedControl<SegmentType: CommonSegmentTypeProtocol>: View where SegmentType.AllCases == [SegmentType] {
     
     struct Configuration {
         var selectedForegroundColor: Color = .white
@@ -47,12 +23,12 @@ struct TranslateSegmentedControl<TranslateSegmentType: TranslateSegmentTypeProto
         var backgroundColor: Color = .gray.opacity(0.25)
     }
 
-    @Binding var selectedSegment: TranslateSegmentType
+    @Binding var selectedSegment: SegmentType
     var configuration: Configuration = .init()
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(TranslateSegmentType.allCases) { segment in
+            ForEach(SegmentType.allCases) { segment in
                 ZStack {
                     Rectangle()
                         .fill(.white)
@@ -85,7 +61,8 @@ struct TranslateSegmentedControl<TranslateSegmentType: TranslateSegmentTypeProto
         .padding(.horizontal, 32)
     }
 
-    private func isSelected(segment: TranslateSegmentType) -> Bool {
+    //SegmentTypeをEquatableに準拠させ、演算子の使用をサポートさせ、比較可能にさせる。
+    private func isSelected(segment: SegmentType) -> Bool {
         selectedSegment == segment
     }
 }

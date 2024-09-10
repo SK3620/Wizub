@@ -7,6 +7,32 @@
 
 import SwiftUI
 
+enum TranslateSegmentType: CommonSegmentTypeProtocol {
+    
+    // 選択された字幕の翻訳を行うセグメント
+    case selected
+    // 全ての字幕の翻訳を行うセグメント
+    case all
+    
+    // 自身のインスタンスを識別子とする
+    var id: Self {
+        return self
+    }
+
+    var title: String {
+        switch self {
+        case .selected:
+            return "選択中の字幕"
+        case .all:
+            return "全ての字幕"
+        }
+    }
+    
+    var tintColor: Color {
+        return ColorCodes.buttonBackground.color()
+    }
+}
+
 struct TranslateView: View {
     
     @State var segmentType: TranslateSegmentType = .selected
@@ -40,7 +66,7 @@ struct TranslateView: View {
                 .fontWeight(.medium)
             
             // 選択中の字幕リスト/全ての字幕リスト表示切り替え
-            TranslateSegmentedControl(selectedSegment: $segmentType)
+            CommonSegmentedControl(selectedSegment: $segmentType)
             
             // 字幕をリスト表示
             SubtitleList(subtitles: segmentType == .selected ? pendingTranslatedSubtitles : allSubtitles)

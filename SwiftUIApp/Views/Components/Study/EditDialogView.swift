@@ -1,5 +1,25 @@
 import SwiftUI
 
+enum EditSubtitleSegmentType: CommonSegmentTypeProtocol {
+    case memo
+    case subtitles
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .memo:
+            return "メモ"
+        case .subtitles:
+            return "字幕"
+        }
+    }
+    
+    var tintColor: Color {
+        return ColorCodes.buttonBackground.color()
+    }
+}
+
 struct EditDialogView: View {
     // フォーカスが当たるTextEditorを判断する
     enum Editor: Hashable {
@@ -7,7 +27,8 @@ struct EditDialogView: View {
         case jaSubtitle
         case memo
     }
-    
+    // 字幕/学習メモ セグメント選択
+    @State var segmentType: EditSubtitleSegmentType = .memo
     // 編集中の英語字幕
     @State private var editedEnSubtitle: String
     // 編集中の日本語字幕
@@ -46,11 +67,18 @@ struct EditDialogView: View {
                             .font(.title2)
                             .fontWeight(.medium)
                         
-                        // フォーカス制御付きのCustomTextEditor
-                        CustomTextEditor(text: $editedEnSubtitle, title: "英語字幕", focusedEditor: $focusedEditor, currentEditor: .enSubtitle)
-                        CustomTextEditor(text: $editedJaSubtitle, title: "日本語字幕", focusedEditor: $focusedEditor, currentEditor: .jaSubtitle)
-                        CustomTextEditor(text: $editedMemo, title: "学習メモ", focusedEditor: $focusedEditor, currentEditor: .memo)
-
+                        // 字幕/学習メモ セグメント選択
+                        CommonSegmentedControl(selectedSegment: $segmentType)
+                        
+                        if segmentType == .memo {
+                            // 学習メモセグメント
+                            CustomTextEditor(text: $editedMemo, title: "学習メモ", focusedEditor: $focusedEditor, currentEditor: .memo)
+                        } else {
+                            // 字幕編集セグメント
+                            CustomTextEditor(text: $editedEnSubtitle, title: "英語字幕", focusedEditor: $focusedEditor, currentEditor: .enSubtitle)
+                            CustomTextEditor(text: $editedJaSubtitle, title: "日本語字幕", focusedEditor: $focusedEditor, currentEditor: .jaSubtitle)
+                        }
+                        
                         HStack {
                             Button {
                                 isPresented = false
@@ -74,7 +102,7 @@ struct EditDialogView: View {
                         .padding(.bottom, 16)
                     }
                     .padding([.top, .horizontal])
-                    .frame(height: 600)
+                    .frame(height: 500)
                     .background(Color(white: 0.9))
                     .clipShape(RoundedRectangle(cornerRadius: 16.0))
                     .toolbar {
@@ -93,32 +121,6 @@ struct EditDialogView: View {
                 .padding(.horizontal)
             }
             .ignoresSafeArea(isPresented ? .keyboard : .all)
-        }
-    }
-}
-
-struct CustomTextEditor: View {
-    @Binding var text: String
-    let title: String
-    @FocusState.Binding var focusedEditor: EditDialogView.Editor?
-    let currentEditor: EditDialogView.Editor
-    
-    var body: some View {
-        VStack {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 16)
-            
-            TextEditor(text: $text)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.gray, lineWidth: 0)
-                )
-                .focused($focusedEditor, equals: currentEditor) // フォーカスの状態を管理
-                .frame(minHeight: 100, maxHeight: 150) // テキストエディタの高さを制限
         }
     }
 }
