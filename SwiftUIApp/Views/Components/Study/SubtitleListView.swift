@@ -51,11 +51,15 @@ struct SubtitleListView: View {
                 // 英語字幕
                 Text(subtitleDetails.enSubtitle)
                     .font(.body)
+                // ハイライトされる字幕の色
+                    .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
                 
                 if !subtitleDetails.jaSubtitle.isEmpty {
                     // 日本語字幕
                     Text(subtitleDetails.jaSubtitle)
                         .font(.body)
+                    // ハイライトされる字幕の色
+                        .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
                 }
             }
             .padding([.vertical, .horizontal], 16)
@@ -67,7 +71,7 @@ struct SubtitleListView: View {
                 translationEditIcons
             }
         }
-        .listRowBackground(isHighlighted ? ColorCodes.primary.color().opacity(0.07) : Color.white) // ハイライトされる字幕の背景色
+        .listRowBackground(isHighlighted ? ColorCodes.primary2.color() : Color.white) // ハイライトされる字幕の背景色
         // 以下は区切り線を端から端まで伸ばす
         .frame(maxWidth: .infinity, alignment: .leading)
         .listRowSeparator(.hidden)

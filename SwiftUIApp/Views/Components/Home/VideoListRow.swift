@@ -62,6 +62,7 @@ struct VideoListRow: View {
                 .lineLimit(3)
                 .padding(.leading, 8)
         }
+        .listRowSeparator(.hidden)
         .background(Color.white)
     }
 }
