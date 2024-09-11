@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import YouTubePlayerKit
 
-// MARK: - 再生速度
+// MARK: - Playback Rate Enum
 enum PlayBackRate: Double {
     case normal = 1.0 // 通常
     case fast = 1.25 // 早い
@@ -27,20 +27,22 @@ enum PlayBackRate: Double {
     }
 }
 
+// MARK: - Kinds of success Enum
+enum SuccessStatus {
+    case dataSaved // データ保存完了
+    case subtitlesTranslated // openAIからの正常なレスポンスの受け取り完了
+}
+
+
 // MARK: - StudyViewModel
 class StudyViewModel: ObservableObject {
     // MARK: - ApiEvent Enum
     enum ApiEvent {
-        // 字幕取得
-        case getSubtitles(videoId: String)
-        // DBに保存した字幕取得
-        case getSavedSubtitles(videoId: String)
-        // 翻訳
-        case translate(subtitles: [SubtitleModel.SubtitleDetailModel])
-        // DBに動画＆字幕情報の保存
-        case store(videoInfo: VideoListRow.VideoInfo)
-        // DBに保存した字幕情報更新
-        case update(id: Int)
+        case getSubtitles(videoId: String) // 字幕取得
+        case getSavedSubtitles(videoId: String) // DBに保存した字幕取得
+        case translate(subtitles: [SubtitleModel.SubtitleDetailModel]) // 翻訳
+        case store(videoInfo: VideoListRow.VideoInfo) // DBに動画＆字幕情報の保存
+        case update(id: Int)  // DBに保存した字幕情報更新
     }
     
     // MARK: - Inputs
@@ -57,6 +59,7 @@ class StudyViewModel: ObservableObject {
     // API通信ステータス
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
+    @Published var successStatus: SuccessStatus?
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     
@@ -115,15 +118,13 @@ class StudyViewModel: ObservableObject {
     
     // MARK: - Apply API Event
     func apply(event: ApiEvent) {
+        isLoading = true
         switch event {
         case .getSubtitles(let videoId):
-            isLoading = true
             getSubtitles(videoId: videoId)
         case .getSavedSubtitles(let videoId):
-            isLoading = true
             getSavedSubtitles(videoId: videoId)
         case .translate(let pendingTranslatedSubtitles):
-            isLoading = true
             translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
         case .store(let videoInfo):
             store(videoInfo: videoInfo)
@@ -207,6 +208,7 @@ class StudyViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = false
+                self.successStatus = nil
                 self.isShowError = true
                 self.httpErrorMsg = error.localizedDescription
             })
@@ -458,6 +460,7 @@ extension StudyViewModel {
                 
                 self.isLoading = false
                 self.isSuccess = true
+                self.successStatus = .subtitlesTranslated
             })
             .store(in: &cancellableBag)
     }
@@ -481,6 +484,7 @@ extension StudyViewModel {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
+                self.successStatus = .dataSaved
             })
             .store(in: &cancellableBag)
     }
@@ -496,6 +500,7 @@ extension StudyViewModel {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
+                self.successStatus = .dataSaved
             })
             .store(in: &cancellableBag)
     }
