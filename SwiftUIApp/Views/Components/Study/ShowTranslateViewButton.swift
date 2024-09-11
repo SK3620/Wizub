@@ -24,7 +24,8 @@ struct ShowTranslateViewButton: View {
                 HStack {
                     Spacer()
                     Text("翻訳リスト")
-                        .font(.headline)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)

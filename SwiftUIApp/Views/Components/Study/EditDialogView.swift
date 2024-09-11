@@ -60,7 +60,7 @@ struct EditDialogView: View {
     var body: some View {
         if isPresented {
             ZStack {
-                Color.black.opacity(0.7)
+                Color.black.opacity(0.2)
                     .ignoresSafeArea()
                 
                 ZStack {
@@ -71,6 +71,7 @@ struct EditDialogView: View {
                         
                         // 字幕/学習メモ セグメント選択
                         CommonSegmentedControl(selectedSegment: $segmentType)
+                            .shadow(color: .gray, radius: 1)
                         
                         if segmentType == .memo {
                             // 学習メモセグメント
@@ -85,7 +86,7 @@ struct EditDialogView: View {
                             Button {
                                 isPresented = false
                             } label: {
-                                Text("Cancel")
+                                Text("キャンセル")
                                     .font(.title3)
                                     .fontWeight(.medium)
                                     .frame(maxWidth: .infinity)
@@ -95,7 +96,7 @@ struct EditDialogView: View {
                                 onConfirm(editedEnSubtitle, editedJaSubtitle, editedMemo)
                                 isPresented = false
                             } label: {
-                                Text("OK")
+                                Text("保存")
                                     .font(.title3)
                                     .fontWeight(.medium)
                                     .frame(maxWidth: .infinity)
@@ -105,7 +106,7 @@ struct EditDialogView: View {
                     }
                     .padding([.top, .horizontal])
                     .frame(height: 500)
-                    .background(Color(white: 0.9))
+                    .background(ColorCodes.primary2.color())
                     .clipShape(RoundedRectangle(cornerRadius: 16.0))
                     .toolbar {
                         ToolbarItemGroup(placement: .keyboard) {

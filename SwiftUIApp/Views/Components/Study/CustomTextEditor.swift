@@ -28,6 +28,7 @@ struct CustomTextEditor: View {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.gray, lineWidth: 0)
                 )
+                .shadow(color: .gray, radius: 1)
                 .focused($focusedEditor, equals: currentEditor) // フォーカスの状態を管理
                 .frame(maxHeight: .infinity) // 親要素の高さいっぱいに広げる
         }
