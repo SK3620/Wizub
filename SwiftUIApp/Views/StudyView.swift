@@ -16,6 +16,9 @@ struct StudyView: View {
     // VideoListViewで押下された動画の情報を格納
     private let videoInfo: VideoListRow.VideoInfo
     
+    // データ保存/更新の成功時、遷移元画面へ自動で戻る
+    @Environment(\.dismiss) var dismiss
+    
     init(videoInfo: VideoListRow.VideoInfo) {
         self.videoInfo = videoInfo
         // '_' @StateObjectプロパティラッパーのバックアップストア（内部でデータを保持している場所）にアクセス
