@@ -51,13 +51,11 @@ struct SubtitleListView: View {
                 // 英語字幕
                 Text(subtitleDetails.enSubtitle)
                     .font(.body)
-                    .foregroundColor(isHighlighted ? .red : .primary)
                 
                 if !subtitleDetails.jaSubtitle.isEmpty {
                     // 日本語字幕
                     Text(subtitleDetails.jaSubtitle)
                         .font(.body)
-                        .foregroundColor(isHighlighted ? .red : .primary)
                 }
             }
             .padding(.vertical, 8)
@@ -69,6 +67,7 @@ struct SubtitleListView: View {
                 translationEditIcons
             }
         }
+        .listRowBackground(isHighlighted ? ColorCodes.primary.color().opacity(0.1) : Color.white) // ハイライトされる字幕の背景色
         .id(subtitleDetails.id)
     }
     
