@@ -17,8 +17,7 @@ struct AuthPickerView: View {
     var body: some View {
         NavigationStack(path: $navigationPathEnv.path) {
             ZStack {
-                ColorCodes.primary.color()
-                    .opacity(0.4)
+                ColorCodes.primary2.color()
                     .ignoresSafeArea()
                 
                 VStack {
@@ -32,12 +31,14 @@ struct AuthPickerView: View {
                             font: .title2
                         )
                     )
+                    .shadow(color: .gray.opacity(0.7), radius: 1)
                     .padding(.top, 70)
                     
                     Spacer()
                     
                     // SingUp/SignIn画面
                     AuthView(authViewModel: authViewModel)
+                        .shadow(color: .gray.opacity(0.5), radius: 2)
                     
                     Spacer()
                 }
@@ -61,6 +62,7 @@ struct AuthPickerView: View {
                     .navigationBarTitleDisplayMode(.inline)
             })
         }
+        .accentColor(.black) // navigationBarのbackボタンの色
     }
 }
 

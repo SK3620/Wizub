@@ -13,12 +13,11 @@ struct HomeView: View {
     
     init() {
         // デフォルトのTabBarは使用しないので隠しておく
-        UITabBar.appearance().isHidden = true
+         UITabBar.appearance().isHidden = true
     }
     
     var body: some View {
         ZStack {
-            Color.gray.opacity(0.1).ignoresSafeArea()
             
             VStack {
                 

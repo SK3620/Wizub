@@ -27,6 +27,7 @@ struct StudyView: View {
     
     var body: some View {
         ZStack {
+            Color.white // 背景色
             VStack {
                 
                 PlayVideoView(studyViewModel: studyViewModel)
@@ -65,7 +66,7 @@ struct StudyView: View {
                                     }
                                 }
                                 // Listの最下部に空白を挿入する
-                                   Color.clear.padding(.bottom, 80)
+                                Color.clear.padding(.bottom, 80)
                                     .listRowSeparator(.hidden) // 最下部の区切り線は非表示
                             }
                             .listStyle(.inset)
@@ -93,7 +94,7 @@ struct StudyView: View {
                                               allSubtitles: studyViewModel.subtitleDetails,
                                               translateSelected: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.pendingTranslatedSubtitles)) },
                                               translateAll: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.subtitleDetails)) })
-                                .background(.gray.opacity(0.2))
+                                .background(ColorCodes.primary2.color())
                                 .presentationDetents(
                                     [.medium, .large]
                                 )
@@ -151,6 +152,7 @@ struct StudyView: View {
                     })
             }
         }
+        
         .toolbar {
             // 編集画面表示中はtoolbarを非表示
             if !studyViewModel.isShowEditDialog {
@@ -165,11 +167,13 @@ struct StudyView: View {
                     } label: {
                         Text("保存/終了")
                             .fontWeight(.medium)
+                            .foregroundColor(ColorCodes.primary.color())
                     }
                 }
             }
         }
         .navigationBarBackButtonHidden(studyViewModel.isShowEditDialog) // 編集画面表示中は非表示
         .navigationTitle(studyViewModel.isShowEditDialog ? "" : "プレイ") // 編集画面表示中は非表示
+        .background(ColorCodes.primary2.color()) // ナビゲーションバーの背景を設定
     }
 }

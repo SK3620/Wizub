@@ -16,6 +16,12 @@ struct SavedVideoListView: View {
     
     var body: some View {
         VStack {
+            ZStack(alignment: .bottom) {
+                Divider()
+                    .background(ColorCodes.primary2.color()) // 区切り線の色
+                    .frame(height: 0.5) // 区切り線の太さ
+            }
+            
             // 非同期処理中はローディング
             if videoListViewModel.isLoading {
                 VStack {

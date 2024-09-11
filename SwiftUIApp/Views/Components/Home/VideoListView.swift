@@ -17,15 +17,23 @@ struct VideoListView: View {
     
     var body: some View {
         VStack {
-            CustomSearchBar(
-                text: $videoListViewModel.text,
-                onSearchButtonClick: {
-                    // 一つ一つの動画情報を格納する配列をリセット
-                    videoListViewModel.cardViewVideoInfo = []
-                    videoListViewModel.apply(event: .serach(text: videoListViewModel.text))
-                })
-            .padding([.horizontal, .bottom])
-            .background(.gray.opacity(0.15))
+            // ナビゲーションバーと同じ位置に区切り線を入れる
+            ZStack(alignment: .bottom) {
+                CustomSearchBar(
+                    text: $videoListViewModel.text,
+                    onSearchButtonClick: {
+                        videoListViewModel.cardViewVideoInfo = []
+                        videoListViewModel.apply(event: .serach(text: videoListViewModel.text))
+                    })
+                .padding([.horizontal, .bottom])
+                
+                // NavigationBarの下部の区切り線
+                Divider()
+                    .background(ColorCodes.primary2.color())
+                    .frame(height: 0.5)
+            }
+            .background(ColorCodes.primary2.color()) // navigationBar背景色
+
             
             // 非同期処理中はローディング
             if videoListViewModel.isLoading {
