@@ -58,16 +58,26 @@ struct SubtitleListView: View {
                         .font(.body)
                 }
             }
-            .padding(.vertical, 8)
+            .padding([.vertical, .horizontal], 16)
             
             Spacer()
-            
+                        
             // 編集/翻訳アイコンを非/表示
             if isShowTranslateEditIcon {
                 translationEditIcons
             }
         }
-        .listRowBackground(isHighlighted ? ColorCodes.primary.color().opacity(0.1) : Color.white) // ハイライトされる字幕の背景色
+        .listRowBackground(isHighlighted ? ColorCodes.primary.color().opacity(0.07) : Color.white) // ハイライトされる字幕の背景色
+        // 以下は区切り線を端から端まで伸ばす
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .listRowSeparator(.hidden)
+        .listRowInsets(.init(top:0,leading:0,bottom:0,trailing:0))
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(.gray.opacity(0.3)),
+            alignment: .bottom
+        )
         .id(subtitleDetails.id)
     }
     
@@ -109,6 +119,8 @@ struct SubtitleListView: View {
             }
             .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
         }
+        .padding(.vertical, 16)
+        .padding(.trailing, 12)
     }
     
     private func toggleTranslation() {

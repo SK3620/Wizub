@@ -30,7 +30,7 @@ struct MenuTabBarView: View {
                         
                         // アイコンにスラッシュを入れる
                         CommonSlashDivider(
-                            color: isSubtitleSync ? .clear : .blue,
+                            color: isSubtitleSync ? .blue : .clear,
                             width: 55
                         )
                     }
