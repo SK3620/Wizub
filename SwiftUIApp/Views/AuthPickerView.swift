@@ -17,13 +17,20 @@ struct AuthPickerView: View {
     var body: some View {
         NavigationStack(path: $navigationPathEnv.path) {
             ZStack {
-                // 背景色
-                Color.gray.opacity(0.1).ignoresSafeArea()
+                ColorCodes.primary.color()
+                    .opacity(0.4)
+                    .ignoresSafeArea()
                 
                 VStack {
                     // SingUp/SignInセグメント
-                    AuthSegmentedControl(
-                        selectedSegment: $authViewModel.segmentType
+                    CommonSegmentedControl(
+                        selectedSegment: $authViewModel.authSegmentType,
+                        configuration: .init(
+                            height: 70,
+                            cornerRadius: 35,
+                            horizontalPadding: 16,
+                            font: .title2
+                        )
                     )
                     .padding(.top, 70)
                     

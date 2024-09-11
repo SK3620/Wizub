@@ -14,7 +14,7 @@ struct AuthView: View {
     var body: some View {
         VStack {
             VStack {
-                if authViewModel.segmentType == .signUpSegment {
+                if authViewModel.authSegmentType == .signUpSegment {
                     // ユーザー名入力欄
                     AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.userNameError)
                         .onChange(of: authViewModel.userName) { oldValue, newValue in
@@ -42,7 +42,7 @@ struct AuthView: View {
         }
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 35))
-        .shadow(color: .gray.opacity(0.7), radius: 5)
+//        .shadow(color: .gray.opacity(0.7), radius: 5)
         .padding(.horizontal)
     }
 }

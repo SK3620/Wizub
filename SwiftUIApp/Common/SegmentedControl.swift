@@ -21,6 +21,10 @@ struct CommonSegmentedControl<SegmentType: CommonSegmentTypeProtocol>: View wher
         var selectedBackgroundColor: Color = .black.opacity(0.75)
         var foregroundColor: Color = .black
         var backgroundColor: Color = .gray.opacity(0.25)
+        var height: CGFloat = 60    // デフォルトの高さ
+        var cornerRadius: CGFloat = 30  // デフォルトの角丸
+        var horizontalPadding: CGFloat = 32 // デフォルトのpadding
+        var font: Font = .headline // デフォルトのフォントサイズ
     }
 
     @Binding var selectedSegment: SegmentType
@@ -39,7 +43,7 @@ struct CommonSegmentedControl<SegmentType: CommonSegmentTypeProtocol>: View wher
                         }
                     }, label: {
                         Text(segment.title)
-                            .font(.headline)
+                            .font(configuration.font)
                             .foregroundStyle(isSelected(segment: segment) ? configuration.selectedForegroundColor : configuration.foregroundColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .contentShape(Rectangle())
@@ -47,7 +51,7 @@ struct CommonSegmentedControl<SegmentType: CommonSegmentTypeProtocol>: View wher
                                 if isSelected(segment: segment) {
                                     Rectangle()
                                         .fill(segment.tintColor)
-                                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                                        .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius))
                                         .padding(8)
                                 }
                             }
@@ -56,9 +60,9 @@ struct CommonSegmentedControl<SegmentType: CommonSegmentTypeProtocol>: View wher
                 }
             }
         }
-        .frame(height: 60)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
-        .padding(.horizontal, 32)
+        .frame(height: configuration.height)
+        .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius))
+        .padding(.horizontal, configuration.horizontalPadding)
     }
 
     //SegmentTypeをEquatableに準拠させ、演算子の使用をサポートさせ、比較可能にさせる。

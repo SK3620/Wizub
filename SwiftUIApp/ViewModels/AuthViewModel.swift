@@ -7,6 +7,34 @@
 
 import Foundation
 import Combine
+import SwiftUI
+
+enum AuthSegmentType: CommonSegmentTypeProtocol {
+    
+    // サインインのセグメント
+    case signInSegment
+    // サインアップのセグメント
+    case signUpSegment
+    
+    // 自身のインスタンスを識別子とする
+    var id: Self {
+        return self
+    }
+
+    var title: String {
+        switch self {
+        case .signInSegment:
+            return "Sign In"
+        case .signUpSegment:
+            return "Sign Up"
+        }
+    }
+    
+    var tintColor: Color {
+        return ColorCodes.buttonBackground.color()
+    }
+}
+
 
 class AuthViewModel: ObservableObject {
     
@@ -24,7 +52,7 @@ class AuthViewModel: ObservableObject {
     @Published var password: String = ""
     
     // MARK: - Outputs
-    @Published var segmentType: SegmentType = .signInSegment
+    @Published var authSegmentType: AuthSegmentType = .signInSegment
     
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
@@ -71,7 +99,7 @@ class AuthViewModel: ObservableObject {
     private var emailValidPublisher: AnyPublisher<(email: String, error: InputValidation), Never> {
         return $email
         // SignIn/SignUpセグメントの切り替え時、$segmentTyepを発火
-            .combineLatest($segmentType)
+            .combineLatest($authSegmentType)
             .map { email, segmentType in
                 let error = InputValidation.self
                 switch true {
@@ -120,8 +148,8 @@ class AuthViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    private var segmentOnChangedPublisher: AnyPublisher<SegmentType, Never> {
-        return $segmentType
+    private var segmentOnChangedPublisher: AnyPublisher<AuthSegmentType, Never> {
+        return $authSegmentType
             .map {
                 return $0
             }
@@ -156,7 +184,7 @@ class AuthViewModel: ObservableObject {
             .map { [weak self] (error) in
                 guard let self = self else { return "" }
                 // 重複チェックはサインアップ時のみ適用
-                return (error == .emailAlreadyUsed && self.segmentType == .signInSegment) ? "" : error.errorDescription
+                return (error == .emailAlreadyUsed && self.authSegmentType == .signInSegment) ? "" : error.errorDescription
             }
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)

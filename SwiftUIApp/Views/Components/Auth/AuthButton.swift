@@ -10,13 +10,13 @@ import SwiftUI
 struct AuthButton: View {
     
     @ObservedObject var authViewModel: AuthViewModel
-    var segmentType: SegmentType
+    var segmentType: AuthSegmentType
     var title: String
     var enableButton: Bool
     
     init(authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
-        self.segmentType = authViewModel.segmentType
+        self.segmentType = authViewModel.authSegmentType
         self.title = segmentType.title
         self.enableButton = segmentType == .signUpSegment ? authViewModel.enableSignUp : authViewModel.enableSignIn
     }
