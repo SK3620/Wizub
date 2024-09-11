@@ -34,10 +34,11 @@ struct StudyTabBarView: View {
                 ZStack {
                     Image(systemName: "repeat")
                         .font(.system(size: 24))
+                        .foregroundColor(ColorCodes.primaryBlack.color())
                     
                     // アイコンにスラッシュを入れる
                     CommonSlashDivider(
-                        color: isRepeating ? .clear : .blue,
+                        color: isRepeating ? .clear : ColorCodes.primaryBlack.color(),
                         width: 55
                     )
                 }
@@ -50,7 +51,8 @@ struct StudyTabBarView: View {
                 rewindAction()
             }) {
                 Image(systemName: "gobackward.5")
-                    .font(.system(size: 24))
+                    .font(.system(size: 22))
+                    .foregroundColor(ColorCodes.primaryBlack.color())
             }
             .disabled(isRepeating ? true : false) // リピート中は非活性
             
@@ -60,6 +62,7 @@ struct StudyTabBarView: View {
             }) {
                 Image(systemName: isPaused ? "play.circle.fill" : "pause.circle.fill")
                     .font(.system(size: 35))
+                    .foregroundColor(ColorCodes.primaryBlack.color())
             }
             
             // 早送りボタン
@@ -67,7 +70,8 @@ struct StudyTabBarView: View {
                 fastForwardAction()
             }) {
                 Image(systemName: "goforward.5")
-                    .font(.system(size: 24))
+                    .font(.system(size: 22))
+                    .foregroundColor(ColorCodes.primaryBlack.color())
             }
             .disabled(isRepeating ? true : false) // リピート中は非活性
             
@@ -78,8 +82,9 @@ struct StudyTabBarView: View {
                 showMenuTabBar()
             } label: {
                 ZStack {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "ellipsis")
                         .font(.system(size: 24))
+                        .foregroundColor(ColorCodes.primaryBlack.color())
                     
                     // 故意的にアイコンにスラッシュを入れ、TabのItem全体の間隔を調整
                      CommonSlashDivider(color: .clear, width: 55)
@@ -92,3 +97,41 @@ struct StudyTabBarView: View {
         .frame(height: 49)
     }
 }
+
+struct ColorView: View {
+    var body: some View {
+        
+        Color.gray
+        
+        
+        Color(red: 0.9, green: 0.9, blue: 0.9)
+        
+        Color(red: 0.9, green: 0.9, blue: 0.9)
+
+        
+        
+
+        Text("あああああああ")
+            .foregroundColor(ColorCodes.primary.color())
+        Text("あああああああ")
+            .foregroundColor(Color(red: 0.45, green: 0.45, blue: 0.45)
+)
+        Text("あああああああ")
+            .foregroundColor(.gray)
+        Text("あああああああ")
+            .font(.headline)
+        Text("あああああああ")
+            .font(.title2)
+        Text("あああああああ")
+            .font(.title3)
+        Text("あああああああ")
+            .font(.subheadline)
+        Text("あああああああ")
+            .font(.caption)
+        
+    }
+}
+
+#Preview(body: {
+    ColorView()
+})

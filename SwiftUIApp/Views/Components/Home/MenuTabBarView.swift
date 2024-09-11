@@ -27,16 +27,17 @@ struct MenuTabBarView: View {
                     ZStack {
                         Image(systemName: "doc.text.below.ecg")
                             .font(.system(size: 22, weight: .medium))
+                            .foregroundColor(.black)
                         
                         // アイコンにスラッシュを入れる
                         CommonSlashDivider(
-                            color: isSubtitleSync ? .blue : .clear,
+                            color: isSubtitleSync ? .black : .clear,
                             width: 55
                         )
                     }
                 }
                 Text("字幕同期")
-                    .font(.footnote)
+                    .font(.caption)
             }
             
             // 再生速度
@@ -46,11 +47,13 @@ struct MenuTabBarView: View {
                 }) {
                     Text("\(playBackRate.toString())")
                         .font(.system(size: 23, weight: .medium))
+                        .foregroundColor(.black)
                 }
                 Text("再生速度")
-                    .font(.footnote)
+                    .font(.caption)
                     .padding(.top, -14)
             }
+            .frame(width: 80) // 横幅を設定し、切り替え時、左右のTabItemのUIに影響がないようにする
             .padding(.top, -2)
             
             // 編集＆翻訳アイコンの非/表示切り替え
@@ -63,24 +66,27 @@ struct MenuTabBarView: View {
                         HStack(spacing: 0) {
                             Image(systemName: "translate")
                                 .font(.system(size: 15))
+                                .foregroundColor(.black)
                             Text("/")
+                                .foregroundColor(.black)
                             Image(systemName: "pencil")
                                 .font(.system(size: 15))
+                                .foregroundColor(.black)
                         }
                         
                         // アイコンにスラッシュを入れる
                         CommonSlashDivider(
-                            color: isTranslateEditIconSlashed ? .blue : .clear,
+                            color: isTranslateEditIconSlashed ? .black : .clear,
                             width: 55
                         )
                     }
                 }
                 Text("翻訳/編集")
-                    .font(.footnote)
+                    .font(.caption)
             }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 49)
-        .background(Color(CGColor(gray: 0.9, alpha: 1.0)))
+        .background(ColorCodes.primary2.color())
     }
 }

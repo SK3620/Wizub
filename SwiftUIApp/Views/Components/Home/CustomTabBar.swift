@@ -45,7 +45,7 @@ struct CustomTabBar: View {
                     } label: {
                         VStack(spacing: 4) {
                             Image(systemName: tab.symbolName())
-                                .font(.system(size: 30))
+                                .font(.system(size: 26))
                                 .frame(maxWidth: .infinity)
                                 .foregroundColor(currentTab == tab ? .white : .gray)
                             
