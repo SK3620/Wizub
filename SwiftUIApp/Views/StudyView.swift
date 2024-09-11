@@ -129,6 +129,12 @@ struct StudyView: View {
                 studyViewModel.apply(event: .getSavedSubtitles(videoId: videoId)) :
                 studyViewModel.apply(event: .getSubtitles(videoId: videoId))
             }
+            // データ保存/更新の成功時、遷移元画面へ自動で戻る
+            .onChange(of: studyViewModel.successStatus) { oldStatus, newStatus in
+                if newStatus == .dataSaved {
+                   dismiss()
+                }
+            }
             // 字幕編集画面
             if studyViewModel.isShowEditDialog {
                 EditDialogView(
