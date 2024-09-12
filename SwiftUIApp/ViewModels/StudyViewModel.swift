@@ -218,15 +218,15 @@ class StudyViewModel: ObservableObject {
     
     // MARK: - Deinitializer
     deinit {
-        cancellableBag.removeAll()
-        stopTimer()
-        stopRepeat()
-        
         // API通信中に遷移元画面に戻った場合のための処理
         isLoading = false
         isSuccess = false
         successStatus = nil
         isShowError = false
+        
+        cancellableBag.removeAll()
+        stopTimer()
+        stopRepeat()
     }
     
     // 翻訳アイコンが押下されているかどうか判定
