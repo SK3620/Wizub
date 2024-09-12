@@ -167,9 +167,11 @@ struct StudyView: View {
                     } label: {
                         Text("保存/終了")
                             .fontWeight(.medium)
-                            .foregroundColor(!studyViewModel.isLoading ? ColorCodes.primary.color() : ColorCodes.buttonBackground.color().opacity(0.3) )
+                        // ローディング中と字幕が空の場合は非活性＆色を薄くする
+                            .foregroundColor(studyViewModel.isLoading || studyViewModel.subtitleDetails.isEmpty ? ColorCodes.buttonBackground.color().opacity(0.3) : ColorCodes.primary.color())
                     }
-                    .disabled(studyViewModel.isLoading)
+                    // ローディング中と字幕が空の場合は非活性
+                    .disabled(studyViewModel.isLoading || studyViewModel.subtitleDetails.isEmpty)
                 }
             }
         }
