@@ -55,10 +55,9 @@ struct StudyView: View {
                                             studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
                                         },
                                         editSubtitle: {
-                                            // 編集する字幕を保持させておく
+                                            //編集する字幕を保持させておく
                                             studyViewModel.currentlyEditedSubtitleDetail = subtitleDetail
-                                        }
-                                    )
+                                        })
                                     .onTapGesture {
                                         // ハイライトされる字幕を更新
                                         studyViewModel.currentSubtitleIndex = index
@@ -136,7 +135,7 @@ struct StudyView: View {
             // データ保存/更新の成功時、遷移元画面へ自動で戻る
             .onChange(of: studyViewModel.successStatus) { oldStatus, newStatus in
                 if newStatus == .dataSaved {
-                   dismiss()
+                    dismiss()
                 }
             }
             // 字幕編集画面

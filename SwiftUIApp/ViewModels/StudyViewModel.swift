@@ -74,11 +74,11 @@ class StudyViewModel: ObservableObject {
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
     // 翻訳リストシートを表示するかどうか
-    @Published var isShowSheet = false
+    @Published var isShowSheet: Bool = false
     // メニュータブバーを出現させるかどうか
-    @Published var isShowMenuTabBar = false
+    @Published var isShowMenuTabBar: Bool = false
     // 編集/翻訳アイコンを表示するかどうか
-    @Published var isShowTranslateEditIcon = false
+    @Published var isShowTranslateEditIcon: Bool = false
     // 編集ダイアログを表示するかどうか
     @Published var isShowEditDialog: Bool = false
     
@@ -160,7 +160,7 @@ class StudyViewModel: ObservableObject {
             }
             .store(in: &cancellableBag)
         
-        // 押下された字幕を発行する
+        // 押下された字幕を発行する（append)
         translateButtonPressed
             .receive(on: RunLoop.main)
             .sink { [weak self] subtitleDetail in
@@ -172,7 +172,7 @@ class StudyViewModel: ObservableObject {
             }
             .store(in: &cancellableBag)
         
-        // 押下された字幕を発行する
+        // 押下された字幕を発行する（remove)
         removeSubtitleButtonPressed
             .receive(on: RunLoop.main)
             .sink { [weak self] subtitleDetail in
