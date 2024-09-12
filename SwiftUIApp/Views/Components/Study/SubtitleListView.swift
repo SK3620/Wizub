@@ -9,10 +9,16 @@ import SwiftUI
 
 struct SubtitleListView: View {
     
-    private var subtitleDetails: SubtitleModel.SubtitleDetailModel
+    private var subtitleDetail: SubtitleModel.SubtitleDetailModel
     
     // 現在の字幕がハイライトされているかどうか
     private var isHighlighted: Bool
+    
+    // 編集/翻訳アイコンを表示するかどうか
+    private var isShowTranslateEditIcon: Bool = false
+    
+    // 翻訳アイコンが押下されているかどうか
+    private var isSubtitleSelected: Bool = false
     
     // 編集
     private var editSubtitle: () -> Void
@@ -23,23 +29,19 @@ struct SubtitleListView: View {
     // 格納した字幕を配列から除外する
     private var removeSubtitle: () -> Void
     
-    // 編集/翻訳アイコンを表示するかどうか
-    private var isShowTranslateEditIcon: Bool = false
-    
-    // 翻訳アイコン切り替え（選択中か未選択か）
-    @State private var toggleTranslateIcon: Bool = false
-    
     init(
-        subtitleDetails: SubtitleModel.SubtitleDetailModel,
+        subtitleDetail: SubtitleModel.SubtitleDetailModel,
         isHighlighted: Bool,
         isShowTranslateEditIcon: Bool,
+        isSubtitleSelected: Bool,
         storeSubtitles: @escaping () -> Void,
         removeSubtitle: @escaping () -> Void,
         editSubtitle: @escaping () -> Void
     ) {
-        self.subtitleDetails = subtitleDetails
+        self.subtitleDetail = subtitleDetail
         self.isHighlighted = isHighlighted
         self.isShowTranslateEditIcon = isShowTranslateEditIcon
+        self.isSubtitleSelected = isSubtitleSelected
         self.storeSubtitles = storeSubtitles
         self.removeSubtitle = removeSubtitle
         self.editSubtitle = editSubtitle
@@ -49,14 +51,14 @@ struct SubtitleListView: View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
                 // 英語字幕
-                Text(subtitleDetails.enSubtitle)
+                Text(subtitleDetail.enSubtitle)
                     .font(.body)
                 // ハイライトされる字幕の色
                     .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
                 
-                if !subtitleDetails.jaSubtitle.isEmpty {
+                if !subtitleDetail.jaSubtitle.isEmpty {
                     // 日本語字幕
-                    Text(subtitleDetails.jaSubtitle)
+                    Text(subtitleDetail.jaSubtitle)
                         .font(.body)
                     // ハイライトされる字幕の色
                         .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
@@ -82,7 +84,7 @@ struct SubtitleListView: View {
                 .foregroundColor(.gray.opacity(0.3)),
             alignment: .bottom
         )
-        .id(subtitleDetails.id)
+        .id(subtitleDetail.id)
     }
     
     private var translationEditIcons: some View {
@@ -99,11 +101,9 @@ struct SubtitleListView: View {
             
             // 翻訳ボタン
             Button {
-                // 配列から除外 or 配列に格納
-                toggleTranslateIcon ? removeSubtitle() : storeSubtitles()
-                toggleTranslateIcon.toggle()
+                isSubtitleSelected ? removeSubtitle() : storeSubtitles()
             } label: {
-                if toggleTranslateIcon {
+                if isSubtitleSelected {
                     Image(systemName: "translate")
                         .font(.system(size: 15))
                         .foregroundColor(.white)
@@ -125,14 +125,5 @@ struct SubtitleListView: View {
         }
         .padding(.vertical, 16)
         .padding(.trailing, 12)
-    }
-    
-    private func toggleTranslation() {
-        if toggleTranslateIcon {
-            removeSubtitle()
-        } else {
-            storeSubtitles()
-        }
-        toggleTranslateIcon.toggle()
     }
 }

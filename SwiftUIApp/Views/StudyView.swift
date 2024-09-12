@@ -45,9 +45,10 @@ struct StudyView: View {
                                 ForEach(Array(studyViewModel.subtitleDetails.enumerated()), id: \.offset){
                                     index, subtitleDetail in
                                     SubtitleListView(
-                                        subtitleDetails: subtitleDetail,
+                                        subtitleDetail: subtitleDetail,
                                         isHighlighted: studyViewModel.currentSubtitleIndex == index,
                                         isShowTranslateEditIcon: studyViewModel.isShowTranslateEditIcon,
+                                        isSubtitleSelected: studyViewModel.contains(element: subtitleDetail),
                                         storeSubtitles: {
                                             studyViewModel.translateButtonPressed.send(subtitleDetail)
                                         },

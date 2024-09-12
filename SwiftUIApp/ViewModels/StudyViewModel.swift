@@ -118,7 +118,8 @@ class StudyViewModel: ObservableObject {
     
     // MARK: - Apply API Event
     func apply(event: ApiEvent) {
-        isLoading = true
+        isLoading = true // ローディング開始
+        youTubePlayer.pause() // 動画停止
         switch event {
         case .getSubtitles(let videoId):
             getSubtitles(videoId: videoId)
@@ -220,6 +221,11 @@ class StudyViewModel: ObservableObject {
         cancellableBag.removeAll()
         stopTimer()
         stopRepeat()
+    }
+    
+    // 翻訳アイコンが押下されているかどうか判定
+    func contains(element: SubtitleModel.SubtitleDetailModel) -> Bool {
+        return pendingTranslatedSubtitles.contains(where: { $0.subtitleId == element.subtitleId })
     }
 }
 
