@@ -46,6 +46,15 @@ struct TranslateView: View {
     // 全ての字幕の翻訳
     var translateAll: () -> Void
     
+    private var subtitles: [SubtitleModel.SubtitleDetailModel] {
+        switch segmentType {
+        case .selected:
+            return pendingTranslatedSubtitles
+        case .all:
+            return allSubtitles
+        }
+    }
+    
     init(
          pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel],
          allSubtitles: [SubtitleModel.SubtitleDetailModel],
@@ -70,12 +79,13 @@ struct TranslateView: View {
                 .shadow(color: .gray, radius: 1)
             
             // 字幕をリスト表示
-            SubtitleList(subtitles: segmentType == .selected ? pendingTranslatedSubtitles : allSubtitles)
+            SubtitleList(subtitles: subtitles)
             
             // 翻訳ボタン
             TranslateButton(
                 action: segmentType == .selected ? translateSelected : translateAll,
-                title: "ChatGPT 翻訳"
+                title: "ChatGPT 翻訳",
+                disableButton: subtitles.isEmpty
             )
         }
         .padding()
@@ -129,6 +139,7 @@ struct SubtitleList: View {
 struct TranslateButton: View {
     var action: () -> Void
     var title: String
+    var disableButton: Bool
     
     var body: some View {
         Button(action: action) {
@@ -141,8 +152,9 @@ struct TranslateButton: View {
             .padding(.vertical, 16)
             .background(
                 Capsule()
-                    .fill(ColorCodes.primary.color())
+                    .fill(!disableButton ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3))
             )
         }
+        .disabled(disableButton)
     }
 }
