@@ -244,8 +244,8 @@ extension StudyViewModel {
     
     // ハイライトされる字幕のindexを更新
     func updateCurrentSubtitleIndex(for currentTime: Double) {
-        // 字幕同期が無効であればreturn
-        guard !isSubtitleSync else { return }
+        // 字幕同期が無効中、字幕がない場合はreturn
+        guard !isSubtitleSync, subtitleDetails.count >= 1 else { return }
         
         for i in 0..<subtitleDetails.count - 1 {
             if currentTime >= subtitleDetails[i].start && currentTime < subtitleDetails[i + 1].start {
