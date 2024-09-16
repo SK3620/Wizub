@@ -18,16 +18,16 @@ struct AFErrorStatus: Error {
     }
     
     // MARK: - AFError
-    var status: HttpError {
+    var status: HttpError? {
         switch afError {
         case .createUploadableFailed(let error):
-            return HttpError.createUploadableFailed(error)
+            return .createUploadableFailed(error)
         case .createURLRequestFailed(let error):
             return HttpError.createURLRequestFailed(error)
         case .downloadedFileMoveFailed(let error, let source, let destination):
-            return HttpError.downloadedFileMoveFailed(error, source, destination)
+            return .downloadedFileMoveFailed(error, source, destination)
         case .explicitlyCancelled:
-            return HttpError.explicitlyCancelled
+            return .explicitlyCancelled
         case .invalidURL(let url):
             return HttpError.invalidURL(url)
         case .multipartEncodingFailed(let reason):
