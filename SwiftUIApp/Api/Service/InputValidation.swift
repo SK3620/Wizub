@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum InputValidation: Error {
+enum AuthInputValidation: Error {
     
     case missingUsername
     case missingEmail

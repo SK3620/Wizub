@@ -87,21 +87,21 @@ class AuthViewModel: ObservableObject {
     private var cancellableBag = Set<AnyCancellable>()
     
     // MARK: - AnyPublisher
-    private var usernameValidPublisher: AnyPublisher<InputValidation, Never> {
+    private var usernameValidPublisher: AnyPublisher<AuthInputValidation, Never> {
         return $userName
             .map {
-                let error = InputValidation.self
+                let error = AuthInputValidation.self
                 return $0.isEmpty ? error.missingUsername : error.noError
             }
             .eraseToAnyPublisher()
     }
     
-    private var emailValidPublisher: AnyPublisher<(email: String, error: InputValidation), Never> {
+    private var emailValidPublisher: AnyPublisher<(email: String, error: AuthInputValidation), Never> {
         return $email
         // SignIn/SignUpセグメントの切り替え時、$segmentTyepを発火
             .combineLatest($authSegmentType)
             .map { email, segmentType in
-                let error = InputValidation.self
+                let error = AuthInputValidation.self
                 switch true {
                 case email.isEmpty:
                     return (email: email, error: error.missingEmail)
@@ -114,7 +114,7 @@ class AuthViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    private var emailServerValidPublisher: AnyPublisher<InputValidation, Never> {
+    private var emailServerValidPublisher: AnyPublisher<AuthInputValidation, Never> {
         return emailValidPublisher
             .filter {
                 return $0.error == .noError
@@ -126,16 +126,16 @@ class AuthViewModel: ObservableObject {
                 return self.checkEmail(email: value.email)
             }
             .map {
-                let error = InputValidation.self
+                let error = AuthInputValidation.self
                 return !$0 ? error.noError : error.emailAlreadyUsed
             }
             .eraseToAnyPublisher()
     }
     
-    private var passwordValidPublisher: AnyPublisher<InputValidation, Never> {
+    private var passwordValidPublisher: AnyPublisher<AuthInputValidation, Never> {
         return $password
             .map {
-                let error = InputValidation.self
+                let error = AuthInputValidation.self
                 switch true {
                 case $0.isEmpty:
                     return error.missingPassword
