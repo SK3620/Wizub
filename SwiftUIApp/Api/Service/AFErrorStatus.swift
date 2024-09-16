@@ -40,8 +40,9 @@ struct AFErrorStatus: Error {
             return HttpError.requestAdaptationFailed(error)
         case .requestRetryFailed(let retryError, let originalError):
             return HttpError.requestRetryFailed(retryError, originalError)
-        case .responseValidationFailed(let reason):
-            return HttpError.responseValidationFailed(reason)
+        case .responseValidationFailed(_):
+            // サーバーから返却されたステータスコードがエラーコードの場合に検知されるエラーであり、laravel側で返却するカスタムエラーを受け取れない可能性があるため、nilに設定
+            return nil
         case .responseSerializationFailed(let reason):
             return HttpError.responseSerializationFailed(reason)
         case .serverTrustEvaluationFailed(let reason):
