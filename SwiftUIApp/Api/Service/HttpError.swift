@@ -53,34 +53,37 @@ enum HttpError: Error, LocalizedError {
     // case jsonParsingError
     
     // HTTP error 400
-    case badRequest
+    case badRequest(HttpErrorStatus.HttpErrorMessage)
     
     // HTTP error 401
-    case unauthorized
+    case unauthorized(HttpErrorStatus.HttpErrorMessage)
     
     // HTTP error 403
-    case forbidden
+    case forbidden(HttpErrorStatus.HttpErrorMessage)
+    
+    // HTTP error 404
+    case notFound(HttpErrorStatus.HttpErrorMessage)
     
     // HTTP error 405
-    case methodNotAllowed
+    case methodNotAllowed(HttpErrorStatus.HttpErrorMessage)
     
     // HTTP error 406
-    case notAcceptable
+    case notAcceptable(HttpErrorStatus.HttpErrorMessage)
     
     // HTTP error 408
-    case requestTimeOut
+    case requestTimeOut(HttpErrorStatus.HttpErrorMessage)
     
     // The server error 500 ~ 599
-    case serverError
+    case serverError(HttpErrorStatus.HttpErrorMessage)
     
     // Invalid Request
     case invalidRequest
     
     // Invaild Response
-    case invalidResponse
+    // case invalidResponse
     
     // HTTP error -1001
-     case timeout
+    case timeout
 
     // A network connection could not be made
     case noNetwork
@@ -92,12 +95,12 @@ enum HttpError: Error, LocalizedError {
     // case other(Error)
     
     // Unknown Error
-    case unknown
+    case unknown(HttpErrorStatus.HttpErrorMessage)
     
     // MARK: - LocalizedError Implementation
     public var errorDescription: String? {
         #if DEVELOP
-        return debugDescription
+        return description
         #else
         return description
         #endif
@@ -106,83 +109,83 @@ enum HttpError: Error, LocalizedError {
     // MARK: - Localized Descriptions
     var description: String {
         switch self {
-        case .createUploadableFailed(let error):
+        case .createUploadableFailed(_):
             return NSLocalizedString("ファイルのアップロード処理に失敗しました。", comment: "Failed to create uploadable item")
             
-        case .createURLRequestFailed(let error):
+        case .createURLRequestFailed(_):
             return NSLocalizedString("URLリクエストの作成に失敗しました。", comment: "Failed to create URL request")
             
-        case .downloadedFileMoveFailed(let error, let url, let url2):
-            return NSLocalizedString("ダウンロードしたファイルの移動に失敗しました。ファイルパス: \(url) から \(url2) への移動に問題が発生しました。", comment: "Failed to move downloaded file")
+        case .downloadedFileMoveFailed(_, _, _):
+            return NSLocalizedString("ダウンロードしたファイルの移動に失敗しました。", comment: "Failed to move downloaded file")
             
         case .explicitlyCancelled:
             return NSLocalizedString("操作がキャンセルされました。", comment: "Operation was explicitly cancelled")
             
-        case .invalidURL(let urlConvertible):
-            return NSLocalizedString("無効なURLが指定されました。URL: \(urlConvertible)", comment: "Invalid URL provided")
+        case .invalidURL(_):
+            return NSLocalizedString("無効なURLが指定されました。", comment: "Invalid URL provided")
             
-        case .multipartEncodingFailed(let multipartEncodingFailureReason):
-            return NSLocalizedString("マルチパートエンコーディングに失敗しました: \(multipartEncodingFailureReason)", comment: "Multipart encoding failed")
+        case .multipartEncodingFailed(_):
+            return NSLocalizedString("マルチパートエンコーディングに失敗しました", comment: "Multipart encoding failed")
             
-        case .parameterEncodingFailed(let parameterEncodingFailureReason):
-            return NSLocalizedString("パラメータエンコーディングに失敗しました: \(parameterEncodingFailureReason)", comment: "Parameter encoding failed")
+        case .parameterEncodingFailed(_):
+            return NSLocalizedString("パラメータエンコーディングに失敗しました", comment: "Parameter encoding failed")
             
-        case .parameterEncoderFailed(let parameterEncoderFailureReason):
-            return NSLocalizedString("パラメータエンコーダーに失敗しました: \(parameterEncoderFailureReason)", comment: "Parameter encoder failed")
+        case .parameterEncoderFailed(_):
+            return NSLocalizedString("パラメータエンコーダーに失敗しました", comment: "Parameter encoder failed")
             
-        case .requestAdaptationFailed(let error):
-            return NSLocalizedString("リクエストの適応に失敗しました。: \(error)", comment: "Request adaptation failed")
+        case .requestAdaptationFailed(_):
+            return NSLocalizedString("リクエストの適応に失敗しました", comment: "Request adaptation failed")
             
-        case .requestRetryFailed(let error, let error2):
-            return NSLocalizedString("リクエストの再試行に失敗しました: \(error) と \(error2)", comment: "Request retry failed")
+        case .requestRetryFailed(_):
+            return NSLocalizedString("リクエストの再試行に失敗しました", comment: "Request retry failed")
             
-        case .responseValidationFailed(let responseValidationFailureReason):
-            return NSLocalizedString("レスポンスの検証に失敗しました: \(responseValidationFailureReason)", comment: "Response validation failed")
+        case .responseValidationFailed(_):
+            return NSLocalizedString("レスポンスの検証に失敗しました。", comment: "Response validation failed")
             
-        case .responseSerializationFailed(let responseSerializationFailureReason):
-            return NSLocalizedString("レスポンスのシリアライズに失敗しました: \(responseSerializationFailureReason)", comment: "Response serialization failed")
+        case .responseSerializationFailed(_):
+            return NSLocalizedString("レスポンスのシリアライズに失敗しました。", comment: "Response serialization failed")
             
-        case .serverTrustEvaluationFailed(let serverTrustFailureReason):
-            return NSLocalizedString("サーバー信頼性の評価に失敗しました: \(serverTrustFailureReason)", comment: "Server trust evaluation failed")
+        case .serverTrustEvaluationFailed(_):
+            return NSLocalizedString("サーバー信頼性の評価に失敗しました。", comment: "Server trust evaluation failed")
             
         case .sessionDeinitialized:
             return NSLocalizedString("セッションが正しく初期化されていません。", comment: "Session deinitialized")
             
-        case .sessionInvalidated(let error):
-            return NSLocalizedString("セッションが無効化されました: \(String(describing: error))", comment: "Session invalidated")
+        case .sessionInvalidated(_):
+            return NSLocalizedString("セッションが無効化されました。", comment: "Session invalidated")
             
-        case .sessionTaskFailed(let error):
-            return NSLocalizedString("セッションタスクに失敗しました: \(error)", comment: "Session task failed")
+        case .sessionTaskFailed(_):
+            return NSLocalizedString("通信エラーが発生しました。", comment: "Session task failed")
             
-        case .urlRequestValidationFailed(let urlRequestValidationFailureReason):
-            return NSLocalizedString("URLリクエストの検証に失敗しました: \(urlRequestValidationFailureReason)", comment: "URL request validation failed")
+        case .urlRequestValidationFailed(_):
+            return NSLocalizedString("URLリクエストの検証に失敗しました。", comment: "URL request validation failed")
             
-        case .badRequest:
-            return NSLocalizedString("不正なリクエストです。", comment: "Bad request")
+        case .badRequest(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Bad request")
             
-        case .unauthorized:
-            return NSLocalizedString("認証に失敗しました。もう一度お試しください。", comment: "Unauthorized")
+        case .unauthorized(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Unauthorized")
             
-        case .forbidden:
-            return NSLocalizedString("アクセスが禁止されています。", comment: "Forbidden")
+        case .forbidden(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Forbidden")
             
-        case .methodNotAllowed:
-            return NSLocalizedString("許可されていないメソッドです。", comment: "Method not allowed")
+        case .notFound(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Not Found")
             
-        case .notAcceptable:
-            return NSLocalizedString("受け入れ不可能なリクエストです。", comment: "Not acceptable")
+        case .methodNotAllowed(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Method not allowed")
             
-        case .requestTimeOut:
-            return NSLocalizedString("リクエストがタイムアウトしました。", comment: "Request timeout")
+        case .notAcceptable(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Not acceptable")
             
-        case .serverError:
-            return NSLocalizedString("サーバー内部でエラーが発生しました。", comment: "Server error")
+        case .requestTimeOut(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Request timeout")
+            
+        case .serverError(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Server error")
             
         case .invalidRequest:
             return NSLocalizedString("無効なリクエストです。", comment: "Invalid request")
-            
-        case .invalidResponse:
-            return NSLocalizedString("無効なレスポンスです。", comment: "Invalid resppnse")
             
         case .timeout:
             return NSLocalizedString("リクエストがタイムアウトしました。", comment: "Timeout")
@@ -190,122 +193,124 @@ enum HttpError: Error, LocalizedError {
         case .noNetwork:
             return NSLocalizedString("ネットワーク接続がありません。", comment: "No network")
             
-        case .unknown:
-            return NSLocalizedString("不明なエラーが発生しました。", comment: "Unknown error")
+        case .unknown(let httpErrorMessage):
+            return NSLocalizedString(httpErrorMessage.message, comment: "Unknown error")
         }
     }
-    
-    // MARK: - Debug Descriptions
+        
+        // MARK: - Debug Descriptions
     var debugDescription: String {
         switch self {
         case .createUploadableFailed(let error):
-            return "Uploadable item creation failed with error: \(error)"
+               return NSLocalizedString("Uploadable item creation failed with error: \(error)", comment: "")
+               
+           case .createURLRequestFailed(let error):
+               return NSLocalizedString("URL request creation failed with error: \(error)", comment: "")
+               
+           case .downloadedFileMoveFailed(let error, let url, let url2):
+               return NSLocalizedString("Failed to move downloaded file from \(url) to \(url2) with error: \(error)", comment: "")
+               
+           case .explicitlyCancelled:
+               return NSLocalizedString("Operation was explicitly cancelled by the user.", comment: "")
+               
+           case .invalidURL(let urlConvertible):
+               return NSLocalizedString("Invalid URL provided: \(urlConvertible)", comment: "")
+               
+           case .multipartEncodingFailed(let multipartEncodingFailureReason):
+               return NSLocalizedString("Multipart encoding failed due to reason: \(multipartEncodingFailureReason)", comment: "")
+               
+           case .parameterEncodingFailed(let parameterEncodingFailureReason):
+               return NSLocalizedString("Parameter encoding failed due to reason: \(parameterEncodingFailureReason)", comment: "")
+               
+           case .parameterEncoderFailed(let parameterEncoderFailureReason):
+               return NSLocalizedString("Parameter encoder failed due to reason: \(parameterEncoderFailureReason)", comment: "")
+               
+           case .requestAdaptationFailed(let error):
+               return NSLocalizedString("Request adaptation failed with error: \(error)", comment: "")
+               
+           case .requestRetryFailed(let error, let error2):
+               return NSLocalizedString("Request retry failed with errors: \(error) and \(error2)", comment: "")
+               
+           case .responseValidationFailed(let responseValidationFailureReason):
+               return NSLocalizedString("Response validation failed due to reason: \(responseValidationFailureReason)", comment: "")
+               
+           case .responseSerializationFailed(let responseSerializationFailureReason):
+               return NSLocalizedString("Response serialization failed due to reason: \(responseSerializationFailureReason)", comment: "")
+               
+           case .serverTrustEvaluationFailed(let serverTrustFailureReason):
+               return NSLocalizedString("Server trust evaluation failed due to reason: \(serverTrustFailureReason)", comment: "")
+               
+           case .sessionDeinitialized:
+               return NSLocalizedString("Session was deinitialized unexpectedly.", comment: "")
+               
+           case .sessionInvalidated(let error):
+               return NSLocalizedString("Session was invalidated with error: \(String(describing: error))", comment: "")
+               
+           case .sessionTaskFailed(let error):
+               return NSLocalizedString("Session task failed with error: \(error)", comment: "")
+               
+           case .urlRequestValidationFailed(let urlRequestValidationFailureReason):
+               return NSLocalizedString("URL request validation failed due to reason: \(urlRequestValidationFailureReason)", comment: "")
             
-        case .createURLRequestFailed(let error):
-            return "URL request creation failed with error: \(error)"
+        case .badRequest(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)" , comment: "Bad request")
             
-        case .downloadedFileMoveFailed(let error, let url, let url2):
-            return "Failed to move downloaded file from \(url) to \(url2) with error: \(error)"
+        case .unauthorized(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Unauthorized")
             
-        case .explicitlyCancelled:
-            return "Operation was explicitly cancelled by the user."
+        case .forbidden(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Forbidden")
             
-        case .invalidURL(let urlConvertible):
-            return "Invalid URL provided: \(urlConvertible)"
+        case .notFound(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Not Found")
             
-        case .multipartEncodingFailed(let multipartEncodingFailureReason):
-            return "Multipart encoding failed due to reason: \(multipartEncodingFailureReason)"
+        case .methodNotAllowed(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Method not allowed")
             
-        case .parameterEncodingFailed(let parameterEncodingFailureReason):
-            return "Parameter encoding failed due to reason: \(parameterEncodingFailureReason)"
+        case .notAcceptable(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Not acceptable")
             
-        case .parameterEncoderFailed(let parameterEncoderFailureReason):
-            return "Parameter encoder failed due to reason: \(parameterEncoderFailureReason)"
+        case .requestTimeOut(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Request timeout")
             
-        case .requestAdaptationFailed(let error):
-            return "Request adaptation failed with error: \(error)"
-            
-        case .requestRetryFailed(let error, let error2):
-            return "Request retry failed with errors: \(error) and \(error2)"
-            
-        case .responseValidationFailed(let responseValidationFailureReason):
-            return "Response validation failed due to reason: \(responseValidationFailureReason)"
-            
-        case .responseSerializationFailed(let responseSerializationFailureReason):
-            return "Response serialization failed due to reason: \(responseSerializationFailureReason)"
-            
-        case .serverTrustEvaluationFailed(let serverTrustFailureReason):
-            return "Server trust evaluation failed due to reason: \(serverTrustFailureReason)"
-            
-        case .sessionDeinitialized:
-            return "Session was deinitialized unexpectedly."
-            
-        case .sessionInvalidated(let error):
-            return "Session was invalidated with error: \(String(describing: error))"
-            
-        case .sessionTaskFailed(let error):
-            return "Session task failed with error: \(error)"
-            
-        case .urlRequestValidationFailed(let urlRequestValidationFailureReason):
-            return "URL request validation failed due to reason: \(urlRequestValidationFailureReason)"
-            
-        case .badRequest:
-            return "Bad request encountered."
-            
-        case .unauthorized:
-            return "Unauthorized access attempt."
-            
-        case .forbidden:
-            return "Access forbidden for the requested resource."
-            
-        case .methodNotAllowed:
-            return "HTTP method not allowed for the requested URL."
-            
-        case .notAcceptable:
-            return "Requested resource is not acceptable based on the Accept headers."
-            
-        case .requestTimeOut:
-            return "Request timed out."
-            
-        case .serverError:
-            return "Server encountered an internal error."
+        case .serverError(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Server error")
             
         case .invalidRequest:
-            return "Request is invalid."
-            
-        case .invalidResponse:
-            return "Response is invalid"
+            return NSLocalizedString("無効なリクエストです。", comment: "Invalid request")
             
         case .timeout:
-            return "Request timeout occurred."
+            return NSLocalizedString("リクエストがタイムアウトしました。", comment: "Timeout")
             
         case .noNetwork:
-            return "Network connection is unavailable."
+            return NSLocalizedString("ネットワーク接続がありません。", comment: "No network")
             
-        case .unknown:
-            return "An unknown error occurred."
+        case .unknown(let httpErrorMessage):
+            return NSLocalizedString("\(httpErrorMessage.message) with detail: \(httpErrorMessage.detail)", comment: "Unknown error")
         }
     }
 
     // MARK: - Error Codes
+    /*
     var code: Int {
         switch self {
-//        case .unauthorized:
-//            return 401
-//        case .forbidden:
-//            return 403
-//        case .httpError:
-//            return 599
+        case .unauthorized:
+            return 401
+        case .forbidden:
+            return 403
+        case .httpError:
+            return 599
         case .timeout:
             return -1001
         case .noNetwork:
             return -1009
-//        case .serverResponse(let status, _):
-//            return status.rawValue
-//        case .other(let error as NSError):
-//            return error.code
+        case .serverResponse(let status, _):
+            return status.rawValue
+        case .other(let error as NSError):
+            return error.code
         default:
             return 499
         }
     }
+     */
 }
