@@ -54,7 +54,7 @@ struct AuthPickerView: View {
                 }
             }
             .alert(isPresented: $authViewModel.isShowError) {
-                Alert(title: Text("Error"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
+                Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
             }
             .navigationDestination(for: NavigationPath.self, destination: { appended in
                 appended.Destination()

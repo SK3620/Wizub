@@ -152,7 +152,10 @@ struct StudyView: View {
                     })
             }
         }
-        
+        .alert(isPresented: $studyViewModel.isShowError) {
+            // アラート表示 改行を処理
+            Alert(title: Text("エラー"), message: Text(studyViewModel.httpErrorMsg.replacingOccurrences(of: "\\n", with: "\n")), dismissButton: .default(Text("OK")))
+        }
         .toolbar {
             // 編集画面表示中はtoolbarを非表示
             if !studyViewModel.isShowEditDialog {
