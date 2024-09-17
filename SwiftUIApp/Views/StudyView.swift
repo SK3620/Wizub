@@ -108,7 +108,9 @@ struct StudyView: View {
                         isSubtitleSync: $studyViewModel.isSubtitleSync,
                         toggleTranslateEditIcon: { studyViewModel.isShowTranslateEditIcon.toggle() },
                         changePlaybackRate: { studyViewModel.changePlayBackRate() },
-                        playBackRate: studyViewModel.playBackRate
+                        playBackRate: studyViewModel.playBackRate,
+                        isTranslateIconSelectedAll: $studyViewModel.isTranslateIconSelectedAll,
+                        appendOrRemoveAllSubtitles: { studyViewModel.appendOrRemoveAllSubtitles() }
                     )
                     .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
                     .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)

@@ -79,6 +79,8 @@ class StudyViewModel: ObservableObject {
     @Published var isShowMenuTabBar: Bool = false
     // 編集/翻訳アイコンを表示するかどうか
     @Published var isShowTranslateEditIcon: Bool = false
+    // 翻訳アイコンが全選択/全未選択かどうか
+    @Published var isTranslateIconSelectedAll: Bool = false
     // 編集ダイアログを表示するかどうか
     @Published var isShowEditDialog: Bool = false
     
@@ -233,6 +235,18 @@ class StudyViewModel: ObservableObject {
     func contains(element: SubtitleModel.SubtitleDetailModel) -> Bool {
         return pendingTranslatedSubtitles.contains(where: { $0.subtitleId == element.subtitleId })
     }
+    
+    // 翻訳アイコンを全選択/全未選択状態に応じて、翻訳する字幕を格納する配列を操作
+    func appendOrRemoveAllSubtitles() {
+        if isTranslateIconSelectedAll {
+            // 配列に全ての字幕を代入
+            pendingTranslatedSubtitles = subtitleDetails
+        } else {
+            // 翻訳する字幕を全て排除
+            pendingTranslatedSubtitles.removeAll()
+        }
+    }
+    
 }
 
 // MARK: - Playback Controls

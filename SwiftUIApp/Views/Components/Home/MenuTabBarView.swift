@@ -9,10 +9,18 @@ import SwiftUI
 
 struct MenuTabBarView: View {
     
+    // 字幕同期するかどうか
     @Binding var isSubtitleSync: Bool
+    // 編集/翻訳アイコンを表示するかどうかを処理
     var toggleTranslateEditIcon: () -> Void
+    // 再生速度変更
     var changePlaybackRate: () -> Void
+    // 再生速度
     var playBackRate: PlayBackRate
+    // 翻訳アイコンが全選択/全未選択かどうか
+    @Binding var isTranslateIconSelectedAll: Bool
+    // 翻訳する字幕を格納する配列を操作
+    var appendOrRemoveAllSubtitles: () -> Void
     
     // 翻訳/編集アイコンボタンにスラッシュを入れるかどうか
     @State var isTranslateEditIconSlashed: Bool = true
@@ -82,6 +90,37 @@ struct MenuTabBarView: View {
                     }
                 }
                 Text("翻訳/編集")
+                    .font(.caption)
+                    .padding(.top, -5)
+            }
+            
+            // 翻訳アイコン全選択/全未選択toggleボタン
+            VStack(spacing: 0) {
+                Button {
+                    isTranslateIconSelectedAll.toggle()
+                    appendOrRemoveAllSubtitles()
+                } label: {
+                    if isTranslateIconSelectedAll {
+                        Image(systemName: "translate")
+                            .font(.system(size: 13))
+                            .foregroundColor(.white)
+                            .padding(5)
+                            .background(
+                                Circle()
+                                    .fill(ColorCodes.primary.color().opacity(0.7))
+                                    .overlay(Circle().stroke(ColorCodes.primary.color(), lineWidth: 2))
+                            )
+                    } else {
+                        Image(systemName: "translate")
+                            .font(.system(size: 13))
+                            .foregroundColor(.black)
+                            .padding(5)
+                            .background(Circle().stroke(Color.gray, lineWidth: 1))
+                    }
+                }
+                .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
+                
+                Text("全選択")
                     .font(.caption)
             }
         }
