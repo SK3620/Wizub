@@ -18,7 +18,7 @@ struct MenuTabBarView: View {
     @State var isTranslateEditIconSlashed: Bool = true
     
     var body: some View {
-        HStack(spacing: 48) {
+        HStack(spacing: 40) {
             // 字幕同期
             VStack(spacing: 0) {
                 Button(action: {
@@ -51,7 +51,7 @@ struct MenuTabBarView: View {
                 }
                 Text("再生速度")
                     .font(.caption)
-                    .padding(.top, -14)
+                    .padding(.top, -13)
             }
             .frame(width: 80) // 横幅を設定し、切り替え時、左右のTabItemのUIに影響がないようにする
             .padding(.top, -2)
