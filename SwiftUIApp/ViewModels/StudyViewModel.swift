@@ -47,7 +47,7 @@ class StudyViewModel: ObservableObject {
     
     // MARK: - Inputs
     // 押下された字幕を発行するPublisher（append）
-    var translateButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
+    var appendSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     // 押下された字幕を発行するPublisher（remove）
     var removeSubtitleButtonPressed = PassthroughSubject<SubtitleModel.SubtitleDetailModel, Never>()
     // 編集された英語/日本語字幕を発行するPublisher
@@ -69,18 +69,18 @@ class StudyViewModel: ObservableObject {
     @Published var isPaused: Bool = false
     // リピート中かどうか
     @Published var isRepeating: Bool = false
+    // メニュータブバーを出現させるかどうか
+    @Published var isShowMenuTabBar: Bool = false
     // 字幕同期中かどうか
     @Published var isSubtitleSync: Bool = false
     // 再生速度
     @Published var playBackRate: PlayBackRate = .normal
-    // 翻訳リストシートを表示するかどうか
-    @Published var isShowSheet: Bool = false
-    // メニュータブバーを出現させるかどうか
-    @Published var isShowMenuTabBar: Bool = false
     // 編集/翻訳アイコンを表示するかどうか
     @Published var isShowTranslateEditIcon: Bool = false
     // 翻訳アイコンが全選択/全未選択かどうか
     @Published var isTranslateIconSelectedAll: Bool = false
+    // 翻訳リストシートを表示するかどうか
+    @Published var isShowSheet: Bool = false
     // 編集ダイアログを表示するかどうか
     @Published var isShowEditDialog: Bool = false
     
@@ -164,7 +164,7 @@ class StudyViewModel: ObservableObject {
             .store(in: &cancellableBag)
         
         // 押下された字幕を発行する（append)
-        translateButtonPressed
+        appendSubtitleButtonPressed
             .receive(on: RunLoop.main)
             .sink { [weak self] subtitleDetail in
                 guard let self = self else { return }

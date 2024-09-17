@@ -50,7 +50,7 @@ struct StudyView: View {
                                         isShowTranslateEditIcon: studyViewModel.isShowTranslateEditIcon,
                                         isSubtitleSelected: studyViewModel.contains(element: subtitleDetail),
                                         storeSubtitles: {
-                                            studyViewModel.translateButtonPressed.send(subtitleDetail)
+                                            studyViewModel.appendSubtitleButtonPressed.send(subtitleDetail)
                                         },
                                         removeSubtitle: {
                                             studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
