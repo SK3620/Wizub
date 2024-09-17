@@ -136,14 +136,14 @@ enum HttpError: Error, LocalizedError {
         case .requestAdaptationFailed(_):
             return NSLocalizedString("リクエストの適応に失敗しました", comment: "Request adaptation failed")
             
-        case .requestRetryFailed(_):
+        case .requestRetryFailed:
             return NSLocalizedString("リクエストの再試行に失敗しました", comment: "Request retry failed")
             
         case .responseValidationFailed(_):
             return NSLocalizedString("レスポンスの検証に失敗しました。", comment: "Response validation failed")
             
         case .responseSerializationFailed(_):
-            return NSLocalizedString("レスポンスのシリアライズに失敗しました。", comment: "Response serialization failed")
+            return NSLocalizedString("サーバーからのデータを読み込めませんでした。", comment: "Response serialization failed")
             
         case .serverTrustEvaluationFailed(_):
             return NSLocalizedString("サーバー信頼性の評価に失敗しました。", comment: "Server trust evaluation failed")
