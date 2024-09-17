@@ -13,14 +13,15 @@ struct TranslateRequest: CommonHttpRouter {
     typealias Response = OpenAIResponseModel
     
     var path: String { return ApiUrl.translateSubtitles }
-    var method: HTTPMethod { return .get }
-    var parameters: Parameters? {
-        return ["content": content]
+    var method: HTTPMethod { return .post }
+    
+    func body() throws -> Data? {
+        try JSONEncoder().encode(model)
     }
     
-    private let content: String
+    private let model: TranslateRequestModel
     
-    init(content: String) {
-        self.content = content
+    init(model: TranslateRequestModel) {
+        self.model = model
     }
 }
