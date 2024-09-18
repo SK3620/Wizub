@@ -465,7 +465,8 @@ extension StudyViewModel {
         pendingTranslatedSubtitles.forEach {
             content += "''''(ID:\($0.id)) \($0.enSubtitle)'''\n"
         }
-        let translateRequest = TranslateRequest(content: content)
+        // リクエスト組み立て
+        let translateRequest = TranslateRequest(content: content, arrayCount: pendingTranslatedSubtitles.count)
         // リクエスト
         handleRequest(request: translateRequest)
             .sink(receiveValue: { [weak self] (value: OpenAIResponseModel) in
