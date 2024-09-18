@@ -128,6 +128,7 @@ class StudyViewModel: ObservableObject {
         case .getSavedSubtitles(let videoId):
             getSavedSubtitles(videoId: videoId)
         case .translate(let pendingTranslatedSubtitles):
+            isShowSheet = false
             translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
         case .store(let videoInfo):
             store(videoInfo: videoInfo)
