@@ -16,11 +16,6 @@ struct OpenAIResponseModel: Codable {
     static func handleResponse(value: Decodable) -> Self? {
        return value as? Self
     }
-
-    // "JaTranslation"の配列に変換
-    static func toOpenAIResponseModel2Array(answer: [String: String]) -> [JaTranslation] {
-        return answer.map { JaTranslation(id: Int($0.key) ?? 0, jaTranslation: $0.value) }
-    }
 }
 
 struct JaTranslation: Codable, Identifiable {

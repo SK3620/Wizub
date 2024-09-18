@@ -236,18 +236,28 @@ class AuthViewModel: ObservableObject {
 // MARK: - HTTPリクエスト＆レスポンスハンドリング
 extension AuthViewModel {
     
-    // サインアップ/サインイン
-    private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
+    // リクエスト
+    private func handleRequest<T, R>(request: R) -> AnyPublisher<T, Never> where R: CommonHttpRouter, T: Decodable {
         apiService.request(with: request)
             .receive(on: RunLoop.main)
-            .catch { [weak self] (error) -> Empty<Decodable, Never> in
-                // 上流Publisherのエラーをcatch 別のPublisherへエラーを流す
-                self?.httpErrorSubject.send(error)
-                // 空のPublisherに置き換えストリームを中断
+            .catch { [weak self] error -> Empty<Decodable, Never> in
+                guard let self = self else { return .init() }
+                self.httpErrorSubject.send(error)
                 return .init()
             }
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self, let value = AuthModel.handleResponse(value: value) else { return }
+            .flatMap { value -> AnyPublisher<T, Never> in
+                guard let castedValue = value as? T else { return Empty().eraseToAnyPublisher() }
+                return Just(castedValue).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    // サインアップ/サインイン
+    private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
+        // リクエスト
+        handleRequest(request: request)
+            .sink(receiveValue: { [weak self] (value: AuthModel) in
+                guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
                 self.enableSignUp = true
@@ -271,7 +281,7 @@ extension AuthViewModel {
         let signUpRequest = SignUpRequest(model: authModel)
         authenticate(with: signUpRequest, authModel: authModel)
     }
-
+    
     // サインイン
     private func signIn() {
         let authModel = AuthModel(

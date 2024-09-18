@@ -33,10 +33,5 @@ struct SubtitleModel: Codable {
             case duration
         }
     }
-    
-    // Request.Response（Decodable)型をSelfへダウンキャスト
-    static func handleResponse(value: Decodable) -> Self? {
-       return value as? Self
-    }
 }
 
