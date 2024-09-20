@@ -15,10 +15,10 @@ struct ApiUrl {
     }
     
     // サインアップ post
-    static let signUpUrl = "/api/sign_up"
+    static let signUpUrl = "api/sign_up"
 
     // サインイン post
-    static let signInUrl = "/api/sign_in"
+    static let signInUrl = "api/sign_in"
     
     // Email重複チェック post
     static let checkEmailUrl = "api/check_email"
