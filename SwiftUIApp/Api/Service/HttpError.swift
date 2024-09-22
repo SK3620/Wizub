@@ -100,7 +100,7 @@ enum HttpError: Error, LocalizedError {
     // MARK: - LocalizedError Implementation
     public var errorDescription: String? {
         #if DEVELOP
-        return description
+        return debugDescription
         #else
         return description
         #endif
