@@ -58,6 +58,7 @@ class StudyViewModel: ObservableObject {
     // MARK: - Outputs
     // API通信ステータス
     @Published var isLoading: Bool = false
+    @Published var loadingText = ""
     @Published var isSuccess: Bool = false
     @Published var successStatus: SuccessStatus?
     @Published var isShowError: Bool = false
@@ -121,6 +122,7 @@ class StudyViewModel: ObservableObject {
     // MARK: - Apply API Event
     func apply(event: ApiEvent) {
         isLoading = true // ローディング開始
+        loadingText = "" // ローディング中の文言
         youTubePlayer.pause() // 動画停止
         switch event {
         case .getSubtitles(let videoId):
@@ -128,6 +130,7 @@ class StudyViewModel: ObservableObject {
         case .getSavedSubtitles(let videoId):
             getSavedSubtitles(videoId: videoId)
         case .translate(let pendingTranslatedSubtitles):
+            loadingText = "翻訳中です。\nしばらくお待ちください。"
             isShowSheet = false
             translate(pendingTranslatedSubtitles: pendingTranslatedSubtitles)
         case .store(let videoInfo):
