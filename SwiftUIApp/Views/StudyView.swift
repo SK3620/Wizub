@@ -35,7 +35,7 @@ struct StudyView: View {
                 if studyViewModel.isLoading {
                     VStack {
                         Spacer()
-                        CommonProgressView()
+                        CommonProgressView(text: studyViewModel.loadingText)
                         Spacer()
                     }
                 } else {

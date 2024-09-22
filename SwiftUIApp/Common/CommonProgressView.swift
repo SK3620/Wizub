@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct CommonProgressView: View {
+    
+    var text: String = ""
+    
     var body: some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .purple))
-            .scaleEffect(2.5)
-            .padding()
+        VStack {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .purple))
+                .scaleEffect(2.5)
+                .padding()
+            
+            Text(text)
+        }
     }
 }
 
