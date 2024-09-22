@@ -99,9 +99,9 @@ enum HttpError: Error, LocalizedError {
     
     // MARK: - LocalizedError Implementation
     public var errorDescription: String? {
-        #if DEVELOP
+        #if DEVELOP // 開発
         return debugDescription
-        #else
+        #else // 本番
         return description
         #endif
     }
