@@ -29,8 +29,8 @@ enum PlayBackRate: Double {
 
 // MARK: - Kinds of success Enum
 enum SuccessStatus {
-    case dataSaved // データ保存完了
-    case subtitlesTranslated // openAIからの正常なレスポンスの受け取り完了
+    case dataSaved // データ保存/更新成功
+    case subtitlesTranslated // ChatGPT翻訳処理成功
 }
 
 
