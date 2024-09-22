@@ -8,10 +8,11 @@
 struct ApiUrl {
     
     static var baseUrl: String {
-        #if DEVELOP
+        #if DEVELOP // 開発
         return "http://localhost:8000"
+        #else// 本番
+        return "https://swiftui-app-backend-40f5da201a03.herokuapp.com"
         #endif
-        return "http〜〜"
     }
     
     // サインアップ post
