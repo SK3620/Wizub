@@ -480,26 +480,37 @@ extension StudyViewModel {
     
     // 翻訳
     private func translate(pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel]) -> Void {
-        // 質問内容組み立て
-        var content: String = ""
-        pendingTranslatedSubtitles.forEach {
-            content += "''''(ID:\($0.id)) \($0.enSubtitle)'''\n"
+        // 翻訳対象の字幕要素を格納する配列をさらに分割
+        let chunkedSubtitles = pendingTranslatedSubtitles.chunked(into: translatedSubtitleChunkSize)
+        
+        // 分割の数分、翻訳リクエストを行う
+        let publishers = chunkedSubtitles.map { subtitlesChunk -> AnyPublisher<OpenAIResponseModel, Never> in
+            var content: String = ""
+            subtitlesChunk.forEach {
+                content += "''''(ID:\($0.subtitleId)) \($0.enSubtitle)'''\n"
+            }
+            // 翻訳する全ての字幕を格納する配列の要素数
+            let totalSubtitlesCount: Int = pendingTranslatedSubtitles.count
+            let translateRequest = TranslateRequest(content: content, totalSubtitlesCount: totalSubtitlesCount)
+            return handleRequest(request: translateRequest)
         }
-        // リクエスト組み立て
-        let translateRequest = TranslateRequest(content: content, arrayCount: pendingTranslatedSubtitles.count)
-        // リクエスト
-        handleRequest(request: translateRequest)
-            .sink(receiveValue: { [weak self] (value: OpenAIResponseModel) in
-                guard let self = self else  { return }
-                // answerは[id: 日本語字幕]の形式
-                let answer: [String: String] = value.answer
+        
+        // 拡張クラスとして作成したZipを使用
+        Publishers.ZipMany(upstreams: publishers)
+            .sink(receiveValue: { [weak self] (openAIResponseModelArr) -> Void in
+                guard let self = self else { return }
                 // 新しい配列を作成して更新
                 var updatedSubtitleDetails = subtitleDetails
-                // answerに含まれる字幕IDに対応する日本語字幕を、updatedSubtitleDetails配列の該当する要素に上書き
-                for (idString, jaSubtitle) in answer {
-                    if let id = Int(idString) {
-                        if let index = updatedSubtitleDetails.firstIndex(where: { $0.id == id }) {
-                            updatedSubtitleDetails[index].jaSubtitle = jaSubtitle
+                
+                for openAIResponseModel in openAIResponseModelArr {
+                    // answerは[id: 日本語字幕]の形式
+                    let answer: [String: String] = openAIResponseModel.answer
+                    // answerに含まれる字幕IDに対応する日本語字幕を、updatedSubtitleDetails配列の該当する要素に上書き
+                    for (idString, jaSubtitle) in answer {
+                        if let id = Int(idString) {
+                            if let index = updatedSubtitleDetails.firstIndex(where: { $0.id == id }) {
+                                updatedSubtitleDetails[index].jaSubtitle = jaSubtitle
+                            }
                         }
                     }
                 }
