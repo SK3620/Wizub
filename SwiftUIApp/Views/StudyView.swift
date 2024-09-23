@@ -96,7 +96,7 @@ struct StudyView: View {
                                               translateAll: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.subtitleDetails)) })
                                 .background(ColorCodes.primary2.color())
                                 .presentationDetents(
-                                    [.medium, .large]
+                                    [.medium, .fraction(0.75), .large]
                                 )
                             }
                         }
