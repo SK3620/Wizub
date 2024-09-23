@@ -17,15 +17,15 @@ struct TranslateRequest: CommonHttpRouter {
     var parameters: Parameters? {
         [
             "content": content,
-            "array_count": arrayCount
+            "total_subtitles_count": totalSubtitlesCount
         ]
     }
     
     private let content: String
-    private let arrayCount: Int
+    private let totalSubtitlesCount: Int
     
-    init(content: String, arrayCount: Int) {
+    init(content: String, totalSubtitlesCount: Int) {
         self.content = content
-        self.arrayCount = arrayCount
+        self.totalSubtitlesCount = totalSubtitlesCount
     }
 }
