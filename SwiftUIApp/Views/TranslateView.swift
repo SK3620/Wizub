@@ -36,35 +36,33 @@ enum TranslateSegmentType: CommonSegmentTypeProtocol {
 struct TranslateView: View {
     
     @State var segmentType: TranslateSegmentType = .selected
+    // 選択された数字
+    @State var selectedSectionNum: Int = 0
     
     // 選択した字幕
-    var pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel]
+    var selectedChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]]
     // 全ての字幕
-    var allSubtitles: [SubtitleModel.SubtitleDetailModel]
-    // 選択した字幕の翻訳
-    var translateSelected: () -> Void
-    // 全ての字幕の翻訳
-    var translateAll: () -> Void
+    var allChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]]
+    // 翻訳
+    var translateSubtitles: ([SubtitleModel.SubtitleDetailModel]) -> Void
     
-    private var subtitles: [SubtitleModel.SubtitleDetailModel] {
+    private var chunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]] {
         switch segmentType {
         case .selected:
-            return pendingTranslatedSubtitles
+            return selectedChunkedSubtitles
         case .all:
-            return allSubtitles
+            return allChunkedSubtitles
         }
     }
     
     init(
-         pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel],
-         allSubtitles: [SubtitleModel.SubtitleDetailModel],
-         translateSelected: @escaping () -> Void,
-         translateAll: @escaping () -> Void)
-    {
-        self.pendingTranslatedSubtitles = pendingTranslatedSubtitles
-        self.allSubtitles = allSubtitles
-        self.translateSelected = translateSelected
-        self.translateAll = translateAll
+         selectedChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]],
+         allChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]],
+         translateSubtitles: @escaping ([SubtitleModel.SubtitleDetailModel]) -> Void
+    ) {
+        self.selectedChunkedSubtitles = selectedChunkedSubtitles
+        self.allChunkedSubtitles = allChunkedSubtitles
+        self.translateSubtitles = translateSubtitles
     }
     
     var body: some View {
@@ -78,17 +76,59 @@ struct TranslateView: View {
             CommonSegmentedControl(selectedSegment: $segmentType)
                 .shadow(color: .gray, radius: 1)
             
+            // 字幕要素数が2以上ならば、セクションを表示する
+            if chunkedSubtitles.count > 1 {
+                // 翻訳する字幕数を分割するセクション
+                ChunkedSubtitleSegmentControl(sectionNumCount: chunkedSubtitles.count, selectedSectionNum: $selectedSectionNum)
+                    .padding(.top, -8) // 上のUIパーツとの間隔を狭める
+            }
+            
             // 字幕をリスト表示
-            SubtitleList(subtitles: subtitles)
+            SubtitleList(subtitles: chunkedSubtitles.isEmpty ? [] : chunkedSubtitles[selectedSectionNum] )
             
             // 翻訳ボタン
             TranslateButton(
-                action: segmentType == .selected ? translateSelected : translateAll,
+                action: { translateSubtitles(chunkedSubtitles[selectedSectionNum])},
                 title: "ChatGPT 翻訳",
-                disableButton: subtitles.isEmpty
+                disableButton: chunkedSubtitles.isEmpty
             )
         }
         .padding()
+    }
+}
+
+// 翻訳する字幕数を分割するセクション
+struct ChunkedSubtitleSegmentControl: View {
+    // 分割された字幕要素数の数
+    var sectionNumCount: Int
+    // 選択された数字
+    @Binding var selectedSectionNum: Int
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(0..<sectionNumCount, id: \.self) { number in
+                    Button(action: {
+                        selectedSectionNum = number
+                    }) {
+                        Text("\(number + 1)")
+                            .font(.title3)
+                            .fontWeight(.medium)
+                            .frame(width: 40, height: 25)
+                            .background(selectedSectionNum == number ? ColorCodes.primary.color() : ColorCodes.primaryLightGray.color())
+                            .foregroundColor(selectedSectionNum == number ? Color.white : .black)
+                            .cornerRadius(25)
+                    }
+                    .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
+                }
+            }
+            .padding(.horizontal)
+        }
+        .frame(height: 40)
+        .background(.white)
+        .cornerRadius(30)
+        .shadow(color: .gray, radius: 1)
+        .padding(.horizontal, 32)
     }
 }
 
@@ -142,19 +182,23 @@ struct TranslateButton: View {
     var disableButton: Bool
     
     var body: some View {
-        Button(action: action) {
-            HStack(spacing: 16) {
-                Text(title)
-                    .font(.headline)
+        VStack(spacing: 4) {
+            Button {
+                action()
+            } label: {
+                HStack(spacing: 16) {
+                    Text(title)
+                        .font(.headline)
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 40)
+                .padding(.vertical, 16)
+                .background(
+                    Capsule()
+                        .fill(!disableButton ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3))
+                )
             }
-            .foregroundColor(.white)
-            .padding(.horizontal, 40)
-            .padding(.vertical, 16)
-            .background(
-                Capsule()
-                    .fill(!disableButton ? ColorCodes.buttonBackground.color() : ColorCodes.buttonBackground.color().opacity(0.3))
-            )
+            .disabled(disableButton)
         }
-        .disabled(disableButton)
     }
 }

@@ -90,10 +90,11 @@ struct StudyView: View {
                             .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)
                             .sheet(isPresented: $studyViewModel.isShowSheet) {
                                 // 翻訳リストシート
-                                TranslateView(pendingTranslatedSubtitles: studyViewModel.pendingTranslatedSubtitles,
-                                              allSubtitles: studyViewModel.subtitleDetails,
-                                              translateSelected: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.pendingTranslatedSubtitles)) },
-                                              translateAll: { studyViewModel.apply(event: .translate(subtitles: studyViewModel.subtitleDetails)) })
+                                TranslateView(selectedChunkedSubtitles: studyViewModel.selectedChunkedSubtitles,
+                                              allChunkedSubtitles: studyViewModel.allChunkedSubtitles,
+                                              translateSubtitles: { subtitles in
+                                    studyViewModel.apply(event: .translate(subtitles: subtitles)) }
+                                              )
                                 .background(ColorCodes.primary2.color())
                                 .presentationDetents(
                                     [.medium, .fraction(0.75), .large]

@@ -87,8 +87,8 @@ class StudyViewModel: ObservableObject {
     
     // 字幕情報を格納する配列
     @Published var subtitleDetails: [SubtitleModel.SubtitleDetailModel] = []
-    // （押下された）翻訳される字幕を保持する配列
-    @Published var pendingTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel] = []
+    // （選択された）翻訳される字幕を保持する配列
+    @Published var selectedTranslatedSubtitles: [SubtitleModel.SubtitleDetailModel] = []
     // 翻訳レスポンスを発行する
     @Published var translatedSubtitles: [JaTranslation] = []
     
@@ -109,6 +109,19 @@ class StudyViewModel: ObservableObject {
     private var timerCancellable: Cancellable?
     // リピートタスクの管理用プロパティ
     private var repeatTask: Task<Void, Never>?
+    
+    // 翻訳リクエストで処理する翻訳可能な字幕の最大合計要素数
+    private let maxTotalSubtitlesPerRequest: Int = 99
+    // 翻訳対象の字幕要素をさらに分割するチャンクサイズ
+    private var translatedSubtitleChunkSize: Int { maxTotalSubtitlesPerRequest / 3 }
+    // 全字幕のうち、全ての翻訳対象の字幕が分割/格納される
+    var allChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]] {
+        subtitleDetails.chunked(into: maxTotalSubtitlesPerRequest)
+    }
+    // 全字幕のうち、選択した翻訳対象の字幕が分割/格納される
+    var selectedChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]] {
+        selectedTranslatedSubtitles.chunked(into: maxTotalSubtitlesPerRequest)
+    }
     
     // MARK: - Deinitializer
     init(apiService: APIServiceType, youTubePlayer: YouTubePlayer) {
@@ -173,9 +186,9 @@ class StudyViewModel: ObservableObject {
             .sink { [weak self] subtitleDetail in
                 guard let self = self else { return }
                 // 配列に格納
-                self.pendingTranslatedSubtitles.append(subtitleDetail)
+                self.selectedTranslatedSubtitles.append(subtitleDetail)
                 // idが低い順にsort
-                self.pendingTranslatedSubtitles.sort(by: { $0.id < $1.id })
+                self.selectedTranslatedSubtitles.sort(by: { $0.id < $1.id })
             }
             .store(in: &cancellableBag)
         
@@ -185,7 +198,7 @@ class StudyViewModel: ObservableObject {
             .sink { [weak self] subtitleDetail in
                 guard let self = self else { return }
                 // 配列から除外
-                self.pendingTranslatedSubtitles.removeAll { $0.id == subtitleDetail.id }
+                self.selectedTranslatedSubtitles.removeAll { $0.id == subtitleDetail.id }
             }
             .store(in: &cancellableBag)
         
@@ -237,20 +250,24 @@ class StudyViewModel: ObservableObject {
     
     // 翻訳アイコンが押下されているかどうか判定
     func contains(element: SubtitleModel.SubtitleDetailModel) -> Bool {
-        return pendingTranslatedSubtitles.contains(where: { $0.subtitleId == element.subtitleId })
+        return selectedTranslatedSubtitles.contains(where: { $0.subtitleId == element.subtitleId })
     }
     
     // 翻訳アイコンを全選択/全未選択状態に応じて、翻訳する字幕を格納する配列を操作
     func appendOrRemoveAllSubtitles() {
         if isTranslateIconSelectedAll {
             // 配列に全ての字幕を代入
-            pendingTranslatedSubtitles = subtitleDetails
+            selectedTranslatedSubtitles = subtitleDetails
         } else {
             // 翻訳する字幕を全て排除
-            pendingTranslatedSubtitles.removeAll()
+            selectedTranslatedSubtitles.removeAll()
         }
     }
     
+    // 翻訳リクエストで処理する翻訳可能な字幕の最大合計要素数で分割
+    func chunkSubtitles(subtitles: [SubtitleModel.SubtitleDetailModel]) -> [[SubtitleModel.SubtitleDetailModel]]{
+        subtitles.chunked(into: maxTotalSubtitlesPerRequest)
+    }
 }
 
 // MARK: - Playback Controls
