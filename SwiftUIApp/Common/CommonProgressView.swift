@@ -19,6 +19,7 @@ struct CommonProgressView: View {
                 .padding()
             
             Text(text)
+                .multilineTextAlignment(.center)
         }
     }
 }
