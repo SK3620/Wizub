@@ -815,7 +815,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WizubDev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kenta-suzuki.WizubDev";
 				PRODUCT_MODULE_NAME = WizubDev;
 				PRODUCT_NAME = WizubDev;
 				PROVISIONING_PROFILE_SPECIFIER = "";
