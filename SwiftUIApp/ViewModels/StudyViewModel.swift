@@ -111,9 +111,9 @@ class StudyViewModel: ObservableObject {
     private var repeatTask: Task<Void, Never>?
     
     // 翻訳リクエストで処理する翻訳可能な字幕の最大合計要素数
-    private let maxTotalSubtitlesPerRequest: Int = 99
+    private let maxTotalSubtitlesPerRequest: Int = 60
     // 翻訳対象の字幕要素をさらに分割するチャンクサイズ
-    private var translatedSubtitleChunkSize: Int { maxTotalSubtitlesPerRequest / 3 }
+    private var translatedSubtitleChunkSize: Int { maxTotalSubtitlesPerRequest / 4 }
     // 全字幕のうち、全ての翻訳対象の字幕が分割/格納される
     var allChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]] {
         subtitleDetails.chunked(into: maxTotalSubtitlesPerRequest)
@@ -487,7 +487,7 @@ extension StudyViewModel {
         let publishers = chunkedSubtitles.map { subtitlesChunk -> AnyPublisher<OpenAIResponseModel, Never> in
             var content: String = ""
             subtitlesChunk.forEach {
-                content += "''''(ID:\($0.subtitleId)) \($0.enSubtitle)'''\n"
+                content += "''(ID:\($0.subtitleId)) \($0.enSubtitle)''\n"
             }
             // 翻訳する全ての字幕を格納する配列の要素数
             let totalSubtitlesCount: Int = pendingTranslatedSubtitles.count

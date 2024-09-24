@@ -58,7 +58,7 @@ struct AuthPickerView: View {
             }
             .navigationDestination(for: NavigationPath.self, destination: { appended in
                 appended.Destination()
-                    .navigationTitle(appended.toString)
+//                    .navigationTitle(appended.toString) HomeViewでタイトル表示
                     .navigationBarTitleDisplayMode(.inline)
             })
         }
