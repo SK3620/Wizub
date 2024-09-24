@@ -487,7 +487,7 @@ extension StudyViewModel {
         let publishers = chunkedSubtitles.map { subtitlesChunk -> AnyPublisher<OpenAIResponseModel, Never> in
             var content: String = ""
             subtitlesChunk.forEach {
-                content += "''''(ID:\($0.subtitleId)) \($0.enSubtitle)'''\n"
+                content += "''(ID:\($0.subtitleId)) \($0.enSubtitle)''\n"
             }
             // 翻訳する全ての字幕を格納する配列の要素数
             let totalSubtitlesCount: Int = pendingTranslatedSubtitles.count

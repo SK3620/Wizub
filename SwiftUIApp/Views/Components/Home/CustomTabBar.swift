@@ -64,15 +64,3 @@ struct CustomTabBar: View {
         .background(ColorCodes.primary.color())
     }
 }
-
-#Preview {
-    HogeView()
-}
-
-struct HogeView: View {
-    @State var a: Tab = .videoList
-
-    var body: some View {
-        CustomTabBar(currentTab: $a)
-    }
-}
