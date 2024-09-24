@@ -508,7 +508,7 @@ extension StudyViewModel {
                     // answerに含まれる字幕IDに対応する日本語字幕を、updatedSubtitleDetails配列の該当する要素に上書き
                     for (idString, jaSubtitle) in answer {
                         if let id = Int(idString) {
-                            if let index = updatedSubtitleDetails.firstIndex(where: { $0.id == id }) {
+                            if let index = updatedSubtitleDetails.firstIndex(where: { $0.subtitleId == id }) {
                                 updatedSubtitleDetails[index].jaSubtitle = jaSubtitle
                             }
                         }
