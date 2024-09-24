@@ -36,7 +36,7 @@ enum AuthInputValidation: Error {
         case .invalidEmail:
             return "Eメールの形式が正しくありません"
         case .emailAlreadyUsed:
-            return "すでに使用されたEメールです"
+            return "そのEメールはすでに使用されています"
         case .missingPassword:
             return "パスワードを入力してください"
         case .invalidPassword:

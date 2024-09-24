@@ -143,7 +143,7 @@ enum HttpError: Error, LocalizedError {
             return NSLocalizedString("レスポンスの検証に失敗しました。", comment: "Response validation failed")
             
         case .responseSerializationFailed(_):
-            return NSLocalizedString("サーバーからのデータを読み込めませんでした。", comment: "Response serialization failed")
+            return NSLocalizedString("データの取得に失敗しました。再度、お試しください。", comment: "Response serialization failed")
             
         case .serverTrustEvaluationFailed(_):
             return NSLocalizedString("サーバー信頼性の評価に失敗しました。", comment: "Server trust evaluation failed")
