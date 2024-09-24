@@ -61,6 +61,9 @@
 		83D3DEE72C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE62C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift */; };
 		83D3DEE92C871E9300CD2916 /* CheckVideoAlreadySavedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEE82C871E9300CD2916 /* CheckVideoAlreadySavedRequest.swift */; };
 		83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DEEA2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift */; };
+		83DF0E932CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DF0E922CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift */; };
+		83DF0E952CA24770006B2DCD /* SubtitleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DF0E942CA24770006B2DCD /* SubtitleList.swift */; };
+		83DF0E972CA2478E006B2DCD /* TranslateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DF0E962CA2478E006B2DCD /* TranslateButton.swift */; };
 		83EC0ADA2C6B207B00E316E6 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0AD92C6B207B00E316E6 /* Util.swift */; };
 		83EC0ADC2C6B63F100E316E6 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADB2C6B63F100E316E6 /* InputValidation.swift */; };
 		83EC0ADF2C6B79C600E316E6 /* CommonHttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */; };
@@ -131,6 +134,9 @@
 		83D3DEE62C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSavedSubtitlesRequest.swift; sourceTree = "<group>"; };
 		83D3DEE82C871E9300CD2916 /* CheckVideoAlreadySavedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckVideoAlreadySavedRequest.swift; sourceTree = "<group>"; };
 		83D3DEEA2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckVideoAlreadySavedResponseModel.swift; sourceTree = "<group>"; };
+		83DF0E922CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkedSubtitleSegmentControl.swift; sourceTree = "<group>"; };
+		83DF0E942CA24770006B2DCD /* SubtitleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleList.swift; sourceTree = "<group>"; };
+		83DF0E962CA2478E006B2DCD /* TranslateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateButton.swift; sourceTree = "<group>"; };
 		83EC0AD92C6B207B00E316E6 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		83EC0ADB2C6B63F100E316E6 /* InputValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		83EC0ADE2C6B79C600E316E6 /* CommonHttpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHttpRouter.swift; sourceTree = "<group>"; };
@@ -260,8 +266,6 @@
 				834795C82C7454D500B98359 /* VideoListRow.swift */,
 				83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */,
 				83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */,
-				834795DE2C76DAE500B98359 /* StudyTabBarView.swift */,
-				83D01FFC2C7CA5B000E09D5F /* MenuTabBarView.swift */,
 				8367472B2C8F1A2F00046E23 /* EditButton.swift */,
 			);
 			path = Home;
@@ -324,6 +328,8 @@
 				83D3DED22C81DF2900CD2916 /* EditDialogView.swift */,
 				836747312C90017600046E23 /* CustomTextEditor.swift */,
 				836747292C8EC64600046E23 /* ShowTranslateViewButton.swift */,
+				834795DE2C76DAE500B98359 /* StudyTabBarView.swift */,
+				83D01FFC2C7CA5B000E09D5F /* MenuTabBarView.swift */,
 			);
 			path = Study;
 			sourceTree = "<group>";
@@ -331,6 +337,9 @@
 		837472E22C8AA9EB00961850 /* Translate */ = {
 			isa = PBXGroup;
 			children = (
+				83DF0E922CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift */,
+				83DF0E942CA24770006B2DCD /* SubtitleList.swift */,
+				83DF0E962CA2478E006B2DCD /* TranslateButton.swift */,
 			);
 			path = Translate;
 			sourceTree = "<group>";
@@ -566,11 +575,13 @@
 				834795CD2C75B8D300B98359 /* StudyView.swift in Sources */,
 				83D3DED72C852F4F00CD2916 /* StoreSubtitlesRequest.swift in Sources */,
 				83D01FFD2C7CA5B000E09D5F /* MenuTabBarView.swift in Sources */,
+				83DF0E952CA24770006B2DCD /* SubtitleList.swift in Sources */,
 				83EC0AF12C6D946100E316E6 /* SignUpRequest.swift in Sources */,
 				8367472C2C8F1A2F00046E23 /* EditButton.swift in Sources */,
 				83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */,
 				834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */,
 				838931452C68538A00FF42B4 /* AuthView.swift in Sources */,
+				83DF0E972CA2478E006B2DCD /* TranslateButton.swift in Sources */,
 				83EC0ADF2C6B79C600E316E6 /* CommonHttpRouter.swift in Sources */,
 				83F9DE532C7350D500F828F7 /* CustomSearchBar.swift in Sources */,
 				83D3DEE92C871E9300CD2916 /* CheckVideoAlreadySavedRequest.swift in Sources */,
@@ -586,6 +597,7 @@
 				834795D22C75DE1A00B98359 /* GetSubtitlesRequest.swift in Sources */,
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
 				83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */,
+				83DF0E932CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift in Sources */,
 				834795DB2C76B73700B98359 /* SubtitleListView.swift in Sources */,
 				83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */,
 				834795D42C75DF5B00B98359 /* SubtitleModel.swift in Sources */,
