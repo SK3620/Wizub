@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "835F292D2C6623CE005BC174"
-               BuildableName = "Wizub.app"
+               BuildableName = "com.kenta-suzuki.Wizub.app"
                BlueprintName = "SwiftUIApp"
                ReferencedContainer = "container:SwiftUIApp.xcodeproj">
             </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "835F292D2C6623CE005BC174"
-            BuildableName = "Wizub.app"
+            BuildableName = "com.kenta-suzuki.Wizub.app"
             BlueprintName = "SwiftUIApp"
             ReferencedContainer = "container:SwiftUIApp.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "835F292D2C6623CE005BC174"
-            BuildableName = "Wizub.app"
+            BuildableName = "com.kenta-suzuki.Wizub.app"
             BlueprintName = "SwiftUIApp"
             ReferencedContainer = "container:SwiftUIApp.xcodeproj">
          </BuildableReference>
