@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		831DF4152CA2C5ED00465AF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 831DF4142CA2C5ED00465AF3 /* LaunchScreen.storyboard */; };
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
@@ -81,6 +82,8 @@
 
 /* Begin PBXFileReference section */
 		1823F9E8DEFA08F59FD5A96A /* Pods-SwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
+		831DF4132CA2C4E600465AF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		831DF4142CA2C5ED00465AF3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
@@ -93,7 +96,7 @@
 		834795DA2C76B73700B98359 /* SubtitleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleListView.swift; sourceTree = "<group>"; };
 		834795DC2C76CDC300B98359 /* PlayVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoView.swift; sourceTree = "<group>"; };
 		834795DE2C76DAE500B98359 /* StudyTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTabBarView.swift; sourceTree = "<group>"; };
-		835F292E2C6623CE005BC174 /* SwiftUIAppDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIAppDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		835F292E2C6623CE005BC174 /* WizubDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizubDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		835F29312C6623CE005BC174 /* SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIApp.swift; sourceTree = "<group>"; };
 		835F29382C6623CF005BC174 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		836747292C8EC64600046E23 /* ShowTranslateViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTranslateViewButton.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 		835F29252C6623CE005BC174 = {
 			isa = PBXGroup;
 			children = (
+				831DF4142CA2C5ED00465AF3 /* LaunchScreen.storyboard */,
 				835F29302C6623CE005BC174 /* SwiftUIApp */,
 				837472E52C8AABE400961850 /* Assets.xcassets */,
 				835F292F2C6623CE005BC174 /* Products */,
@@ -199,7 +203,7 @@
 		835F292F2C6623CE005BC174 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				835F292E2C6623CE005BC174 /* SwiftUIAppDev.app */,
+				835F292E2C6623CE005BC174 /* WizubDev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,6 +211,7 @@
 		835F29302C6623CE005BC174 /* SwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
+				831DF4132CA2C4E600465AF3 /* Info.plist */,
 				835F29312C6623CE005BC174 /* SwiftUIApp.swift */,
 				8389313A2C67A17800FF42B4 /* Models */,
 				838931392C67A15900FF42B4 /* Views */,
@@ -455,7 +460,7 @@
 				834795E12C77115A00B98359 /* Algorithms */,
 			);
 			productName = SwiftUIApp;
-			productReference = 835F292E2C6623CE005BC174 /* SwiftUIAppDev.app */;
+			productReference = 835F292E2C6623CE005BC174 /* WizubDev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -500,6 +505,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				831DF4152CA2C5ED00465AF3 /* LaunchScreen.storyboard in Resources */,
 				837472E62C8AABE400961850 /* Assets.xcassets in Resources */,
 				835F29392C6623CF005BC174 /* Preview Assets.xcassets in Resources */,
 			);
@@ -676,7 +682,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftUIApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Wizub;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -696,9 +702,11 @@
 				DEVELOPMENT_TEAM = L35MVZ453P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftUIApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -706,9 +714,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftUIApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Wizub;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PRODUCT_NAME = SwiftUIApp;
+				PRODUCT_NAME = Wizub;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -774,7 +782,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftUIAppDev;
+				PRODUCT_BUNDLE_IDENTIFIER = WizubDev;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEVELOP $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -793,9 +801,11 @@
 				DEVELOPMENT_TEAM = L35MVZ453P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftUIApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -803,9 +813,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftUIAppDev;
-				PRODUCT_MODULE_NAME = SwiftUIApp;
-				PRODUCT_NAME = SwiftUIAppDev;
+				PRODUCT_BUNDLE_IDENTIFIER = WizubDev;
+				PRODUCT_MODULE_NAME = WizubDev;
+				PRODUCT_NAME = WizubDev;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEVELOP $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
