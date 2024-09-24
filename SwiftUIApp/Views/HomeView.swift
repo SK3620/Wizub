@@ -32,6 +32,7 @@ struct HomeView: View {
                 CustomTabBar(currentTab: $currentTab)
             }
         }
+        .navigationTitle(currentTab.tabTitle())
         .ignoresSafeArea(.keyboard) // SerachBarへのフォーカス時、BottomTabBarも持ち上げない
     }
 }
