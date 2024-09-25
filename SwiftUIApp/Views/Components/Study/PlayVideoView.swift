@@ -12,6 +12,9 @@ import YouTubePlayerKit
 struct PlayVideoView: View {
     
     @ObservedObject var studyViewModel: StudyViewModel
+    
+    // YouTubeプレイヤーの高さ
+    private let height = UIScreen.main.bounds.height * 0.23
         
     init(studyViewModel: StudyViewModel) {
         self.studyViewModel = studyViewModel
@@ -30,7 +33,7 @@ struct PlayVideoView: View {
                     Text(verbatim: "YouTube player couldn't be loaded")
                 }
             }
-            .frame(height: 200) // YouTubeプレイヤーの高さを設定
+            .frame(height: height) // YouTubeプレイヤーの高さを設定
         }
     }
 }
