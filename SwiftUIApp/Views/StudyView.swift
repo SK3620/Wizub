@@ -32,73 +32,73 @@ struct StudyView: View {
                 
                 PlayVideoView(studyViewModel: studyViewModel)
                 
-                if studyViewModel.isLoading {
-                    VStack {
-                        Spacer()
-                        CommonProgressView(text: studyViewModel.loadingText)
-                        Spacer()
-                    }
-                } else {
-                    ScrollViewReader { proxy in
-                        ZStack {
-                            List {
-                                ForEach(Array(studyViewModel.subtitleDetails.enumerated()), id: \.offset){
-                                    index, subtitleDetail in
-                                    SubtitleListView(
-                                        subtitleDetail: subtitleDetail,
-                                        isHighlighted: studyViewModel.currentSubtitleIndex == index,
-                                        isShowTranslateEditIcon: studyViewModel.isShowTranslateEditIcon,
-                                        isSubtitleSelected: studyViewModel.contains(element: subtitleDetail),
-                                        storeSubtitles: {
-                                            studyViewModel.appendSubtitleButtonPressed.send(subtitleDetail)
-                                        },
-                                        removeSubtitle: {
-                                            studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
-                                        },
-                                        editSubtitle: {
-                                            //編集する字幕を保持させておく
-                                            studyViewModel.currentlyEditedSubtitleDetail = subtitleDetail
-                                        })
-                                    .onTapGesture {
-                                        // ハイライトされる字幕を更新
-                                        studyViewModel.currentSubtitleIndex = index
-                                        studyViewModel.seekToSubtitle(at: index)
-                                    }
+                ScrollViewReader { proxy in
+                    ZStack {
+                        List {
+                            ForEach(Array(studyViewModel.subtitleDetails.enumerated()), id: \.offset){
+                                index, subtitleDetail in
+                                SubtitleListView(
+                                    subtitleDetail: subtitleDetail,
+                                    isHighlighted: studyViewModel.currentSubtitleIndex == index,
+                                    isShowTranslateEditIcon: studyViewModel.isShowTranslateEditIcon,
+                                    isSubtitleSelected: studyViewModel.contains(element: subtitleDetail),
+                                    storeSubtitles: {
+                                        studyViewModel.appendSubtitleButtonPressed.send(subtitleDetail)
+                                    },
+                                    removeSubtitle: {
+                                        studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
+                                    },
+                                    editSubtitle: {
+                                        //編集する字幕を保持させておく
+                                        studyViewModel.currentlyEditedSubtitleDetail = subtitleDetail
+                                    })
+                                .onTapGesture {
+                                    // ハイライトされる字幕を更新
+                                    studyViewModel.currentSubtitleIndex = index
+                                    studyViewModel.seekToSubtitle(at: index)
                                 }
-                                // Listの最下部に空白を挿入する
-                                Color.clear.padding(.bottom, 80)
-                                    .listRowSeparator(.hidden) // 最下部の区切り線は非表示
                             }
-                            .listStyle(.inset)
-                            // subtitleのindexの変更を監視
-                            .onChange(of: studyViewModel.currentSubtitleIndex, { oldIndex, newIndex in
-                                if let newIndex = newIndex {
-                                    withAnimation {
-                                        // 指定の字幕へ自動スクロール
-                                        proxy.scrollTo(studyViewModel.subtitleDetails[newIndex].id, anchor: .center)
-                                    }
+                            // Listの最下部に空白を挿入する
+                            Color.clear.padding(.bottom, 80)
+                                .listRowSeparator(.hidden) // 最下部の区切り線は非表示
+                        }
+                        .listStyle(.inset)
+                        // subtitleのindexの変更を監視
+                        .onChange(of: studyViewModel.currentSubtitleIndex, { oldIndex, newIndex in
+                            if let newIndex = newIndex {
+                                withAnimation {
+                                    // 指定の字幕へ自動スクロール
+                                    proxy.scrollTo(studyViewModel.subtitleDetails[newIndex].id, anchor: .center)
                                 }
-                            })
-                            
-                            // 右下に翻訳リスト表示ボタン配置
-                            ShowTranslateViewButton(
-                                isShowTranslateView: { studyViewModel.isShowSheet.toggle() }
+                            }
+                        })
+                        
+                        // 右下に翻訳リスト表示ボタン配置
+                        ShowTranslateViewButton(
+                            isShowTranslateView: { studyViewModel.isShowSheet.toggle() }
+                        )
+                        .padding([.bottom, .trailing], 8)
+                        .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
+                        .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
+                        .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)
+                        .sheet(isPresented: $studyViewModel.isShowSheet) {
+                            // 翻訳リストシート
+                            TranslateView(selectedChunkedSubtitles: studyViewModel.selectedChunkedSubtitles,
+                                          allChunkedSubtitles: studyViewModel.allChunkedSubtitles,
+                                          translateSubtitles: { subtitles in
+                                studyViewModel.apply(event: .translate(subtitles: subtitles)) }
                             )
-                            .padding([.bottom, .trailing], 8)
-                            .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
-                            .offset(y: studyViewModel.isShowMenuTabBar ? -49 : 0)
-                            .animation(.easeInOut(duration: 0.3), value: studyViewModel.isShowMenuTabBar)
-                            .sheet(isPresented: $studyViewModel.isShowSheet) {
-                                // 翻訳リストシート
-                                TranslateView(selectedChunkedSubtitles: studyViewModel.selectedChunkedSubtitles,
-                                              allChunkedSubtitles: studyViewModel.allChunkedSubtitles,
-                                              translateSubtitles: { subtitles in
-                                    studyViewModel.apply(event: .translate(subtitles: subtitles)) }
-                                              )
-                                .background(ColorCodes.primary2.color())
-                                .presentationDetents(
-                                    [.medium, .fraction(0.75), .large]
-                                )
+                            .background(ColorCodes.primary2.color())
+                            .presentationDetents(
+                                [.medium, .fraction(0.75), .large]
+                            )
+                        }
+                        // ローディングアイコン表示
+                        if studyViewModel.isLoading {
+                            VStack {
+                                Spacer()
+                                CommonProgressView(text: studyViewModel.loadingText)
+                                Spacer()
                             }
                         }
                     }
