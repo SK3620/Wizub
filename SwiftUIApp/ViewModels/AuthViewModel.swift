@@ -80,7 +80,6 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
     @Published var successStatus: AuthSuccessStatus?
-    @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     @Published var alertType: AlertType?
             
@@ -90,9 +89,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
-    
     @Published var enableDeleteAccount: Bool = false
-    @Published var isShowDeleteAccountDialog = false
                 
     func apply(taps: AuthButtonTaps) {
         self.taps = taps
@@ -264,7 +261,6 @@ class AuthViewModel: ObservableObject {
                 self.isLoading = false
                 self.isSuccess = false
                 self.successStatus = .none
-                self.isShowError = true
                 self.httpErrorMsg = error.localizedDescription
                 self.alertType = .error
                 
