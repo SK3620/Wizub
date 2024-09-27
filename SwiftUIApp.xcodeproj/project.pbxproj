@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		831DF4152CA2C5ED00465AF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 831DF4142CA2C5ED00465AF3 /* LaunchScreen.storyboard */; };
+		832F1AE92CA6331B00D154D2 /* DeleteAccountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */; };
+		832F1AEB2CA6339900D154D2 /* DeleteAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AEA2CA6339900D154D2 /* DeleteAccountRequest.swift */; };
+		832F1AED2CA6403C00D154D2 /* CommonSuccessMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AEC2CA6403C00D154D2 /* CommonSuccessMsgView.swift */; };
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
@@ -32,7 +35,6 @@
 		836747362C903EC100046E23 /* CommonSlashDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747352C903EC100046E23 /* CommonSlashDivider.swift */; };
 		836F82392C89B0160091C294 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F82382C89B0160091C294 /* AuthTextField.swift */; };
 		836F823B2C89B0410091C294 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F823A2C89B0410091C294 /* AuthButton.swift */; };
-		83730B8C2C898483007D5D4F /* EditModeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83730B8B2C898483007D5D4F /* EditModeModifier.swift */; };
 		837472E62C8AABE400961850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 837472E52C8AABE400961850 /* Assets.xcassets */; };
 		838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931372C67629E00FF42B4 /* AuthPickerView.swift */; };
 		8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8389313C2C68329700FF42B4 /* AuthViewModel.swift */; };
@@ -84,6 +86,9 @@
 		1823F9E8DEFA08F59FD5A96A /* Pods-SwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIApp/Pods-SwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
 		831DF4132CA2C4E600465AF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		831DF4142CA2C5ED00465AF3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountButton.swift; sourceTree = "<group>"; };
+		832F1AEA2CA6339900D154D2 /* DeleteAccountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountRequest.swift; sourceTree = "<group>"; };
+		832F1AEC2CA6403C00D154D2 /* CommonSuccessMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSuccessMsgView.swift; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
@@ -107,7 +112,6 @@
 		836747352C903EC100046E23 /* CommonSlashDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSlashDivider.swift; sourceTree = "<group>"; };
 		836F82382C89B0160091C294 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		836F823A2C89B0410091C294 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
-		83730B8B2C898483007D5D4F /* EditModeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModeModifier.swift; sourceTree = "<group>"; };
 		837472E52C8AABE400961850 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		838931372C67629E00FF42B4 /* AuthPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPickerView.swift; sourceTree = "<group>"; };
 		8389313C2C68329700FF42B4 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 				838931442C68538A00FF42B4 /* AuthView.swift */,
 				836F82382C89B0160091C294 /* AuthTextField.swift */,
 				836F823A2C89B0410091C294 /* AuthButton.swift */,
+				832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -258,7 +263,6 @@
 		83730B8A2C898461007D5D4F /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
-				83730B8B2C898483007D5D4F /* EditModeModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -321,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				83D3DEE22C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift */,
+				832F1AEA2CA6339900D154D2 /* DeleteAccountRequest.swift */,
 			);
 			path = Delete;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				83D01FFA2C7C6CDC00E09D5F /* CommonProgressView.swift */,
 				83CD5E052C8B05C900B5ADF1 /* CommonDialog.swift */,
 				8367472F2C8FFB3000046E23 /* SegmentedControl.swift */,
+				832F1AEC2CA6403C00D154D2 /* CommonSuccessMsgView.swift */,
 				836747352C903EC100046E23 /* CommonSlashDivider.swift */,
 			);
 			path = Common;
@@ -584,6 +590,7 @@
 				83DF0E952CA24770006B2DCD /* SubtitleList.swift in Sources */,
 				83EC0AF12C6D946100E316E6 /* SignUpRequest.swift in Sources */,
 				8367472C2C8F1A2F00046E23 /* EditButton.swift in Sources */,
+				832F1AE92CA6331B00D154D2 /* DeleteAccountButton.swift in Sources */,
 				83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */,
 				834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */,
 				838931452C68538A00FF42B4 /* AuthView.swift in Sources */,
@@ -604,10 +611,12 @@
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
 				83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */,
 				83DF0E932CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift in Sources */,
+				832F1AED2CA6403C00D154D2 /* CommonSuccessMsgView.swift in Sources */,
 				834795DB2C76B73700B98359 /* SubtitleListView.swift in Sources */,
 				83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */,
 				834795D42C75DF5B00B98359 /* SubtitleModel.swift in Sources */,
 				83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */,
+				832F1AEB2CA6339900D154D2 /* DeleteAccountRequest.swift in Sources */,
 				83D3DEE12C85BE3600CD2916 /* GetVideosResponseModel.swift in Sources */,
 				834795D02C75CBA200B98359 /* NavigationPathEnvironment.swift in Sources */,
 				83CD5E062C8B05CA00B5ADF1 /* CommonDialog.swift in Sources */,
@@ -618,7 +627,6 @@
 				83F9DE4B2C72BAB800F828F7 /* CustomTabBar.swift in Sources */,
 				8367472A2C8EC64600046E23 /* ShowTranslateViewButton.swift in Sources */,
 				8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */,
-				83730B8C2C898483007D5D4F /* EditModeModifier.swift in Sources */,
 				83CB33402C7F065600E8E7E8 /* TranslateRequest.swift in Sources */,
 				83B66C422C959E8B00F97D22 /* ResponseErrorModel.swift in Sources */,
 				83EC0AE72C6C1B2A00E316E6 /* AuthModel.swift in Sources */,
