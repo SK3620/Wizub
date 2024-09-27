@@ -14,7 +14,8 @@ enum ColorCodes {
     case primaryGray
     case primaryGray2
     case primaryLightGray
-    case success
+    case successGreen
+    case successGreen2
     case failure
     case background
     case buttonBackground
@@ -36,8 +37,10 @@ extension ColorCodes {
             return Color(red: 0.45, green: 0.45, blue: 0.45)
         case .primaryLightGray:
             return Color(red: 0.9, green: 0.9, blue: 0.9)
-        case .success:
-            return Color.green
+        case .successGreen:
+            return Color(red: 0.1, green: 0.45, blue: 0.1)
+        case .successGreen2:
+            return Color(red: 0.92, green: 0.98, blue: 0.94)
         case .failure:
             return Color.red
         case .background:
