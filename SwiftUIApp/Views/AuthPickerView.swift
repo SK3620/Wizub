@@ -61,9 +61,17 @@ struct AuthPickerView: View {
                     )
                 }
             }
-            .alert(isPresented: $authViewModel.isShowError) {
-                Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
-            }
+            .alert(item: $authViewModel.alertType, content: { alertType in
+                switch alertType {
+                case .deleteAccount:
+                    Alert(title: Text("アカウント削除"), message: Text("本当にアカウントを削除してもよろしいですか？"), primaryButton: .destructive(Text("削除"), action: {
+                        authViewModel.apply(taps: .deleteAccount)
+                    }), secondaryButton: .cancel(Text("キャンセル")))
+                    
+                case .error:
+                    Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
+                }
+            })
             .navigationDestination(for: NavigationPath.self, destination: { appended in
                 appended.Destination()
                 //                    .navigationTitle(appended.toString) HomeViewでタイトル表示
