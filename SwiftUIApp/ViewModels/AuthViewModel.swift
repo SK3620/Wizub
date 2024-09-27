@@ -35,6 +35,27 @@ enum AuthSegmentType: CommonSegmentTypeProtocol {
     }
 }
 
+// MARK: - Kinds of success Enum
+enum AuthSuccessStatus {
+    case signedUpIn // サインアップ/サインイン成功
+    case accountDeleted // アカウント削除成功
+    
+    var toSuccessMsg: String {
+        switch self {
+        case .signedUpIn:
+            return ""
+        case .accountDeleted:
+            return "アカウントを削除しました"
+        }
+    }
+}
+
+// MARK: - Alert Type
+enum AlertType: Identifiable {
+    case error
+    case deleteAccount
+    var id: AlertType { self }
+}
 
 class AuthViewModel: ObservableObject {
     
@@ -44,6 +65,8 @@ class AuthViewModel: ObservableObject {
         case signUp
         //　サインイン
         case signIn
+        // アカウント削除
+        case deleteAccount
     }
     
     // MARK: - Inputs
@@ -56,8 +79,10 @@ class AuthViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
+    @Published var successStatus: AuthSuccessStatus?
     @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
+    @Published var alertType: AlertType?
             
     @Published var userNameError: String = ""
     @Published var emailError: String = ""
@@ -65,18 +90,29 @@ class AuthViewModel: ObservableObject {
     
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
+    
+    @Published var enableDeleteAccount: Bool = false
+    @Published var isShowDeleteAccountDialog = false
                 
     func apply(taps: AuthButtonTaps) {
+        self.taps = taps
+        
         isLoading = true
         isSuccess = false
-        // 非同期処理中は、SignUp/SignInボタン非活性
+        successStatus = .none
+        alertType = .none
+        // 非同期処理中は、SignUp/SignIn/DeleteAcountボタン非活性
         enableSignUp = false
         enableSignIn = false
+        enableDeleteAccount = false
+        
         switch taps {
         case .signUp:
             self.signUp()
         case .signIn:
             self.signIn()
+        case .deleteAccount:
+            self.deleteAccount(email: email, password: password)
         }
     }
     
@@ -85,6 +121,7 @@ class AuthViewModel: ObservableObject {
     private let keyChainManager: KeyChainManager = KeyChainManager()
     private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
     private var cancellableBag = Set<AnyCancellable>()
+    private var taps: AuthButtonTaps? = .none
     
     // MARK: - AnyPublisher
     private var usernameValidPublisher: AnyPublisher<AuthInputValidation, Never> {
@@ -188,7 +225,7 @@ class AuthViewModel: ObservableObject {
             }
             .assign(to: \.emailError, on: self)
             .store(in: &cancellableBag)
-
+        
         passwordValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
@@ -197,7 +234,11 @@ class AuthViewModel: ObservableObject {
             .store(in: &cancellableBag)
         
         Publishers.CombineLatest(
-            Publishers.CombineLatest4( usernameValidPublisher, emailValidPublisher, emailServerValidPublisher, passwordValidPublisher),
+            Publishers.CombineLatest4(
+                usernameValidPublisher,
+                emailValidPublisher,
+                emailServerValidPublisher,
+                passwordValidPublisher),
             segmentOnChangedPublisher // 5つ目のPublisherを追加
         )
         .receive(on: RunLoop.main)
@@ -210,7 +251,9 @@ class AuthViewModel: ObservableObject {
             case .signUpSegment:
                 self.enableSignUp = [userNameValidation, emailValidation.error, emailServerValidation, passwordValidation].allSatisfy { $0 == .noError }
             case .signInSegment:
-                self.enableSignIn = [emailValidation.error, passwordValidation].allSatisfy { $0 == .noError }
+                let enableButton = [emailValidation.error, passwordValidation].allSatisfy { $0 == .noError }
+                self.enableSignIn = enableButton
+                self.enableDeleteAccount = enableButton
             }
         }
         .store(in: &cancellableBag)
@@ -220,10 +263,21 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = false
+                self.successStatus = .none
                 self.isShowError = true
                 self.httpErrorMsg = error.localizedDescription
-                self.enableSignUp = true
-                self.enableSignIn = true
+                self.alertType = .error
+                
+                // アカウント削除処理後、認証ボタンの非/活性を判定
+                if taps != .deleteAccount {
+                    self.enableSignUp = true
+                    self.enableSignIn = true
+                }
+                self.enableDeleteAccount = true
+                
+                // 再度値を流し、認証ボタンの非/活性を判定
+                self.email = email
+                self.password = password
             })
             .store(in: &cancellableBag)
     }
@@ -260,8 +314,10 @@ extension AuthViewModel {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.isSuccess = true
+                self.successStatus = .signedUpIn
                 self.enableSignUp = true
                 self.enableSignIn = true
+                self.enableDeleteAccount = true
                 // 認証情報をキーチェーンへ保存
                 self.keyChainManager.saveCredentials(apiToken: value.apiToken, email: value.email, password: value.password)
             })
@@ -319,5 +375,26 @@ extension AuthViewModel {
                 return Just(false)
             }
             .eraseToAnyPublisher()
+    }
+    
+    // アカウント削除
+    private func deleteAccount(email: String, password: String) {
+        // リクエスト組み立て
+        let deleteAccountRequest = DeleteAccountRequest(email: email, password: password)
+        // リクエスト
+        handleRequest(request: deleteAccountRequest)
+            .sink(receiveValue: { [weak self] (value: EmptyModel) in
+                guard let self = self else { return }
+                self.isLoading = false
+                self.successStatus = .accountDeleted
+                self.alertType = .none
+                self.enableDeleteAccount = true
+                // 認証情報をキーチェーンから削除
+                self.keyChainManager.deleteCredentials()
+                
+                self.email = ""
+                self.password = ""
+            })
+            .store(in: &cancellableBag)
     }
 }

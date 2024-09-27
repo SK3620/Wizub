@@ -24,6 +24,9 @@ struct ApiUrl {
     // Email重複チェック post
     static let checkEmailUrl = "api/check_email"
     
+    // アカウント削除 delete
+    static let deleteAccout = "api/delete_account"
+    
     // YouTube動画検索 get
     static let searchVideos = "api/search"
     

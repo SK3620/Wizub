@@ -11,10 +11,14 @@ struct AuthView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
     
+    private var segmentType: AuthSegmentType {
+        return authViewModel.authSegmentType
+    }
+    
     var body: some View {
         VStack {
             VStack {
-                if authViewModel.authSegmentType == .signUpSegment {
+                if segmentType == .signUpSegment {
                     // ユーザー名入力欄
                     AuthTextField(title: "UserName", textValue: $authViewModel.userName, errorValue: authViewModel.userNameError)
                         .onChange(of: authViewModel.userName) { oldValue, newValue in
@@ -36,6 +40,11 @@ struct AuthView: View {
                 // サインイン/サインアップボタン
                 AuthButton(authViewModel: authViewModel)
                     .padding(.vertical, 40)
+                
+                if segmentType == .signInSegment {
+                    DeleteAccountButton(authViewModel: authViewModel)
+                        .padding(.bottom, 40)
+                }
             }
             .padding(.horizontal)
             .padding(.top, 50)

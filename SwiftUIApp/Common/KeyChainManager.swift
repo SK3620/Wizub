@@ -28,6 +28,13 @@ class KeyChainManager {
     func loadCredentials(service: Service) -> String {
         read(service: service, account: account) ?? ""
     }
+    
+    // 認証情報をキーチェーンから削除
+    func deleteCredentials() {
+        delete(service: .apiTokenService, account: account)
+        delete(service: .emailService, account: account)
+        delete(service: .passwordService, account: account)
+    }
 }
 
 extension KeyChainManager {
@@ -76,7 +83,7 @@ extension KeyChainManager {
     }
     
     // キーチェーンからデータを削除
-    func delete(service: Service, account: String) -> Bool {
+    func delete(service: Service, account: String) {
         let query = [
             kSecAttrService: service.rawValue,
             kSecAttrAccount: account,
@@ -84,6 +91,10 @@ extension KeyChainManager {
         ] as CFDictionary
         
         let status = SecItemDelete(query)
-        return status == noErr
+        if status == noErr {
+            print("Data deleted successfully")
+        } else {
+            print("Failed to delete data")
+        }
     }
 }

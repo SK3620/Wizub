@@ -48,17 +48,33 @@ struct AuthPickerView: View {
                     navigationPathEnv.path.append(.home)
                 }
                 
-                 // 非同期処理中はローディング
+                // 非同期処理中はローディング
                 if authViewModel.isLoading {
                     CommonProgressView()
                 }
+                
+                // アカウント削除成功ダイアログ表示
+                if let successStatus = authViewModel.successStatus {
+                    CommonSuccessMsgView(
+                        text: successStatus.toSuccessMsg,
+                        isShow: successStatus == .accountDeleted
+                    )
+                }
             }
-            .alert(isPresented: $authViewModel.isShowError) {
-                Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
-            }
+            .alert(item: $authViewModel.alertType, content: { alertType in
+                switch alertType {
+                case .deleteAccount:
+                    Alert(title: Text("アカウント削除"), message: Text("本当にアカウントを削除してもよろしいですか？"), primaryButton: .destructive(Text("削除"), action: {
+                        authViewModel.apply(taps: .deleteAccount)
+                    }), secondaryButton: .cancel(Text("キャンセル")))
+                    
+                case .error:
+                    Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
+                }
+            })
             .navigationDestination(for: NavigationPath.self, destination: { appended in
                 appended.Destination()
-//                    .navigationTitle(appended.toString) HomeViewでタイトル表示
+                //                    .navigationTitle(appended.toString) HomeViewでタイトル表示
                     .navigationBarTitleDisplayMode(.inline)
             })
         }
