@@ -38,7 +38,6 @@
 		837472E62C8AABE400961850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 837472E52C8AABE400961850 /* Assets.xcassets */; };
 		838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931372C67629E00FF42B4 /* AuthPickerView.swift */; };
 		8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8389313C2C68329700FF42B4 /* AuthViewModel.swift */; };
-		838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */; };
 		838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931422C6851CE00FF42B4 /* ColorCodes.swift */; };
 		838931452C68538A00FF42B4 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931442C68538A00FF42B4 /* AuthView.swift */; };
 		83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* HttpError.swift */; };
@@ -115,7 +114,6 @@
 		837472E52C8AABE400961850 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		838931372C67629E00FF42B4 /* AuthPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPickerView.swift; sourceTree = "<group>"; };
 		8389313C2C68329700FF42B4 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSegmentedControl.swift; sourceTree = "<group>"; };
 		838931422C6851CE00FF42B4 /* ColorCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCodes.swift; sourceTree = "<group>"; };
 		838931442C68538A00FF42B4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		83A63E8B2C6F81B500B4179D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
@@ -251,7 +249,6 @@
 		836F823D2C89D3160091C294 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				838931402C683E5A00FF42B4 /* AuthSegmentedControl.swift */,
 				838931442C68538A00FF42B4 /* AuthView.swift */,
 				836F82382C89B0160091C294 /* AuthTextField.swift */,
 				836F823A2C89B0410091C294 /* AuthButton.swift */,
@@ -602,7 +599,6 @@
 				838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */,
 				834795DD2C76CDC300B98359 /* PlayVideoView.swift in Sources */,
 				834795C42C744AEF00B98359 /* VideoListView.swift in Sources */,
-				838931412C683E5A00FF42B4 /* AuthSegmentedControl.swift in Sources */,
 				838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */,
 				83CB33442C7F11C200E8E7E8 /* OpenAIResponseModel.swift in Sources */,
 				836747322C90017600046E23 /* CustomTextEditor.swift in Sources */,
