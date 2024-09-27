@@ -48,9 +48,17 @@ struct AuthPickerView: View {
                     navigationPathEnv.path.append(.home)
                 }
                 
-                 // 非同期処理中はローディング
+                // 非同期処理中はローディング
                 if authViewModel.isLoading {
                     CommonProgressView()
+                }
+                
+                // アカウント削除成功ダイアログ表示
+                if let successStatus = authViewModel.successStatus {
+                    CommonSuccessMsgView(
+                        text: successStatus.toSuccessMsg,
+                        isShow: successStatus == .accountDeleted
+                    )
                 }
             }
             .alert(isPresented: $authViewModel.isShowError) {
@@ -58,7 +66,7 @@ struct AuthPickerView: View {
             }
             .navigationDestination(for: NavigationPath.self, destination: { appended in
                 appended.Destination()
-//                    .navigationTitle(appended.toString) HomeViewでタイトル表示
+                //                    .navigationTitle(appended.toString) HomeViewでタイトル表示
                     .navigationBarTitleDisplayMode(.inline)
             })
         }
