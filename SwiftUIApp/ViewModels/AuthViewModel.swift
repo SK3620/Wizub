@@ -40,6 +40,9 @@ enum AuthSuccessStatus {
     case signedUpIn // サインアップ/サインイン成功
     case accountDeleted // アカウント削除成功
     
+    // サインアップ/サインイン成功時に画面遷移
+    var shouldNavigate: Bool { self == .signedUpIn }
+        
     var toSuccessMsg: String {
         switch self {
         case .signedUpIn:
@@ -78,7 +81,6 @@ class AuthViewModel: ObservableObject {
     @Published var authSegmentType: AuthSegmentType = .signInSegment
     
     @Published var isLoading: Bool = false
-    @Published var isSuccess: Bool = false
     @Published var successStatus: AuthSuccessStatus?
     @Published var httpErrorMsg: String = ""
     @Published var alertType: AlertType?
@@ -92,10 +94,7 @@ class AuthViewModel: ObservableObject {
     @Published var enableDeleteAccount: Bool = false
                 
     func apply(taps: AuthButtonTaps) {
-        self.taps = taps
-        
         isLoading = true
-        isSuccess = false
         successStatus = .none
         alertType = .none
         // 非同期処理中は、SignUp/SignIn/DeleteAcountボタン非活性
@@ -118,7 +117,6 @@ class AuthViewModel: ObservableObject {
     private let keyChainManager: KeyChainManager = KeyChainManager()
     private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
     private var cancellableBag = Set<AnyCancellable>()
-    private var taps: AuthButtonTaps? = .none
     
     // MARK: - AnyPublisher
     private var usernameValidPublisher: AnyPublisher<AuthInputValidation, Never> {
@@ -259,16 +257,12 @@ class AuthViewModel: ObservableObject {
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
                 self.isLoading = false
-                self.isSuccess = false
                 self.successStatus = .none
                 self.httpErrorMsg = error.localizedDescription
                 self.alertType = .error
                 
-                // アカウント削除処理後、認証ボタンの非/活性を判定
-                if taps != .deleteAccount {
-                    self.enableSignUp = true
-                    self.enableSignIn = true
-                }
+                self.enableSignUp = true
+                self.enableSignIn = true
                 self.enableDeleteAccount = true
                 
                 // 再度値を流し、認証ボタンの非/活性を判定
@@ -309,7 +303,6 @@ extension AuthViewModel {
             .sink(receiveValue: { [weak self] (value: AuthModel) in
                 guard let self = self else { return }
                 self.isLoading = false
-                self.isSuccess = true
                 self.successStatus = .signedUpIn
                 self.enableSignUp = true
                 self.enableSignIn = true
@@ -388,6 +381,7 @@ extension AuthViewModel {
                 // 認証情報をキーチェーンから削除
                 self.keyChainManager.deleteCredentials()
                 
+                // 値をリセット
                 self.email = ""
                 self.password = ""
             })

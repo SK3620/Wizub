@@ -42,7 +42,7 @@ struct AuthPickerView: View {
                     
                     Spacer()
                 }
-                .onChange(of: authViewModel.isSuccess, initial: false) { oldValue, newValue in
+                .onChange(of: authViewModel.successStatus?.shouldNavigate ?? false, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
                     navigationPathEnv.path.append(.home)
@@ -63,11 +63,12 @@ struct AuthPickerView: View {
             }
             .alert(item: $authViewModel.alertType, content: { alertType in
                 switch alertType {
+                    // アカウント削除確認用アラート
                 case .deleteAccount:
                     Alert(title: Text("アカウント削除"), message: Text("本当にアカウントを削除してもよろしいですか？"), primaryButton: .destructive(Text("削除"), action: {
                         authViewModel.apply(taps: .deleteAccount)
                     }), secondaryButton: .cancel(Text("キャンセル")))
-                    
+                    // エラー用アラート
                 case .error:
                     Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
                 }
