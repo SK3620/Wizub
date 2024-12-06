@@ -15,6 +15,7 @@
 		8344204B2D02C40B000C1CD6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204A2D02C40B000C1CD6 /* WebView.swift */; };
 		8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */; };
 		8344204F2D02E4B6000C1CD6 /* AppSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204E2D02E4B6000C1CD6 /* AppSupportView.swift */; };
+		834420542D0319A4000C1CD6 /* GetTrialUserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834420532D0319A4000C1CD6 /* GetTrialUserInfoRequest.swift */; };
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
@@ -96,6 +97,7 @@
 		8344204A2D02C40B000C1CD6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppSettings.swift; sourceTree = "<group>"; };
 		8344204E2D02E4B6000C1CD6 /* AppSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSupportView.swift; sourceTree = "<group>"; };
+		834420532D0319A4000C1CD6 /* GetTrialUserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTrialUserInfoRequest.swift; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				834795D12C75DE1A00B98359 /* GetSubtitlesRequest.swift */,
 				83D3DEDE2C85A33B00CD2916 /* GetSavedVideosRequest.swift */,
 				83D3DEE62C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift */,
+				834420532D0319A4000C1CD6 /* GetTrialUserInfoRequest.swift */,
 			);
 			path = Get;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 				838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */,
 				83CB33442C7F11C200E8E7E8 /* OpenAIResponseModel.swift in Sources */,
 				836747322C90017600046E23 /* CustomTextEditor.swift in Sources */,
+				834420542D0319A4000C1CD6 /* GetTrialUserInfoRequest.swift in Sources */,
 				83D3DEDB2C8573BF00CD2916 /* StoreSubtitlesRequestModel.swift in Sources */,
 				834795D22C75DE1A00B98359 /* GetSubtitlesRequest.swift in Sources */,
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
@@ -729,6 +733,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -832,6 +837,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (

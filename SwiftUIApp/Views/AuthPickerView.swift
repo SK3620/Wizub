@@ -104,7 +104,7 @@ struct AuthPickerView: View {
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            
+                            authViewModel.apply(taps: .trialUse)
                         } label: {
                             Text("お試し")
                                 .foregroundColor(ColorCodes.primary.color())

@@ -64,6 +64,8 @@ class AuthViewModel: ObservableObject {
     
     // MARK: - Tapped
     enum AuthButtonTaps {
+        // お試し利用
+        case trialUse
         // サインアップ
         case signUp
         //　サインイン
@@ -105,6 +107,8 @@ class AuthViewModel: ObservableObject {
         enableDeleteAccount = false
         
         switch taps {
+        case .trialUse:
+            self.getTrialUserInfo()
         case .signUp:
             self.signUp()
         case .signIn:
@@ -300,6 +304,19 @@ extension AuthViewModel {
             .eraseToAnyPublisher()
     }
     
+    // お試し利用用のユーザー情報を取得
+    private func getTrialUserInfo() {
+        let getTrialUserInfoRequest = GetTrialUserInfoRequest()
+        // リクエスト組み立て
+        handleRequest(request: getTrialUserInfoRequest)
+            .sink(receiveValue: { [weak self] (trialAuthModel: AuthModel) in
+                guard let self = self else { return }
+                // お試し利用用のユーザ情報でサインイン
+                self.signIn(trialUserInfo: trialAuthModel)
+            })
+            .store(in: &cancellableBag)
+    }
+    
     // サインアップ/サインイン
     private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
         // リクエスト
@@ -332,7 +349,7 @@ extension AuthViewModel {
     }
     
     // サインイン
-    private func signIn() {
+    private func signIn(trialUserInfo trialAuthModel: AuthModel? = nil) {
         let authModel = AuthModel(
             name: "",
             email: email,
@@ -341,7 +358,7 @@ extension AuthViewModel {
             isDuplicatedEmail: nil
         )
         // サインインリクエスト組み立て
-        let signInRequest = SignInRequest(model: authModel)
+        let signInRequest = SignInRequest(model: trialAuthModel ?? authModel)
         authenticate(with: signInRequest, authModel: authModel)
     }
     
