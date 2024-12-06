@@ -14,6 +14,12 @@ struct AuthPickerView: View {
 
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel(apiService: APIService())
     
+    // TextEditorのフォーカス状態の管理
+    @FocusState private var isFocusedField: Bool
+    
+    // アプリサポート画面表示状態
+    @State var showAppSupport: Bool = false
+    
     var body: some View {
         NavigationStack(path: $navigationPathEnv.path) {
             ZStack {
@@ -37,7 +43,7 @@ struct AuthPickerView: View {
                     Spacer()
                     
                     // SingUp/SignIn画面
-                    AuthView(authViewModel: authViewModel)
+                    AuthView(authViewModel: authViewModel, focusedState: $isFocusedField)
                         .shadow(color: .gray.opacity(0.5), radius: 2)
                     
                     Spacer()
@@ -63,6 +69,11 @@ struct AuthPickerView: View {
                         isShow: successStatus == .accountDeleted
                     )
                 }
+                
+                // アプリサポート画面表示
+                if showAppSupport {
+                    AppSupportView(isPresented: $showAppSupport)
+                }
             }
             .alert(item: $authViewModel.alertType, content: { alertType in
                 switch alertType {
@@ -81,6 +92,27 @@ struct AuthPickerView: View {
                 //                    .navigationTitle(appended.toString) HomeViewでタイトル表示
                     .navigationBarTitleDisplayMode(.inline)
             })
+            .toolbar {
+                if !isFocusedField {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            showAppSupport = true
+                        } label: {
+                            Image(systemName: "doc.questionmark")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            
+                        } label: {
+                            Text("お試し")
+                                .foregroundColor(ColorCodes.primary.color())
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+            }
         }
         .accentColor(.black) // navigationBarのbackボタンの色
     }

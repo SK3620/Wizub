@@ -14,6 +14,7 @@
 		834420482D02C3D0000C1CD6 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834420472D02C3D0000C1CD6 /* TermsAndConditionsView.swift */; };
 		8344204B2D02C40B000C1CD6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204A2D02C40B000C1CD6 /* WebView.swift */; };
 		8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */; };
+		8344204F2D02E4B6000C1CD6 /* AppSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204E2D02E4B6000C1CD6 /* AppSupportView.swift */; };
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
@@ -94,6 +95,7 @@
 		834420472D02C3D0000C1CD6 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
 		8344204A2D02C40B000C1CD6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppSettings.swift; sourceTree = "<group>"; };
+		8344204E2D02E4B6000C1CD6 /* AppSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSupportView.swift; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
@@ -234,7 +236,6 @@
 				8389313B2C67A18000FF42B4 /* ViewModels */,
 				837472D92C8A94C200961850 /* Api */,
 				83EC0AD82C6B204700E316E6 /* Common */,
-				83730B8A2C898461007D5D4F /* Modifiers */,
 				834795CE2C75CB7300B98359 /* Environment */,
 				835F29372C6623CF005BC174 /* Preview Content */,
 			);
@@ -268,15 +269,9 @@
 				836F82382C89B0160091C294 /* AuthTextField.swift */,
 				836F823A2C89B0410091C294 /* AuthButton.swift */,
 				832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */,
+				8344204E2D02E4B6000C1CD6 /* AppSupportView.swift */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		83730B8A2C898461007D5D4F /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		837472D72C8A919500961850 /* Home */ = {
@@ -642,6 +637,7 @@
 				83EC0AF32C6D948A00E316E6 /* SignInRequest.swift in Sources */,
 				83F9DE4B2C72BAB800F828F7 /* CustomTabBar.swift in Sources */,
 				8367472A2C8EC64600046E23 /* ShowTranslateViewButton.swift in Sources */,
+				8344204F2D02E4B6000C1CD6 /* AppSupportView.swift in Sources */,
 				8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */,
 				83CB33402C7F065600E8E7E8 /* TranslateRequest.swift in Sources */,
 				83B66C422C959E8B00F97D22 /* ResponseErrorModel.swift in Sources */,
