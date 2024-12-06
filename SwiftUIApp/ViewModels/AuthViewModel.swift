@@ -78,6 +78,8 @@ class AuthViewModel: ObservableObject {
     @Published var password: String = ""
     
     // MARK: - Outputs
+    @Published var showTermsAndConditions: Bool = true
+    
     @Published var authSegmentType: AuthSegmentType = .signInSegment
     
     @Published var isLoading: Bool = false
@@ -195,6 +197,8 @@ class AuthViewModel: ObservableObject {
         
         self.email = keyChainManager.loadCredentials(service: .emailService)
         self.password = keyChainManager.loadCredentials(service: .passwordService)
+        
+        self.showTermsAndConditions = email.isEmpty && password.isEmpty
         
         usernameValidPublisher
             .receive(on: RunLoop.main)

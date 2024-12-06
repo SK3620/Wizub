@@ -11,6 +11,9 @@
 		832F1AE92CA6331B00D154D2 /* DeleteAccountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */; };
 		832F1AEB2CA6339900D154D2 /* DeleteAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AEA2CA6339900D154D2 /* DeleteAccountRequest.swift */; };
 		832F1AED2CA6403C00D154D2 /* CommonSuccessMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832F1AEC2CA6403C00D154D2 /* CommonSuccessMsgView.swift */; };
+		834420482D02C3D0000C1CD6 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834420472D02C3D0000C1CD6 /* TermsAndConditionsView.swift */; };
+		8344204B2D02C40B000C1CD6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204A2D02C40B000C1CD6 /* WebView.swift */; };
+		8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */; };
 		834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */; };
 		834795C42C744AEF00B98359 /* VideoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C32C744AEF00B98359 /* VideoListView.swift */; };
 		834795C62C744B6600B98359 /* VideoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834795C52C744B6600B98359 /* VideoListViewModel.swift */; };
@@ -88,6 +91,9 @@
 		832F1AE82CA6331B00D154D2 /* DeleteAccountButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountButton.swift; sourceTree = "<group>"; };
 		832F1AEA2CA6339900D154D2 /* DeleteAccountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountRequest.swift; sourceTree = "<group>"; };
 		832F1AEC2CA6403C00D154D2 /* CommonSuccessMsgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSuccessMsgView.swift; sourceTree = "<group>"; };
+		834420472D02C3D0000C1CD6 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
+		8344204A2D02C40B000C1CD6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppSettings.swift; sourceTree = "<group>"; };
 		834795BD2C737AA500B98359 /* YouTubeSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeSearchRequest.swift; sourceTree = "<group>"; };
 		834795C32C744AEF00B98359 /* VideoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListView.swift; sourceTree = "<group>"; };
 		834795C52C744B6600B98359 /* VideoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewModel.swift; sourceTree = "<group>"; };
@@ -182,6 +188,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		834420492D02C3EC000C1CD6 /* TermsAndConditions */ = {
+			isa = PBXGroup;
+			children = (
+				8344204A2D02C40B000C1CD6 /* WebView.swift */,
+			);
+			path = TermsAndConditions;
+			sourceTree = "<group>";
+		};
 		834795CE2C75CB7300B98359 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				836F823D2C89D3160091C294 /* Auth */,
+				834420492D02C3EC000C1CD6 /* TermsAndConditions */,
 				837472D72C8A919500961850 /* Home */,
 				837472E12C8AA9A200961850 /* Study */,
 				837472E22C8AA9EB00961850 /* Translate */,
@@ -355,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				838931372C67629E00FF42B4 /* AuthPickerView.swift */,
+				834420472D02C3D0000C1CD6 /* TermsAndConditionsView.swift */,
 				83F9DE502C7343E700F828F7 /* HomeView.swift */,
 				834795CC2C75B8D300B98359 /* StudyView.swift */,
 				83CB33452C80263400E8E7E8 /* TranslateView.swift */,
@@ -393,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				83EC0AD92C6B207B00E316E6 /* Util.swift */,
+				8344204C2D02C7FC000C1CD6 /* MyAppSettings.swift */,
 				83AAAC772C705393002AE74E /* KeyChainManager.swift */,
 				838931422C6851CE00FF42B4 /* ColorCodes.swift */,
 				83D01FFA2C7C6CDC00E09D5F /* CommonProgressView.swift */,
@@ -568,6 +585,8 @@
 				83F9DE512C7343E700F828F7 /* HomeView.swift in Sources */,
 				83D3DEE72C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift in Sources */,
 				83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */,
+				8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */,
+				834420482D02C3D0000C1CD6 /* TermsAndConditionsView.swift in Sources */,
 				83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */,
 				83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */,
 				834795C92C7454D500B98359 /* VideoListRow.swift in Sources */,
@@ -607,6 +626,7 @@
 				834795DF2C76DAE500B98359 /* StudyTabBarView.swift in Sources */,
 				83D3DEEB2C87214D00CD2916 /* CheckVideoAlreadySavedResponseModel.swift in Sources */,
 				83DF0E932CA24668006B2DCD /* ChunkedSubtitleSegmentControl.swift in Sources */,
+				8344204B2D02C40B000C1CD6 /* WebView.swift in Sources */,
 				832F1AED2CA6403C00D154D2 /* CommonSuccessMsgView.swift in Sources */,
 				834795DB2C76B73700B98359 /* SubtitleListView.swift in Sources */,
 				83D3DEE32C85D7CD00CD2916 /* DeleteSavedVideosRequest.swift in Sources */,

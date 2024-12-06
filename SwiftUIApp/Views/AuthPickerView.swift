@@ -42,6 +42,9 @@ struct AuthPickerView: View {
                     
                     Spacer()
                 }
+                .fullScreenCover(isPresented: $authViewModel.showTermsAndConditions, content: {
+                    TermsOfServiceView(url: MyAppSettings.termsAndConditionsUrl, isPresented: $authViewModel.showTermsAndConditions)
+                })
                 .onChange(of: authViewModel.successStatus?.shouldNavigate ?? false, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
