@@ -15,6 +15,9 @@ struct ApiUrl {
         #endif
     }
     
+    // お試し利用用のユーザー情報取得
+    static let getTrialUserInfo = "api/get_trial_user_info"
+    
     // サインアップ post
     static let signUpUrl = "api/sign_up"
 

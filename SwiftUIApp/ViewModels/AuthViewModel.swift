@@ -40,6 +40,9 @@ enum AuthSuccessStatus {
     case signedUpIn // サインアップ/サインイン成功
     case accountDeleted // アカウント削除成功
     
+    // サインアップ/サインイン成功時に画面遷移
+    var shouldNavigate: Bool { self == .signedUpIn }
+        
     var toSuccessMsg: String {
         switch self {
         case .signedUpIn:
@@ -61,6 +64,8 @@ class AuthViewModel: ObservableObject {
     
     // MARK: - Tapped
     enum AuthButtonTaps {
+        // お試し利用
+        case trialUse
         // サインアップ
         case signUp
         //　サインイン
@@ -75,12 +80,12 @@ class AuthViewModel: ObservableObject {
     @Published var password: String = ""
     
     // MARK: - Outputs
+    @Published var showTermsAndConditions: Bool = true
+    
     @Published var authSegmentType: AuthSegmentType = .signInSegment
     
     @Published var isLoading: Bool = false
-    @Published var isSuccess: Bool = false
     @Published var successStatus: AuthSuccessStatus?
-    @Published var isShowError: Bool = false
     @Published var httpErrorMsg: String = ""
     @Published var alertType: AlertType?
             
@@ -90,15 +95,10 @@ class AuthViewModel: ObservableObject {
     
     @Published var enableSignUp: Bool = false
     @Published var enableSignIn: Bool = false
-    
     @Published var enableDeleteAccount: Bool = false
-    @Published var isShowDeleteAccountDialog = false
                 
     func apply(taps: AuthButtonTaps) {
-        self.taps = taps
-        
         isLoading = true
-        isSuccess = false
         successStatus = .none
         alertType = .none
         // 非同期処理中は、SignUp/SignIn/DeleteAcountボタン非活性
@@ -107,6 +107,8 @@ class AuthViewModel: ObservableObject {
         enableDeleteAccount = false
         
         switch taps {
+        case .trialUse:
+            self.getTrialUserInfo()
         case .signUp:
             self.signUp()
         case .signIn:
@@ -121,7 +123,6 @@ class AuthViewModel: ObservableObject {
     private let keyChainManager: KeyChainManager = KeyChainManager()
     private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
     private var cancellableBag = Set<AnyCancellable>()
-    private var taps: AuthButtonTaps? = .none
     
     // MARK: - AnyPublisher
     private var usernameValidPublisher: AnyPublisher<AuthInputValidation, Never> {
@@ -201,6 +202,8 @@ class AuthViewModel: ObservableObject {
         self.email = keyChainManager.loadCredentials(service: .emailService)
         self.password = keyChainManager.loadCredentials(service: .passwordService)
         
+        self.showTermsAndConditions = email.isEmpty && password.isEmpty
+        
         usernameValidPublisher
             .receive(on: RunLoop.main)
             .dropFirst()
@@ -262,17 +265,12 @@ class AuthViewModel: ObservableObject {
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
                 self.isLoading = false
-                self.isSuccess = false
                 self.successStatus = .none
-                self.isShowError = true
                 self.httpErrorMsg = error.localizedDescription
                 self.alertType = .error
                 
-                // アカウント削除処理後、認証ボタンの非/活性を判定
-                if taps != .deleteAccount {
-                    self.enableSignUp = true
-                    self.enableSignIn = true
-                }
+                self.enableSignUp = true
+                self.enableSignIn = true
                 self.enableDeleteAccount = true
                 
                 // 再度値を流し、認証ボタンの非/活性を判定
@@ -306,6 +304,19 @@ extension AuthViewModel {
             .eraseToAnyPublisher()
     }
     
+    // お試し利用用のユーザー情報を取得
+    private func getTrialUserInfo() {
+        let getTrialUserInfoRequest = GetTrialUserInfoRequest()
+        // リクエスト組み立て
+        handleRequest(request: getTrialUserInfoRequest)
+            .sink(receiveValue: { [weak self] (trialAuthModel: AuthModel) in
+                guard let self = self else { return }
+                // お試し利用用のユーザ情報でサインイン
+                self.signIn(trialUserInfo: trialAuthModel)
+            })
+            .store(in: &cancellableBag)
+    }
+    
     // サインアップ/サインイン
     private func authenticate(with request: any CommonHttpRouter, authModel: AuthModel) {
         // リクエスト
@@ -313,7 +324,6 @@ extension AuthViewModel {
             .sink(receiveValue: { [weak self] (value: AuthModel) in
                 guard let self = self else { return }
                 self.isLoading = false
-                self.isSuccess = true
                 self.successStatus = .signedUpIn
                 self.enableSignUp = true
                 self.enableSignIn = true
@@ -339,7 +349,7 @@ extension AuthViewModel {
     }
     
     // サインイン
-    private func signIn() {
+    private func signIn(trialUserInfo trialAuthModel: AuthModel? = nil) {
         let authModel = AuthModel(
             name: "",
             email: email,
@@ -348,7 +358,7 @@ extension AuthViewModel {
             isDuplicatedEmail: nil
         )
         // サインインリクエスト組み立て
-        let signInRequest = SignInRequest(model: authModel)
+        let signInRequest = SignInRequest(model: trialAuthModel ?? authModel)
         authenticate(with: signInRequest, authModel: authModel)
     }
     
@@ -392,6 +402,7 @@ extension AuthViewModel {
                 // 認証情報をキーチェーンから削除
                 self.keyChainManager.deleteCredentials()
                 
+                // 値をリセット
                 self.email = ""
                 self.password = ""
             })

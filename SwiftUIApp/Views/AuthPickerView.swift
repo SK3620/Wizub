@@ -14,6 +14,12 @@ struct AuthPickerView: View {
 
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel(apiService: APIService())
     
+    // TextEditorのフォーカス状態の管理
+    @FocusState private var isFocusedField: Bool
+    
+    // アプリサポート画面表示状態
+    @State var showAppSupport: Bool = false
+    
     var body: some View {
         NavigationStack(path: $navigationPathEnv.path) {
             ZStack {
@@ -37,12 +43,15 @@ struct AuthPickerView: View {
                     Spacer()
                     
                     // SingUp/SignIn画面
-                    AuthView(authViewModel: authViewModel)
+                    AuthView(authViewModel: authViewModel, focusedState: $isFocusedField)
                         .shadow(color: .gray.opacity(0.5), radius: 2)
                     
                     Spacer()
                 }
-                .onChange(of: authViewModel.isSuccess, initial: false) { oldValue, newValue in
+                .fullScreenCover(isPresented: $authViewModel.showTermsAndConditions, content: {
+                    TermsOfServiceView(url: MyAppSettings.termsAndConditionsUrl, isPresented: $authViewModel.showTermsAndConditions)
+                })
+                .onChange(of: authViewModel.successStatus?.shouldNavigate ?? false, initial: false) { oldValue, newValue in
                     // 非同期処理成功後、Home画面へ遷移
                     guard newValue else { return }
                     navigationPathEnv.path.append(.home)
@@ -60,14 +69,20 @@ struct AuthPickerView: View {
                         isShow: successStatus == .accountDeleted
                     )
                 }
+                
+                // アプリサポート画面表示
+                if showAppSupport {
+                    AppSupportView(isPresented: $showAppSupport)
+                }
             }
             .alert(item: $authViewModel.alertType, content: { alertType in
                 switch alertType {
+                    // アカウント削除確認用アラート
                 case .deleteAccount:
                     Alert(title: Text("アカウント削除"), message: Text("本当にアカウントを削除してもよろしいですか？"), primaryButton: .destructive(Text("削除"), action: {
                         authViewModel.apply(taps: .deleteAccount)
                     }), secondaryButton: .cancel(Text("キャンセル")))
-                    
+                    // エラー用アラート
                 case .error:
                     Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
                 }
@@ -77,6 +92,27 @@ struct AuthPickerView: View {
                 //                    .navigationTitle(appended.toString) HomeViewでタイトル表示
                     .navigationBarTitleDisplayMode(.inline)
             })
+            .toolbar {
+                if !isFocusedField {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            showAppSupport = true
+                        } label: {
+                            Image(systemName: "doc.questionmark")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            authViewModel.apply(taps: .trialUse)
+                        } label: {
+                            Text("お試し")
+                                .foregroundColor(ColorCodes.primary.color())
+                                .fontWeight(.medium)
+                        }
+                    }
+                }
+            }
         }
         .accentColor(.black) // navigationBarのbackボタンの色
     }
