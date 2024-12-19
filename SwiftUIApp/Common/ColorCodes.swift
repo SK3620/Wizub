@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 enum ColorCodes {
     case primary
@@ -47,6 +48,17 @@ extension ColorCodes {
             return Color.white
         case .buttonBackground:
             return Color(red: 0.3, green: 0.0, blue: 0.5)
+        }
+    }
+    
+    func uiColor() -> UIColor {
+        switch self {
+        case .primary:
+            return UIColor(red: 0.3, green: 0.0, blue: 0.5, alpha: 1.0)
+        case .primary2:
+            return UIColor(red: 0.95, green: 0.95, blue: 1.0, alpha: 1.0)
+        default:
+            return UIColor()
         }
     }
 }

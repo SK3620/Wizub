@@ -329,7 +329,12 @@ extension AuthViewModel {
                 self.enableSignIn = true
                 self.enableDeleteAccount = true
                 // 認証情報をキーチェーンへ保存
-                self.keyChainManager.saveCredentials(apiToken: value.apiToken, email: value.email, password: value.password)
+                self.keyChainManager.saveCredentials(
+                    apiToken: value.apiToken,
+                    username: value.name,
+                    email: value.email,
+                    password: value.password
+                )
             })
             .store(in: &cancellableBag)
     }

@@ -1,20 +1,28 @@
 PODS:
   - Alamofire (5.9.1)
+  - KRActivityIndicatorView (3.0.8)
+  - KRProgressHUD (3.4.8):
+    - KRActivityIndicatorView (= 3.0.8)
   - SwiftUIIntrospect (1.3.0)
 
 DEPENDENCIES:
   - Alamofire (= 5.9.1)
+  - KRProgressHUD
   - SwiftUIIntrospect (~> 1.0)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - KRActivityIndicatorView
+    - KRProgressHUD
     - SwiftUIIntrospect
 
 SPEC CHECKSUMS:
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
+  KRActivityIndicatorView: c5c503bf56e54834382dd926b64ff47287ca0006
+  KRProgressHUD: d0fb4e72428d312eb6966e84c543ea58fb1efbc7
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
 
-PODFILE CHECKSUM: 9818af0c0621221186d164dc55770c9a37305094
+PODFILE CHECKSUM: d3149b955b03c6678c6726fa41a1d2ceee13178a
 
 COCOAPODS: 1.15.2

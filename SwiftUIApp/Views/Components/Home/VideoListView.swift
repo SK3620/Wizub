@@ -33,7 +33,7 @@ struct VideoListView: View {
                     .frame(height: 0.5)
             }
             .background(ColorCodes.primary2.color()) // navigationBar背景色
-
+            
             
             // 非同期処理中はローディング
             if videoListViewModel.isLoading {
