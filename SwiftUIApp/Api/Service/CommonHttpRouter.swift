@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Alamofire
 import Combine
+import Alamofire
 
 protocol CommonHttpRouter: URLRequestConvertible {
     
@@ -17,12 +17,13 @@ protocol CommonHttpRouter: URLRequestConvertible {
     var path: String { get }
     var method: HTTPMethod { get }
     var headers: HTTPHeaders { get }
-    var parameters: Parameters? { get }
+    var pathParameters: [String] { get }
+    var queryParameters: Parameters { get }
     func body() throws -> Data?
 }
 
 extension CommonHttpRouter {
-        
+    
     var baseUrlString: String { return ApiUrl.baseUrl }
     var headers: HTTPHeaders {
         return [
@@ -31,7 +32,8 @@ extension CommonHttpRouter {
             "Authorization": "Bearer \(apiToken)"
         ]
     }
-    var parameters: Parameters? { return nil }
+    var pathParameters: [String] { return [] }
+    var queryParameters: Parameters { return [:] }
     func body() throws -> Data? { return nil }
     
     private var apiToken: String {
@@ -42,15 +44,24 @@ extension CommonHttpRouter {
         
         var url = try baseUrlString.asURL()
         url = url.appendingPathComponent(path)
-
-        var request = try URLRequest(url: url, method: method, headers: headers)
         
-        if let parameters = parameters {
-            request = try URLEncoding.queryString.encode(request, with: parameters)
+        // パスパラメーターを追加
+        for component in pathParameters {
+            url = url.appendingPathComponent(component)
         }
         
-        request.httpBody = try body()
+        // クエリパラメーターを追加
+        if !queryParameters.isEmpty {
+            let queryString = queryParameters.map { "\($0.key)=\($0.value)" }
+                .joined(separator: "&")
+            let separator = url.absoluteString.contains("?") ? "&" : "?"
+            url = URL(string: url.absoluteString + separator + queryString)!
+        }
         
+        var request = try URLRequest(url: url, method: method, headers: headers)
+        
+        // ボディを追加
+        if method != .get { request.httpBody = try body() }
         return request
     }
 }
