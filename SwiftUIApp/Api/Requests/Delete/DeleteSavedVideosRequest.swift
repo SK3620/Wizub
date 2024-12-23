@@ -13,10 +13,8 @@ struct DeleteSavedVideosRequest: CommonHttpRouter {
     
     var path: String { return ApiUrl.deleteSavedVideos }
     var method: HTTPMethod { return .delete }
-    var parameters: Parameters? {
-        return ["id": id]
-    }
-    
+    var pathParameters: [String] { return [String(id)] }
+
     // 削除する動画のレコードID（動画のIDではない）
     private let id: Int
     

@@ -14,13 +14,7 @@ struct YouTubeSearchRequest: CommonHttpRouter {
     
     var path: String { return ApiUrl.searchVideos }
     var method: HTTPMethod { return .get }
-    var parameters: Parameters? {
-        let parameters: [String: String] = [
-            "query": query,
-        ]
-        
-        return parameters
-    }
+    var queryParameters: Parameters { return ["query": query] }
     
     private let query: String
     

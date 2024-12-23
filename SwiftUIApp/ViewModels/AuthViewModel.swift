@@ -394,8 +394,15 @@ extension AuthViewModel {
     
     // アカウント削除
     private func deleteAccount(email: String, password: String) {
+        let authModel = AuthModel(
+            name: "",
+            email: email,
+            password: password,
+            apiToken: "",
+            isDuplicatedEmail: nil
+        )
         // リクエスト組み立て
-        let deleteAccountRequest = DeleteAccountRequest(email: email, password: password)
+        let deleteAccountRequest = DeleteAccountRequest(model: authModel)
         // リクエスト
         handleRequest(request: deleteAccountRequest)
             .sink(receiveValue: { [weak self] (value: EmptyModel) in

@@ -13,10 +13,8 @@ struct UpdateSubtitlesRequest: CommonHttpRouter {
     
     var path: String { return ApiUrl.updateSubtitles }
     var method: HTTPMethod { return .put }
-    var parameters: Parameters? {
-        return ["id": id]
-    }
-    
+    var pathParameters: [String] { [String(id)] }
+  
     func body() throws -> Data? {
         try JSONEncoder().encode(model)
     }

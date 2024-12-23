@@ -13,9 +13,7 @@ struct GetSavedSubtitlesRequest: CommonHttpRouter {
     
     var path: String { return ApiUrl.getSavedSubtitles }
     var method: HTTPMethod { return .get }
-    var parameters: Parameters? {
-        return ["video_id": videoId]
-    }
+    var pathParameters: [String] { [videoId] }
     
     private let videoId: String
     

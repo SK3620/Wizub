@@ -14,7 +14,7 @@ struct SignUpRequest: CommonHttpRouter {
     var method: HTTPMethod { return .post }
     
     func body() throws -> Data? {
-        try JSONEncoder().encode(model)
+      try JSONEncoder().encode(model)
     }
     
     private let model: AuthModel

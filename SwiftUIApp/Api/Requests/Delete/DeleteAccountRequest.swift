@@ -13,18 +13,14 @@ struct DeleteAccountRequest: CommonHttpRouter {
     
     var path: String { return ApiUrl.deleteAccout }
     var method: HTTPMethod { return .delete }
-    var parameters: Parameters? {
-        return [
-            "email": email,
-            "password": password
-        ]
+    
+    func body() throws -> Data? {
+        try JSONEncoder().encode(model)
     }
     
-    private let email: String
-    private let password: String
+    private let model: AuthModel
     
-    init(email: String, password: String) {
-        self.email = email
-        self.password = password
+    init(model: AuthModel) {
+        self.model = model
     }
 }

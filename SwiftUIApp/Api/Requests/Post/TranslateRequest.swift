@@ -13,12 +13,14 @@ struct TranslateRequest: CommonHttpRouter {
     typealias Response = OpenAIResponseModel
     
     var path: String { return ApiUrl.translateSubtitles }
-    var method: HTTPMethod { return .get }
-    var parameters: Parameters? {
-        [
+    var method: HTTPMethod { return .post }
+    
+    func body() throws -> Data? {
+        let data: [String: Any] = [
             "content": content,
-            "total_subtitles_count": totalSubtitlesCount
+            "totalSubtitlesCount": totalSubtitlesCount
         ]
+        return try JSONSerialization.data(withJSONObject: data, options: [])
     }
     
     private let content: String
