@@ -296,7 +296,7 @@ extension AuthViewModel {
             .receive(on: RunLoop.main)
             .catch { [weak self] error -> Empty<Decodable, Never> in
                 guard let self = self else { return .init() }
-                self.httpErrorSubject.send(error)
+                self.myAppErrorSubject.send(error)
                 return .init()
             }
             .flatMap { value -> AnyPublisher<T, Never> in
