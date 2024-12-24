@@ -53,7 +53,7 @@ class StudyViewModel: ObservableObject {
     // 編集された英語/日本語字幕を発行するPublisher
     var editSubtitleButtonPressed = PassthroughSubject<(String, String, String), Never>()
     // エラーを発行するPublisher
-    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
+    private let myAppErrorSubject = PassthroughSubject<MyAppError, Never>()
     
     // MARK: - Outputs
     // API通信ステータス
@@ -223,7 +223,7 @@ class StudyViewModel: ObservableObject {
             .store(in: &cancellableBag)
         
         // HTTP通信時のエラーを発行する
-        httpErrorSubject
+        myAppErrorSubject
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
                 self.isLoading = false
@@ -436,7 +436,7 @@ extension StudyViewModel {
             .receive(on: RunLoop.main)
             .catch { [weak self] error -> Empty<Decodable, Never> in
                 guard let self = self else { return .init() }
-                self.httpErrorSubject.send(error)
+                self.myAppErrorSubject.send(error)
                 return .init()
             }
             .flatMap { value -> AnyPublisher<T, Never> in

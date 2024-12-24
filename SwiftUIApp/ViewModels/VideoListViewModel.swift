@@ -55,12 +55,12 @@ class VideoListViewModel: ObservableObject {
     
     private let apiService: APIServiceType
     private var cancellableBag = Set<AnyCancellable>()
-    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
+    private let myAppErrorSubject = PassthroughSubject<MyAppError, Never>()
     
     init(apiService: APIServiceType) {
         self.apiService = apiService
         
-        httpErrorSubject
+        myAppErrorSubject
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
                 self.isLoading = false
@@ -80,7 +80,7 @@ extension VideoListViewModel {
             .receive(on: RunLoop.main)
             .catch { [weak self] error -> Empty<Decodable, Never> in
                 guard let self = self else { return .init() }
-                self.httpErrorSubject.send(error)
+                self.myAppErrorSubject.send(error)
                 return .init()
             }
             .flatMap { value -> AnyPublisher<T, Never> in
