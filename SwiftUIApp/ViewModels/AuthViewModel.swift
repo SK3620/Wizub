@@ -121,7 +121,7 @@ class AuthViewModel: ObservableObject {
     // MARK: - private
     private let apiService: APIServiceType
     private let keyChainManager: KeyChainManager = KeyChainManager()
-    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
     private var cancellableBag = Set<AnyCancellable>()
     
     // MARK: - AnyPublisher

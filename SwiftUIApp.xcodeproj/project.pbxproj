@@ -45,15 +45,15 @@
 		8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8389313C2C68329700FF42B4 /* AuthViewModel.swift */; };
 		838931432C6851CE00FF42B4 /* ColorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931422C6851CE00FF42B4 /* ColorCodes.swift */; };
 		838931452C68538A00FF42B4 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931442C68538A00FF42B4 /* AuthView.swift */; };
-		83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* HttpError.swift */; };
-		83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8D2C6F826C00B4179D /* HttpStatus.swift */; };
+		83A63E8C2C6F81B500B4179D /* MyAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8B2C6F81B500B4179D /* MyAppError.swift */; };
+		83A63E8E2C6F826C00B4179D /* HttpErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A63E8D2C6F826C00B4179D /* HttpErrorType.swift */; };
 		83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAAC772C705393002AE74E /* KeyChainManager.swift */; };
 		83B66C422C959E8B00F97D22 /* ResponseErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B66C412C959E8B00F97D22 /* ResponseErrorModel.swift */; };
 		83CB33402C7F065600E8E7E8 /* TranslateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB333F2C7F065600E8E7E8 /* TranslateRequest.swift */; };
 		83CB33442C7F11C200E8E7E8 /* OpenAIResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */; };
 		83CB33462C80263400E8E7E8 /* TranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB33452C80263400E8E7E8 /* TranslateView.swift */; };
 		83CD5E062C8B05CA00B5ADF1 /* CommonDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD5E052C8B05C900B5ADF1 /* CommonDialog.swift */; };
-		83CD5E082C8C2EB200B5ADF1 /* AFErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD5E072C8C2EB200B5ADF1 /* AFErrorStatus.swift */; };
+		83CD5E082C8C2EB200B5ADF1 /* AFErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD5E072C8C2EB200B5ADF1 /* AFErrorType.swift */; };
 		83D01FFB2C7C6CDC00E09D5F /* CommonProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D01FFA2C7C6CDC00E09D5F /* CommonProgressView.swift */; };
 		83D01FFD2C7CA5B000E09D5F /* MenuTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D01FFC2C7CA5B000E09D5F /* MenuTabBarView.swift */; };
 		83D3DED32C81DF2900CD2916 /* EditDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3DED22C81DF2900CD2916 /* EditDialogView.swift */; };
@@ -126,15 +126,15 @@
 		8389313C2C68329700FF42B4 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		838931422C6851CE00FF42B4 /* ColorCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCodes.swift; sourceTree = "<group>"; };
 		838931442C68538A00FF42B4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		83A63E8B2C6F81B500B4179D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
-		83A63E8D2C6F826C00B4179D /* HttpStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
+		83A63E8B2C6F81B500B4179D /* MyAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppError.swift; sourceTree = "<group>"; };
+		83A63E8D2C6F826C00B4179D /* HttpErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpErrorType.swift; sourceTree = "<group>"; };
 		83AAAC772C705393002AE74E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		83B66C412C959E8B00F97D22 /* ResponseErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseErrorModel.swift; sourceTree = "<group>"; };
 		83CB333F2C7F065600E8E7E8 /* TranslateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateRequest.swift; sourceTree = "<group>"; };
 		83CB33432C7F11C200E8E7E8 /* OpenAIResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIResponseModel.swift; sourceTree = "<group>"; };
 		83CB33452C80263400E8E7E8 /* TranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateView.swift; sourceTree = "<group>"; };
 		83CD5E052C8B05C900B5ADF1 /* CommonDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDialog.swift; sourceTree = "<group>"; };
-		83CD5E072C8C2EB200B5ADF1 /* AFErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFErrorStatus.swift; sourceTree = "<group>"; };
+		83CD5E072C8C2EB200B5ADF1 /* AFErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFErrorType.swift; sourceTree = "<group>"; };
 		83D01FFA2C7C6CDC00E09D5F /* CommonProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonProgressView.swift; sourceTree = "<group>"; };
 		83D01FFC2C7CA5B000E09D5F /* MenuTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTabBarView.swift; sourceTree = "<group>"; };
 		83D3DED22C81DF2900CD2916 /* EditDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDialogView.swift; sourceTree = "<group>"; };
@@ -426,9 +426,9 @@
 				83EC0AF62C6D955D00E316E6 /* ApiService.swift */,
 				83EC0AEA2C6C6F3300E316E6 /* ApiUrl.swift */,
 				83EC0ADB2C6B63F100E316E6 /* InputValidation.swift */,
-				83A63E8B2C6F81B500B4179D /* HttpError.swift */,
-				83A63E8D2C6F826C00B4179D /* HttpStatus.swift */,
-				83CD5E072C8C2EB200B5ADF1 /* AFErrorStatus.swift */,
+				83A63E8B2C6F81B500B4179D /* MyAppError.swift */,
+				83A63E8D2C6F826C00B4179D /* HttpErrorType.swift */,
+				83CD5E072C8C2EB200B5ADF1 /* AFErrorType.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -582,11 +582,11 @@
 				836F823B2C89B0410091C294 /* AuthButton.swift in Sources */,
 				83F9DE512C7343E700F828F7 /* HomeView.swift in Sources */,
 				83D3DEE72C86BEA400CD2916 /* GetSavedSubtitlesRequest.swift in Sources */,
-				83A63E8C2C6F81B500B4179D /* HttpError.swift in Sources */,
+				83A63E8C2C6F81B500B4179D /* MyAppError.swift in Sources */,
 				8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */,
 				834420482D02C3D0000C1CD6 /* TermsAndConditionsView.swift in Sources */,
 				83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */,
-				83A63E8E2C6F826C00B4179D /* HttpStatus.swift in Sources */,
+				83A63E8E2C6F826C00B4179D /* HttpErrorType.swift in Sources */,
 				834795C92C7454D500B98359 /* VideoListRow.swift in Sources */,
 				83D3DEDF2C85A33B00CD2916 /* GetSavedVideosRequest.swift in Sources */,
 				83EC0ADA2C6B207B00E316E6 /* Util.swift in Sources */,
@@ -594,7 +594,7 @@
 				83EC0ADC2C6B63F100E316E6 /* InputValidation.swift in Sources */,
 				83EC0AF72C6D955D00E316E6 /* ApiService.swift in Sources */,
 				83D01FFB2C7C6CDC00E09D5F /* CommonProgressView.swift in Sources */,
-				83CD5E082C8C2EB200B5ADF1 /* AFErrorStatus.swift in Sources */,
+				83CD5E082C8C2EB200B5ADF1 /* AFErrorType.swift in Sources */,
 				83EC0AEB2C6C6F3300E316E6 /* ApiUrl.swift in Sources */,
 				836F82392C89B0160091C294 /* AuthTextField.swift in Sources */,
 				83D3DED92C8533F000CD2916 /* EmptyModel.swift in Sources */,
@@ -722,12 +722,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUIApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = L35MVZ453P;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = L35MVZ453P;
 				ENABLE_PREVIEWS = YES;

@@ -55,7 +55,7 @@ class VideoListViewModel: ObservableObject {
     
     private let apiService: APIServiceType
     private var cancellableBag = Set<AnyCancellable>()
-    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
     
     init(apiService: APIServiceType) {
         self.apiService = apiService

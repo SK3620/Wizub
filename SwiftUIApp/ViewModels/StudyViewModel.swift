@@ -53,7 +53,7 @@ class StudyViewModel: ObservableObject {
     // 編集された英語/日本語字幕を発行するPublisher
     var editSubtitleButtonPressed = PassthroughSubject<(String, String, String), Never>()
     // エラーを発行するPublisher
-    private let httpErrorSubject = PassthroughSubject<HttpError, Never>()
+    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
     
     // MARK: - Outputs
     // API通信ステータス

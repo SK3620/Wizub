@@ -7,23 +7,19 @@
 import Alamofire
 import Combine
 
-// MARK: - APIServiceType Protocol
 protocol APIServiceType {
     
-    func request<Request>(with request: Request) -> AnyPublisher<Decodable, HttpError> where Request: CommonHttpRouter
+    func request<Request>(with request: Request) -> AnyPublisher<Decodable, MyAppError> where Request: CommonHttpRouter
 }
 
-// MARK: - APIService Implementation
 final class APIService: APIServiceType {
     
-    // MARK: - Properties
     private let decoder: JSONDecoder = JSONDecoder()
     
-    // MARK: - Public Methods
-    func request<Request>(with request: Request) -> AnyPublisher<Decodable, HttpError> where Request: CommonHttpRouter {
+    func request<Request>(with request: Request) -> AnyPublisher<Decodable, MyAppError> where Request: CommonHttpRouter {
         
         Deferred {
-            Future<Decodable, HttpError> { promise in
+            Future<Decodable, MyAppError> { promise in
                 do {
                     let urlRequest = try request.asURLRequest()
                     
@@ -35,22 +31,19 @@ final class APIService: APIServiceType {
                             case .success(let data):
                                 self.handleSuccessResponse(data, promise: promise, responseType: Request.Response.self)
                             case .failure(let afError):
-                                // クライアントサイドのエラーはAlamofire側で検知/判定
-                                // HTTP通信エラーはlaravelからのレスポンスエラーで判定
-                                promise(.failure(self.handleErrorResponse(afError, response.data)))
+                                promise(.failure(self.handleHttpErrorResponse(afError, response.data)))
                             }
                         })
                 } catch {
-                    promise(.failure(self.handleRequestError(error)))
+                    promise(.failure(.invalidRequest))
                 }
             }
         }
         .eraseToAnyPublisher()
     }
     
-    // MARK: - Private Methods
     // 成功時のレスポンス処理
-    private func handleSuccessResponse<T: Decodable>(_ data: Data, promise: @escaping (Result<Decodable, HttpError>) -> Void, responseType: T.Type) {
+    private func handleSuccessResponse<T: Decodable>(_ data: Data, promise: @escaping (Result<Decodable, MyAppError>) -> Void, responseType: T.Type) {
         do {
             let decodedModel = try decoder.decode(responseType, from: data)
             promise(.success(decodedModel))
@@ -60,41 +53,22 @@ final class APIService: APIServiceType {
     }
     
     // エラーレスポンス処理
-    private func handleErrorResponse(_ afError: AFError, _ responseData: Data?) -> HttpError {
-        let afErrorStatus = AFErrorStatus(afError: afError)
-        if let httpError = afErrorStatus.status {
-            return httpError
+    private func handleHttpErrorResponse(_ afError: AFError, _ responseData: Data?) -> MyAppError {
+        let afErrorType = AFErrorType(afError: afError)
+        if let myAppError = afErrorType.toMyAppError {
+            return myAppError
         }
         
-        return handleServerError(responseData)
-    }
-    
-    // サーバーエラーレスポンス処理
-    private func handleServerError(_ responseData: Data?) -> HttpError {
         guard let responseData = responseData else {
-            return .unknown(HttpErrorStatus.HttpErrorMessage())
+            return .invalidResponse
         }
         
         do {
-            let responseErrorModel = try decoder.decode(ResponseErrorModel.self, from: responseData)
-            let status = HttpErrorStatus(rawValue: responseErrorModel.statusCode)
-            let httpErrorMessage = HttpErrorStatus.HttpErrorMessage(message: responseErrorModel.message, detail: responseErrorModel.detail)
-            return status?.getHttpError(httpErrorMessage: httpErrorMessage) ?? .unknown(HttpErrorStatus.HttpErrorMessage())
+            let httpErrorModel = try decoder.decode(HttpErrorModel.self, from: responseData)
+            let httpErrorType = HttpErrorType(code: httpErrorModel.statusCode)
+            return httpErrorType.getHttpError(with: httpErrorModel)
         } catch {
             return .responseSerializationFailed(.decodingFailed(error: error))
-        }
-    }
-    
-    // リクエストエラーハンドリング
-    private func handleRequestError(_ error: Error) -> HttpError {
-        let nsError = error as NSError
-        switch nsError.code {
-        case NSURLErrorNotConnectedToInternet:
-            return HttpError.noNetwork
-        case NSURLErrorTimedOut:
-            return HttpError.timeout
-        default:
-            return HttpError.invalidRequest
         }
     }
 }
