@@ -43,7 +43,7 @@ final class APIService: APIServiceType {
     }
     
     // 成功時のレスポンス処理
-    private func handleSuccessResponse<T: Decodable>(_ data: Data, promise: @escaping (Result<Decodable, MyAppError>) -> Void, responseType: T.Type) {
+    private func handleSuccessResponse<T: Decodable>(_ data: Data, promise: @escaping (Result<Decodable, MyAppError>) -> Void, responseType: T.Type) where T: Decodable {
         do {
             let decodedModel = try decoder.decode(responseType, from: data)
             promise(.success(decodedModel))

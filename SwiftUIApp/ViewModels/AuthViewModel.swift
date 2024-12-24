@@ -119,10 +119,12 @@ class AuthViewModel: ObservableObject {
     }
     
     // MARK: - private
-    private let apiService: APIServiceType
     private let keyChainManager: KeyChainManager = KeyChainManager()
-    private let httpErrorSubject = PassthroughSubject<MyAppError, Never>()
+    private let myAppErrorSubject = PassthroughSubject<MyAppError, Never>()
     private var cancellableBag = Set<AnyCancellable>()
+    
+    // MARK: - Dependencies
+    private let apiService: APIServiceType
     
     // MARK: - AnyPublisher
     private var usernameValidPublisher: AnyPublisher<AuthInputValidation, Never> {
@@ -261,7 +263,7 @@ class AuthViewModel: ObservableObject {
         }
         .store(in: &cancellableBag)
         
-        httpErrorSubject
+        myAppErrorSubject
             .sink(receiveValue: { [weak self] (error) in
                 guard let self = self else { return }
                 self.isLoading = false

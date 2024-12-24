@@ -86,20 +86,20 @@ enum HttpErrorType: Int {
     
     
     // MARK: - Categories of HTTP status codes
-    enum Category {
-        /// 100-199
-        case informational
-        /// 200-299
-        case success
-        /// 300-399
-        case redirection
-        /// 400-499
-        case clientError
-        /// 500-599
-        case serverError
-        /// Not between 100-599
-        case unknown
-    }
+//    enum Category {
+//        /// 100-199
+//        case informational
+//        /// 200-299
+//        case success
+//        /// 300-399
+//        case redirection
+//        /// 400-499
+//        case clientError
+//        /// 500-599
+//        case serverError
+//        /// Not between 100-599
+//        case unknown
+//    }
 }
 
 extension HttpErrorType {
