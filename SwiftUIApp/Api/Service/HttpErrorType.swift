@@ -115,7 +115,7 @@ extension HttpErrorType {
     }
     
     // MARK: - Public, get a kind of HTTP error
-    func getHttpError(with httpErrorModel: HttpErrorModel) -> MyAppError {
+    func toMyAppError(with httpErrorModel: HttpErrorModel) -> MyAppError {
         switch self {
         case .badRequest:
             return .badRequest(httpErrorModel)

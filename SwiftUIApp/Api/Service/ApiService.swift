@@ -66,7 +66,7 @@ final class APIService: APIServiceType {
         do {
             let httpErrorModel = try decoder.decode(HttpErrorModel.self, from: responseData)
             let httpErrorType = HttpErrorType(code: httpErrorModel.statusCode)
-            return httpErrorType.getHttpError(with: httpErrorModel)
+            return httpErrorType.toMyAppError(with: httpErrorModel)
         } catch {
             return .responseSerializationFailed(.decodingFailed(error: error))
         }
