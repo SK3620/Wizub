@@ -7,6 +7,7 @@
 
 import Alamofire
 
+// AFError, laravel側から受け取ったカスタムエラー（HTTPError）, その他のエラーの全てのエラーをアプリ固有のMyAppErrorに集結させる
 enum MyAppError: Error, LocalizedError {
     
     // MARK: - AFError Cases

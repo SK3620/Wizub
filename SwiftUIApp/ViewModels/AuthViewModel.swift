@@ -292,14 +292,24 @@ extension AuthViewModel {
     
     // リクエスト
     private func handleRequest<T, R>(request: R) -> AnyPublisher<T, Never> where R: CommonHttpRouter, T: Decodable {
+        // APIリクエストを実行
         apiService.request(with: request)
             .receive(on: RunLoop.main)
+        // エラー（MyAppError）が流れてきた場合はキャッチ
             .catch { [weak self] error -> Empty<Decodable, Never> in
-                guard let self = self else { return .init() }
-                self.httpErrorSubject.send(error)
-                return .init()
+                guard let self = self else { return Empty(completeImmediately: true) }
+                // MyAppErrorを流す（後にエラーダイアログへの文言表示に使用）
+                self.myAppErrorSubject.send(error)
+                // MyAppErrorが流れてきた場合は、即座にストリームを終了し、不要な後続の処理の実行を防ぐ
+                return Empty(completeImmediately: true)
             }
+        // 成功時のデータ変換を行う　
+        // value → APIServiceクラスにて、レスポンスが指定の型（Model）にデコードされたデータ
+        // T → レスポンスをデコードしたい指定の型（Model）
+        // 戻り値AnyPublisher<T, Never>のため、handleRequest(request:).sink(receiveValue: ((Decodable) -> Void)となり、
+        // このsinkクロージャ内で受け取る(Decodable)引数に「T」(具体的なモデルの型)を指定する
             .flatMap { value -> AnyPublisher<T, Never> in
+                // valueが要求された型Tにキャストできるか確認
                 guard let castedValue = value as? T else { return Empty().eraseToAnyPublisher() }
                 return Just(castedValue).eraseToAnyPublisher()
             }

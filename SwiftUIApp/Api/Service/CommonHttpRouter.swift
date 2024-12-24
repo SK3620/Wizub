@@ -11,14 +11,29 @@ import Alamofire
 
 protocol CommonHttpRouter: URLRequestConvertible {
     
+    // HTTPリクエストした結果のレスポンスの型（Model）を指定する
+    // 指定した型（Model）はDecodableに準拠している必要がある
     associatedtype Response: Decodable
-        
+    
+    // 固定の基本URL（"http://localhost:8000"や本番環境用URLなど）
     var baseUrlString: String { get }
+    
+    // 各APIエンドポイントのパス
     var path: String { get }
+    
+    // POST, GET, PUT, DELETE
     var method: HTTPMethod { get }
+    
+    // ヘッダー
     var headers: HTTPHeaders { get }
+    
+    // パスパラメーター
     var pathParameters: [String] { get }
+    
+    // クエリパラメーター
     var queryParameters: Parameters { get }
+    
+    // リクエストボディ
     func body() throws -> Data?
 }
 
@@ -29,17 +44,19 @@ extension CommonHttpRouter {
         return [
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": "Bearer \(apiToken)"
+            "Authorization": "Bearer \(apiToken)" // LaravelSanctumを使用しているため、APITokenを含める
         ]
     }
     var pathParameters: [String] { return [] }
     var queryParameters: Parameters { return [:] }
     func body() throws -> Data? { return nil }
     
+    // 端末に保存したAPITokenを取得
     private var apiToken: String {
         return KeyChainManager().loadCredentials(service: .apiTokenService)
     }
     
+    // リクエストを組み立てる
     func asURLRequest() throws -> URLRequest {
         
         var url = try baseUrlString.asURL()
@@ -58,10 +75,12 @@ extension CommonHttpRouter {
             url = URL(string: url.absoluteString + separator + queryString)!
         }
         
+        // 組み立てたurl, メソッド、ヘッダーを追加
         var request = try URLRequest(url: url, method: method, headers: headers)
         
         // ボディを追加
         if method != .get { request.httpBody = try body() }
+        
         return request
     }
 }

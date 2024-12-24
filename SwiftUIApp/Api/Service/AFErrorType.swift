@@ -8,6 +8,8 @@
 import Alamofire
 
 enum AFErrorType: Error {
+    // アプリに必要最低限のAlamofireエラーのみを扱う
+    // Alamofireが提供するAFErrorをアプリ固有のエラー型AFErrorTypeに変換し扱いやすくする
     case createURLRequestFailed(Error)
     case invalidURL(URL)
     case parameterEncoderFailed(AFError.ParameterEncoderFailureReason)
@@ -18,6 +20,7 @@ enum AFErrorType: Error {
     case other
     
     init(afError: AFError) {
+        // 発生したAFErrorの種類に応じて適切なケースに設定
         switch afError {
         case .createURLRequestFailed(let error):
             self = .createURLRequestFailed(error)
@@ -38,6 +41,7 @@ enum AFErrorType: Error {
         }
     }
     
+    // アプリ内で発生するAFError以外のエラーも含めて、すべてを一つにまとめているMyAppError型に変換する
     var toMyAppError: MyAppError? {
         switch self {
             

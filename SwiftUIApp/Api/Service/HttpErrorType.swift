@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 主要なHTTPエラーのみ扱う
 enum HttpErrorType: Int {
     
     // MARK: - Informational
@@ -107,6 +108,7 @@ extension HttpErrorType {
     // MARK: - Initializer, parameter code: The HTTP response code
     init(code: Int) {
         // 引数rawValueに指定した値に対応する要素がない場合はnil(.unknown)
+        // statusCode(code)を元に、該当するHTTPエラーを取得
         if let validStatus = HttpErrorType(rawValue: code){
             self = validStatus
         } else {

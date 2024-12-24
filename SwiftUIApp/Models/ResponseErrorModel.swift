@@ -10,6 +10,7 @@ struct HttpErrorModel: Codable {
     let message: String // エラーメッセージ
     let detail: String // 開発者用エラーメッセージ
     
+    // デフォルト値を設定しておく
     init(
         statusCode: Int = 999,
         message: String = "不明なエラーが発生しました。",
