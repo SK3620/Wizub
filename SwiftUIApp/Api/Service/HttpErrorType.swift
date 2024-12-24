@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HttpErrorStatus: Int {
+enum HttpErrorType: Int {
     
     // MARK: - Informational
     //    case continueCode = 100
@@ -100,24 +100,14 @@ enum HttpErrorStatus: Int {
         /// Not between 100-599
         case unknown
     }
-    
-    struct HttpErrorMessage {
-        var message: String
-        var detail: String
-        
-        init(message: String = "不明なエラーが発生しました。", detail: String = "Unknown Error Ocurred. Detail error message is empty") {
-            self.message = message
-            self.detail = detail
-        }
-    }
 }
 
-extension HttpErrorStatus {
+extension HttpErrorType {
           
     // MARK: - Initializer, parameter code: The HTTP response code
     init(code: Int) {
         // 引数rawValueに指定した値に対応する要素がない場合はnil(.unknown)
-        if let validStatus = HttpErrorStatus(rawValue: code){
+        if let validStatus = HttpErrorType(rawValue: code){
             self = validStatus
         } else {
             self = .unknown
@@ -125,26 +115,26 @@ extension HttpErrorStatus {
     }
     
     // MARK: - Public, get a kind of HTTP error
-    func getHttpError(httpErrorMessage: HttpErrorMessage) -> HttpError {
+    func getHttpError(with httpErrorModel: HttpErrorModel) -> MyAppError {
         switch self {
         case .badRequest:
-            return HttpError.badRequest(httpErrorMessage)
+            return .badRequest(httpErrorModel)
         case .unauthorized:
-            return HttpError.unauthorized(httpErrorMessage)
+            return .unauthorized(httpErrorModel)
         case .forbidden:
-            return HttpError.forbidden(httpErrorMessage)
+            return .forbidden(httpErrorModel)
         case .notFound:
-            return HttpError.notFound(httpErrorMessage)
+            return .notFound(httpErrorModel)
         case .methodNotAllowed:
-            return HttpError.methodNotAllowed(httpErrorMessage)
+            return .methodNotAllowed(httpErrorModel)
         case .notAcceptable:
-            return HttpError.notAcceptable(httpErrorMessage)
+            return .notAcceptable(httpErrorModel)
         case .requestTimeOut:
-            return HttpError.requestTimeOut(httpErrorMessage)
+            return .requestTimeOut(httpErrorModel)
         case .internalServerError:
-            return HttpError.serverError(httpErrorMessage)
+            return .serverError(httpErrorModel)
         case .unknown:
-            return HttpError.unknown(httpErrorMessage)
+            return .unknown(HttpErrorModel())
         }
     }
     
