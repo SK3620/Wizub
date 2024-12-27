@@ -14,4 +14,7 @@ struct MyAppSettings {
     public static let privacyPolicyUrl = URL(string: "https://doc-hosting.flycricket.io/wizub-privacy-policy/b3ee24fb-2484-4d92-991f-f4ebb7c6c0fb/privacy")
     /// 利用規約URL
     public static let termsAndConditionsUrl = URL(string: "https://doc-hosting.flycricket.io/wizub-terms-of-use/1089c4ab-8b45-4e23-b1ac-86647f800a9c/terms")
+    
+    /// 早送り＆巻き戻し秒数
+    public static let rewindFastForwardSeconds: Int = 3
 }
