@@ -47,14 +47,11 @@ struct StudyTabBarView: View {
             Spacer()
             
             // 巻き戻しボタン
-            Button(action: {
-                rewindAction()
-            }) {
-                Image(systemName: "gobackward.5")
-                    .font(.system(size: 22))
-                    .foregroundColor(ColorCodes.primaryBlack.color())
-            }
-            .disabled(isRepeating ? true : false) // リピート中は非活性
+            RewindFastForwardButton(
+                action: rewindAction,
+                playbackDirection: .rewind,
+                isDisabled: isRepeating
+            )
             
             // 動画停止/再開ボタン
             Button(action: {
@@ -66,14 +63,11 @@ struct StudyTabBarView: View {
             }
             
             // 早送りボタン
-            Button(action: {
-                fastForwardAction()
-            }) {
-                Image(systemName: "goforward.5")
-                    .font(.system(size: 22))
-                    .foregroundColor(ColorCodes.primaryBlack.color())
-            }
-            .disabled(isRepeating ? true : false) // リピート中は非活性
+            RewindFastForwardButton(
+                action: fastForwardAction,
+                playbackDirection: .fastForward,
+                isDisabled: isRepeating
+            )
             
             Spacer()
             
@@ -87,7 +81,7 @@ struct StudyTabBarView: View {
                         .foregroundColor(ColorCodes.primaryBlack.color())
                     
                     // 故意的にアイコンにスラッシュを入れ、TabのItem全体の間隔を調整
-                     CommonSlashDivider(color: .clear, width: 55)
+                    CommonSlashDivider(color: .clear, width: 55)
                 }
             }
             
@@ -97,3 +91,45 @@ struct StudyTabBarView: View {
         .frame(height: 49)
     }
 }
+
+// 巻き戻し・早送りボタン
+struct RewindFastForwardButton: View {
+    
+    enum PlaybackDirection {
+        case rewind // 巻き戻し
+        case fastForward // 早送り
+        
+        var toImageName: String {
+            switch self {
+            case .rewind:
+                return "gobackward"
+            case .fastForward:
+                return "goforward"
+            }
+        }
+    }
+    
+    var action: () -> Void
+    var playbackDirection: PlaybackDirection
+    var isDisabled: Bool
+        
+    var body: some View {
+        Button(action: {
+            action()
+        }) {
+            ZStack {
+                Image(systemName: playbackDirection.toImageName)
+                    .font(.system(size: 22))
+                    .foregroundColor(ColorCodes.primaryBlack.color())
+                
+                // 画像の真上に巻き戻し/早送り秒数を設置
+                Text(String(MyAppSettings.rewindFastForwardSeconds))
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .padding(.top, 2) // 微調整
+            }
+        }
+        .disabled(isDisabled)
+    }
+}
+
