@@ -93,6 +93,8 @@ struct StudyView: View {
                                 [.medium, .fraction(0.75), .large]
                             )
                         }
+                        // ローディング中と字幕が空の場合は非活性
+                        .disabled(studyViewModel.isLoading || studyViewModel.subtitleDetails.isEmpty)
                         // ローディングアイコン表示
                         if studyViewModel.isLoading {
                             VStack {
