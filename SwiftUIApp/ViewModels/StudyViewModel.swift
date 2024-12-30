@@ -62,7 +62,7 @@ class StudyViewModel: ObservableObject {
     @Published var isSuccess: Bool = false
     @Published var successStatus: SuccessStatus?
     @Published var isShowError: Bool = false
-    @Published var httpErrorMsg: String = ""
+    @Published var myAppErrorMsg: String = ""
     
     // 現在表示すべき字幕のインデックス
     @Published var currentSubtitleIndex: Int?
@@ -230,7 +230,7 @@ class StudyViewModel: ObservableObject {
                 self.isSuccess = false
                 self.successStatus = nil
                 self.isShowError = true
-                self.httpErrorMsg = error.localizedDescription
+                self.myAppErrorMsg = error.localizedDescription
             })
             .store(in: &cancellableBag)
     }

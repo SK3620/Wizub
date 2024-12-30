@@ -84,7 +84,7 @@ struct AuthPickerView: View {
                     }), secondaryButton: .cancel(Text("キャンセル")))
                     // エラー用アラート
                 case .error:
-                    Alert(title: Text("エラー"), message: Text(authViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("エラー"), message: Text(authViewModel.myAppErrorMsg), dismissButton: .default(Text("OK")))
                 }
             })
             .navigationDestination(for: NavigationPath.self, destination: { appended in

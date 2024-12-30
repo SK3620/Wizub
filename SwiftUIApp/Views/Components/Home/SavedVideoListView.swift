@@ -63,7 +63,7 @@ struct SavedVideoListView: View {
             videoListViewModel.apply(event: .getSavedVideos)
         }
         .alert(isPresented: $videoListViewModel.isShowError) {
-            Alert(title: Text("エラー"), message: Text(videoListViewModel.httpErrorMsg), dismissButton: .default(Text("OK")))
+            Alert(title: Text("エラー"), message: Text(videoListViewModel.myAppErrorMsg), dismissButton: .default(Text("OK")))
         }
     }
 }

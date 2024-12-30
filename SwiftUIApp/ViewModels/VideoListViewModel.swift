@@ -25,7 +25,7 @@ class VideoListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isSuccess: Bool = false
     @Published var isShowError: Bool = false
-    @Published var httpErrorMsg: String = ""
+    @Published var myAppErrorMsg: String = ""
     
     // 検索値 初期値あり
     @Published var text = "How to speak English"
@@ -66,7 +66,7 @@ class VideoListViewModel: ObservableObject {
                 self.isLoading = false
                 self.isSuccess = false
                 self.isShowError = true
-                self.httpErrorMsg = error.localizedDescription
+                self.myAppErrorMsg = error.localizedDescription
             })
             .store(in: &cancellableBag)
     }

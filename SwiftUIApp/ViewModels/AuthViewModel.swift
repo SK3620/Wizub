@@ -86,7 +86,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var successStatus: AuthSuccessStatus?
-    @Published var httpErrorMsg: String = ""
+    @Published var myAppErrorMsg: String = ""
     @Published var alertType: AlertType?
             
     @Published var userNameError: String = ""
@@ -268,7 +268,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.successStatus = .none
-                self.httpErrorMsg = error.localizedDescription
+                self.myAppErrorMsg = error.localizedDescription
                 self.alertType = .error
                 
                 self.enableSignUp = true
