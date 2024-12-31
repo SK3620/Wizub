@@ -497,7 +497,7 @@ extension StudyViewModel {
         
         // 拡張クラスとして作成したZipを使用
         Publishers.ZipMany(upstreams: publishers)
-            .sink(receiveValue: { [weak self] (openAIResponseModelArr) -> Void in
+            .sink(receiveValue: { [weak self] (openAIResponseModelArr: [OpenAIResponseModel]) -> Void in
                 guard let self = self else { return }
                 // 新しい配列を作成して更新
                 var updatedSubtitleDetails = subtitleDetails
