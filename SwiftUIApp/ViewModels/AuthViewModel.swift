@@ -333,7 +333,6 @@ extension AuthViewModel {
                 // 認証情報をキーチェーンへ保存
                 self.keyChainManager.saveCredentials(
                     apiToken: value.apiToken,
-                    username: value.name,
                     email: value.email,
                     password: value.password
                 )

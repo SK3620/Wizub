@@ -9,7 +9,6 @@ import Foundation
 
 enum Service: String {
     case apiTokenService = "apiToken"
-    case username = "username"
     case emailService = "email"
     case passwordService = "password"
 }
@@ -19,9 +18,8 @@ class KeyChainManager {
     private let account = "SwiftUiApp"
     
     // 認証情報をキーチェーンに保存
-    func saveCredentials(apiToken: String, username: String, email: String, password: String) {
+    func saveCredentials(apiToken: String, email: String, password: String) {
         save(apiToken.data(using: .utf8)!, service: .apiTokenService, account: account)
-        save(username.data(using: .utf8)!, service: .username, account: account)
         save(email.data(using: .utf8)!, service: .emailService, account: account)
         save(password.data(using: .utf8)!, service: .passwordService, account: account)
     }
@@ -34,7 +32,6 @@ class KeyChainManager {
     // 認証情報をキーチェーンから削除
     func deleteCredentials() {
         delete(service: .apiTokenService, account: account)
-        delete(service: .username, account: account)
         delete(service: .emailService, account: account)
         delete(service: .passwordService, account: account)
     }
