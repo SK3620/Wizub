@@ -8,5 +8,4 @@ target 'SwiftUIApp' do
   # Pods for SwiftUIApp
 pod 'Alamofire', '5.9.1'
 pod 'SwiftUIIntrospect', '~> 1.0'
-pod "KRProgressHUD"
 end
