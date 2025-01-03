@@ -82,3 +82,7 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 ## ER図
 
 ![image](https://github.com/user-attachments/assets/3570a9d5-04b3-4eaf-a9ee-fd5ae7ca1679)
+
+## ChatGPTによる英語字幕の翻訳機能
+
+![wizub-app-backend-JSON drawio](https://github.com/user-attachments/assets/f52aee58-4203-474d-a9fa-acedf052f543)
