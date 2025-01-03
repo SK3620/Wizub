@@ -85,4 +85,4 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 
 ## ChatGPTによる英語字幕の翻訳機能
 
-![wizub-app-backend-JSON drawio](https://github.com/user-attachments/assets/f52aee58-4203-474d-a9fa-acedf052f543)
+![wizub-app-backend-JSON drawio (1)](https://github.com/user-attachments/assets/aa8d3e1b-f12b-466f-bb9b-1cc661a42ead)
