@@ -111,9 +111,9 @@ class StudyViewModel: ObservableObject {
     private var repeatTask: Task<Void, Never>?
     
     // 翻訳リクエストで処理する翻訳可能な字幕の最大合計要素数
-    private let maxTotalSubtitlesPerRequest: Int = 60
+    private let maxTotalSubtitlesPerRequest: Int = 30
     // 翻訳対象の字幕要素をさらに分割するチャンクサイズ
-    private var translatedSubtitleChunkSize: Int { maxTotalSubtitlesPerRequest / 4 }
+    private var translatedSubtitleChunkSize: Int { maxTotalSubtitlesPerRequest / 2 }
     // 全字幕のうち、全ての翻訳対象の字幕が分割/格納される
     var allChunkedSubtitles: [[SubtitleModel.SubtitleDetailModel]] {
         subtitleDetails.chunked(into: maxTotalSubtitlesPerRequest)

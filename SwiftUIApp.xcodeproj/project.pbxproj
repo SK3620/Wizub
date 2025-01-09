@@ -33,13 +33,13 @@
 		835F29322C6623CE005BC174 /* SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F29312C6623CE005BC174 /* SwiftUIApp.swift */; };
 		835F29392C6623CF005BC174 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F29382C6623CF005BC174 /* Preview Assets.xcassets */; };
 		8367472A2C8EC64600046E23 /* ShowTranslateViewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747292C8EC64600046E23 /* ShowTranslateViewButton.swift */; };
-		8367472C2C8F1A2F00046E23 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8367472B2C8F1A2F00046E23 /* EditButton.swift */; };
 		836747302C8FFB3000046E23 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8367472F2C8FFB3000046E23 /* SegmentedControl.swift */; };
 		836747322C90017600046E23 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747312C90017600046E23 /* CustomTextEditor.swift */; };
 		836747342C900A4300046E23 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747332C900A4300046E23 /* KeyboardObserver.swift */; };
 		836747362C903EC100046E23 /* CommonSlashDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836747352C903EC100046E23 /* CommonSlashDivider.swift */; };
 		836F82392C89B0160091C294 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F82382C89B0160091C294 /* AuthTextField.swift */; };
 		836F823B2C89B0410091C294 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F823A2C89B0410091C294 /* AuthButton.swift */; };
+		8370C59A2D2F9E6C00E100B2 /* UserInfoHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370C5992D2F9E6C00E100B2 /* UserInfoHUDView.swift */; };
 		837472E62C8AABE400961850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 837472E52C8AABE400961850 /* Assets.xcassets */; };
 		838931382C67629E00FF42B4 /* AuthPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838931372C67629E00FF42B4 /* AuthPickerView.swift */; };
 		8389313D2C68329700FF42B4 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8389313C2C68329700FF42B4 /* AuthViewModel.swift */; };
@@ -114,13 +114,13 @@
 		835F29312C6623CE005BC174 /* SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIApp.swift; sourceTree = "<group>"; };
 		835F29382C6623CF005BC174 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		836747292C8EC64600046E23 /* ShowTranslateViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTranslateViewButton.swift; sourceTree = "<group>"; };
-		8367472B2C8F1A2F00046E23 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 		8367472F2C8FFB3000046E23 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		836747312C90017600046E23 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		836747332C900A4300046E23 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		836747352C903EC100046E23 /* CommonSlashDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSlashDivider.swift; sourceTree = "<group>"; };
 		836F82382C89B0160091C294 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		836F823A2C89B0410091C294 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
+		8370C5992D2F9E6C00E100B2 /* UserInfoHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHUDView.swift; sourceTree = "<group>"; };
 		837472E52C8AABE400961850 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		838931372C67629E00FF42B4 /* AuthPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPickerView.swift; sourceTree = "<group>"; };
 		8389313C2C68329700FF42B4 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -284,7 +284,7 @@
 				834795C82C7454D500B98359 /* VideoListRow.swift */,
 				83F9DE522C7350D500F828F7 /* CustomSearchBar.swift */,
 				83F9DE4A2C72BAB800F828F7 /* CustomTabBar.swift */,
-				8367472B2C8F1A2F00046E23 /* EditButton.swift */,
+				8370C5992D2F9E6C00E100B2 /* UserInfoHUDView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -585,6 +585,7 @@
 				83A63E8C2C6F81B500B4179D /* MyAppError.swift in Sources */,
 				8344204D2D02C7FC000C1CD6 /* MyAppSettings.swift in Sources */,
 				834420482D02C3D0000C1CD6 /* TermsAndConditionsView.swift in Sources */,
+				8370C59A2D2F9E6C00E100B2 /* UserInfoHUDView.swift in Sources */,
 				83EC0AF52C6D94A500E316E6 /* CheckEmailRequest.swift in Sources */,
 				83A63E8E2C6F826C00B4179D /* HttpErrorType.swift in Sources */,
 				834795C92C7454D500B98359 /* VideoListRow.swift in Sources */,
@@ -603,7 +604,6 @@
 				83D01FFD2C7CA5B000E09D5F /* MenuTabBarView.swift in Sources */,
 				83DF0E952CA24770006B2DCD /* SubtitleList.swift in Sources */,
 				83EC0AF12C6D946100E316E6 /* SignUpRequest.swift in Sources */,
-				8367472C2C8F1A2F00046E23 /* EditButton.swift in Sources */,
 				832F1AE92CA6331B00D154D2 /* DeleteAccountButton.swift in Sources */,
 				83AAAC782C705393002AE74E /* KeyChainManager.swift in Sources */,
 				834795BE2C737AA500B98359 /* YouTubeSearchRequest.swift in Sources */,
