@@ -6,38 +6,41 @@
 //
 
 import SwiftUI
-import KRProgressHUD
-import UIKit
 
 struct HomeView: View {
     
     @State var currentTab: Tab = .videoList
+    @State private var showUserInfo = false
     
     init() {
         // デフォルトのTabBarは使用しないので隠しておく
-         UITabBar.appearance().isHidden = true
+        UITabBar.appearance().isHidden = true
     }
     
     var body: some View {
         ZStack {
-            
             VStack {
-                
                 TabView(selection: $currentTab) {
-                    
                     VideoListView()
                         .tag(Tab.videoList)
                     
                     SavedVideoListView()
                         .tag(Tab.practice)
                 }
+                
                 CustomTabBar(currentTab: $currentTab)
+            }
+            
+            // ユーザー情報を表示するカスタムビュー
+            if showUserInfo {
+                UserInfoHUDView()
+                    .transition(.opacity)
             }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    showSignedInUsername()
+                    showSignedInUserInfo()
                 } label: {
                     Image(systemName: "person")
                         .foregroundColor(.gray)
@@ -45,18 +48,18 @@ struct HomeView: View {
             }
         }
         .navigationTitle(currentTab.tabTitle())
-        .ignoresSafeArea(.keyboard) // SerachBarへのフォーカス時、BottomTabBarも持ち上げない
+        .ignoresSafeArea(.keyboard) // SearchBarへのフォーカス時、BottomTabBarも持ち上げない
     }
     
-    private func showSignedInUsername() {
-        KRProgressHUD.set(font: UIFont(name: "Helvetica Neue", size: 18)!)
-        KRProgressHUD.set(duration: 2.5)
-        KRProgressHUD.set(style: .custom(
-            background: ColorCodes.primary2.uiColor(),
-            text: ColorCodes.primary.uiColor(),
-            icon: nil
-        ))
-        KRProgressHUD.showMessage("ユーザー名\n\n\(KeyChainManager().loadCredentials(service: .username))")
+    private func showSignedInUserInfo() {
+        // ユーザー情報を表示する
+        withAnimation {
+            showUserInfo = true
+        }
+        // 3秒後に非表示
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            showUserInfo = false
+        }
     }
 }
 

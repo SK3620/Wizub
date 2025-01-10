@@ -27,7 +27,7 @@ extension Tab {
         case .videoList:
             return "動画一覧"
         case .practice:
-            return "練習"
+            return "保存済み"
         }
     }
 }

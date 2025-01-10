@@ -68,7 +68,7 @@ struct TranslateView: View {
     var body: some View {
         VStack(spacing: 16) {
             
-            Text("翻訳リスト")
+            Text("AI 翻訳")
                 .font(.title2)
                 .fontWeight(.medium)
             
@@ -89,7 +89,7 @@ struct TranslateView: View {
             // 翻訳ボタン
             TranslateButton(
                 action: { translateSubtitles(chunkedSubtitles[selectedSectionNum])},
-                title: "ChatGPT 翻訳",
+                title: "翻訳する",
                 disableButton: chunkedSubtitles.isEmpty
             )
         }

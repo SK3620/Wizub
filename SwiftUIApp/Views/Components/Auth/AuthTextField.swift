@@ -14,6 +14,7 @@ struct AuthTextField: View {
     var errorValue: String
     var isSecured: Bool = false
     var keyboardType: UIKeyboardType = .default
+    var autocapitalization: TextInputAutocapitalization?
     
     @State private var isEditing: Bool = false
     
@@ -50,6 +51,7 @@ struct AuthTextField: View {
                         .font(.title2)
                         .padding()
                         .keyboardType(keyboardType)
+                        .textInputAutocapitalization(autocapitalization)
                     }
                     Divider()
                         .padding(.top, -17)
