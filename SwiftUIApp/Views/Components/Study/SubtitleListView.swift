@@ -49,7 +49,14 @@ struct SubtitleListView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading) {
+                // 字幕番号
+                Text(String(subtitleDetail.subtitleId))
+                    .font(.footnote)
+                    .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
+                // 左上に配置
+                    .padding([.leading, .top], -12)
+                
                 // 英語字幕
                 Text(subtitleDetail.enSubtitle)
                     .font(.body)
@@ -62,6 +69,8 @@ struct SubtitleListView: View {
                         .font(.body)
                     // ハイライトされる字幕の色
                         .foregroundColor(isHighlighted ? ColorCodes.primaryBlack.color() : ColorCodes.primaryGray2.color())
+                    // 英語字幕とのスペース
+                        .padding(.top, 8)
                 }
             }
             .padding([.vertical, .horizontal], 16)
@@ -77,7 +86,7 @@ struct SubtitleListView: View {
         // 以下は区切り線を端から端まで伸ばす
         .frame(maxWidth: .infinity, alignment: .leading)
         .listRowSeparator(.hidden)
-        .listRowInsets(.init(top:0,leading:0,bottom:0,trailing:0))
+        .listRowInsets(.init(top: 0,leading: 0,bottom: 0,trailing: 0))
         .overlay(
             Rectangle()
                 .frame(height: 1)
