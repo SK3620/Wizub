@@ -23,17 +23,29 @@ struct ShowTranslateViewButton: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("AI 翻訳")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 12)
-                        .background(
-                            Capsule()
-                                .fill(ColorCodes.primary.color())
-                                .shadow(color: .gray.opacity(0.7), radius: 5, x: 0, y: 5)
-                        )
+                    HStack(spacing: 4) {
+                        Image(systemName: "translate")
+                            .font(.system(size: 15))
+                            .foregroundColor(.white)
+                            .padding(6)
+                            .background(
+                                Circle()
+                                    .fill(.clear)
+                                    .overlay(Circle().stroke(.white, lineWidth: 1))
+                            )
+                        
+                        Text("AI 翻訳")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 8)
+                    .background(
+                        Capsule()
+                            .fill(ColorCodes.primary.color())
+                            .shadow(color: .gray.opacity(0.7), radius: 5, x: 0, y: 5)
+                    )
                 }
             }
         }
