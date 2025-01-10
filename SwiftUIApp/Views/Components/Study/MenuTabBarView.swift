@@ -120,7 +120,7 @@ struct MenuTabBarView: View {
                 }
                 .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
                 
-                Text("全選択")
+                Text("全て翻訳")
                     .font(.caption)
             }
         }
