@@ -23,7 +23,7 @@ struct TranslateButton: View {
                         .font(.headline)
                 }
                 .foregroundColor(.white)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 48)
                 .padding(.vertical, 16)
                 .background(
                     Capsule()

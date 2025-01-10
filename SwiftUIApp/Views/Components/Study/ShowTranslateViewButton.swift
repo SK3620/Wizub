@@ -23,7 +23,7 @@ struct ShowTranslateViewButton: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("翻訳リスト")
+                    Text("AI 翻訳")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
