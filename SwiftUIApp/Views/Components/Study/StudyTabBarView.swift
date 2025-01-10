@@ -120,7 +120,7 @@ struct RewindFastForwardButton: View {
             ZStack {
                 Image(systemName: playbackDirection.toImageName)
                     .font(.system(size: 22))
-                    .foregroundColor(ColorCodes.primaryBlack.color())
+                    .foregroundColor(isDisabled ? .gray : .black)
                 
                 // 画像の真上に巻き戻し/早送り秒数を設置
                 Text(String(MyAppSettings.rewindFastForwardSeconds))
