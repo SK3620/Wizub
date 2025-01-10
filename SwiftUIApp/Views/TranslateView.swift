@@ -22,9 +22,9 @@ enum TranslateSegmentType: CommonSegmentTypeProtocol {
     var title: String {
         switch self {
         case .selected:
-            return "選択中の字幕"
+            return "選択中"
         case .all:
-            return "全ての字幕"
+            return "全て"
         }
     }
     

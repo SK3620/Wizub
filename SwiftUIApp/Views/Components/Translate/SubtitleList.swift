@@ -38,9 +38,22 @@ struct SubtitleList: View {
             if subtitles.isEmpty {
                 VStack {
                     Spacer()
-                    Text("選択中の字幕がありません")
-                        .font(.headline)
-                        .foregroundColor(ColorCodes.primaryGray.color())
+                    VStack(spacing: 4) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "translate")
+                                .font(.system(size: 15))
+                                .foregroundColor(.black)
+                                .padding(6)
+                                .background(Circle().stroke(Color.gray, lineWidth: 1))
+                            
+                            Text("をタップして")
+                                .font(.headline)
+                                .foregroundColor(ColorCodes.primaryGray.color())
+                        }
+                        Text("翻訳したい字幕を選択してください")
+                            .font(.headline)
+                            .foregroundColor(ColorCodes.primaryGray.color())
+                    }
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
