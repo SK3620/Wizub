@@ -29,7 +29,7 @@ struct PlayVideoView: View {
                    CommonProgressView()
                 case .ready: // 動画読み込み完了
                     EmptyView()
-                case .error(let error):
+                case .error:
                     Text(verbatim: "YouTube player couldn't be loaded")
                 }
             }

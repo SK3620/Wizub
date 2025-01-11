@@ -46,7 +46,12 @@ struct EditDialogView: View {
     // OKボタン押下時
     var onConfirm: (String, String, String) -> Void
     
-    init(editedEnSubtitle: String?, editedJaSubtitle: String?, editedMemo: String?, isPresented: Binding<Bool>, onConfirm: @escaping (String, String, String) -> Void) {
+    init(editedEnSubtitle: String?, 
+         editedJaSubtitle: String?,
+         editedMemo: String?,
+         isPresented: Binding<Bool>,
+         onConfirm: @escaping (String, String, String) -> Void
+    ) {
         self.editedEnSubtitle = editedEnSubtitle ?? ""
         self.editedJaSubtitle = editedJaSubtitle ?? ""
         self.editedMemo = editedMemo ?? ""
