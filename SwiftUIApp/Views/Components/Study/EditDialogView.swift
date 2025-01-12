@@ -46,7 +46,13 @@ struct EditDialogView: View {
     // OKボタン押下時
     var onConfirm: (String, String, String) -> Void
     
-    init(editedEnSubtitle: String?, editedJaSubtitle: String?, editedMemo: String?, isPresented: Binding<Bool>, onConfirm: @escaping (String, String, String) -> Void) {
+    init(
+        editedEnSubtitle: String?,
+         editedJaSubtitle: String?,
+         editedMemo: String?,
+         isPresented: Binding<Bool>,
+         onConfirm: @escaping (String, String, String) -> Void
+    ) {
         self.editedEnSubtitle = editedEnSubtitle ?? ""
         self.editedJaSubtitle = editedJaSubtitle ?? ""
         self.editedMemo = editedMemo ?? ""
@@ -123,7 +129,9 @@ struct EditDialogView: View {
                 }
                 .padding(.horizontal)
                 // キーボードの高さに応じて下部にパディング調整
-                .padding(.bottom, focusedEditor != .enSubtitle ? keyboard.height - 90 : 0)
+                // .padding(.bottom, focusedEditor != .enSubtitle ? keyboard.height - 90 : 0)
+                // keyboard.heightをなぜか取得できない時があるため以下で対応
+                .padding(.bottom, focusedEditor == nil ? 0 : focusedEditor != .enSubtitle ? 270 : 0)
                 .animation(.easeInOut(duration: 0.3), value: keyboard.height)
             }
             .ignoresSafeArea(.keyboard)

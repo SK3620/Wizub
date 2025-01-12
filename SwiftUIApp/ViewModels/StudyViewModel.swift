@@ -67,7 +67,7 @@ class StudyViewModel: ObservableObject {
     // 現在表示すべき字幕のインデックス
     @Published var currentSubtitleIndex: Int?
     // 動画が一時停止中かどうか
-    @Published var isPaused: Bool = false
+    @Published var isPaused: Bool = true
     // リピート中かどうか
     @Published var isRepeating: Bool = false
     // メニュータブバーを出現させるかどうか
@@ -170,12 +170,15 @@ class StudyViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
                 guard let self = self else { return }
-                if state == .paused {
+                switch state {
+                case .paused:
                     self.startTimer()
                     self.isPaused = true
-                } else {
-                    self.isPaused = false
+                case .cued:
+                    self.isPaused = true
+                default:
                     self.stopTimer()
+                    self.isPaused = false
                 }
             }
             .store(in: &cancellableBag)
@@ -366,25 +369,33 @@ extension StudyViewModel {
         isRepeating = false
     }
     
-    // 再開/一時停止の切り替え
-    func togglePlayback() {
-        Task {
-            do {
-                if isPaused {
-                    // 再開
-                    try await youTubePlayer.play()
-                    isPaused = false
-                } else {
-                    // 一時停止
-                    try await youTubePlayer.pause()
-                    isPaused = true
-                }
-            } catch {
-                print("Error toggling playback: \(error)")
-            }
+    // 共通の再生・一時停止処理
+    private func handlePlaybackResult(_ result: Result<Void, YouTubePlayer.APIError>) {
+        if case .failure(let error) = result {
+            print("Playback error: \(error)")
         }
     }
     
+    // 再生・一時停止 切り替え
+    func togglePlayback() {
+        isPaused ? playVideo() : pauseVideo()
+    }
+
+    // 再生
+    func playVideo() {
+        youTubePlayer.play(completion: { [weak self] result in
+            self?.handlePlaybackResult(result)
+            self?.isPaused = false
+        })
+    }
+
+    // 一時停止
+    func pauseVideo() {
+        youTubePlayer.pause(completion: { [weak self] result in
+            self?.handlePlaybackResult(result)
+            self?.isPaused = true
+        })
+    }
     
     // １秒ごとに動画の現在の時間を取得する 動画が停止(.pause)されたら呼ばれる
     private func startTimer() {

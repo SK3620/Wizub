@@ -37,7 +37,7 @@ struct CustomTabBar: View {
     @Binding var currentTab: Tab
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             ForEach(Tab.allCases, id: \.hashValue) { tab in
                 VStack {
                     Button {
@@ -56,11 +56,10 @@ struct CustomTabBar: View {
                     }
                 }
                 .buttonStyle(PlainButtonStyle()) // ボタン枠内をタップ領域にする
-                .padding(.top, 16)
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 49)
+        .frame(height: 65)
         .background(ColorCodes.primary.color())
     }
 }

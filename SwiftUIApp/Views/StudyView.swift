@@ -22,7 +22,13 @@ struct StudyView: View {
     init(videoInfo: VideoListRow.VideoInfo) {
         self.videoInfo = videoInfo
         // '_' @StateObjectプロパティラッパーのバックアップストア（内部でデータを保持している場所）にアクセス
-        _studyViewModel = StateObject(wrappedValue: StudyViewModel(apiService: APIService(), youTubePlayer: YouTubePlayer(stringLiteral: "https://youtube.com/watch?v=\(videoInfo.videoId)")))
+        _studyViewModel = StateObject(
+            wrappedValue: StudyViewModel(
+                apiService: APIService(),
+                youTubePlayer: YouTubePlayer(
+                    stringLiteral: "https://youtube.com/watch?v=\(videoInfo.videoId)")
+            )
+        )
     }
     
     var body: some View {
@@ -49,7 +55,7 @@ struct StudyView: View {
                                         studyViewModel.removeSubtitleButtonPressed.send(subtitleDetail)
                                     },
                                     editSubtitle: {
-                                        //編集する字幕を保持させておく
+                                        // 編集する字幕を保持させておく
                                         studyViewModel.currentlyEditedSubtitleDetail = subtitleDetail
                                     })
                                 .onTapGesture {
