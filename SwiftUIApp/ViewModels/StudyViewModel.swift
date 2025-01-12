@@ -67,7 +67,7 @@ class StudyViewModel: ObservableObject {
     // 現在表示すべき字幕のインデックス
     @Published var currentSubtitleIndex: Int?
     // 動画が一時停止中かどうか
-    @Published var isPaused: Bool = false
+    @Published var isPaused: Bool = true
     // リピート中かどうか
     @Published var isRepeating: Bool = false
     // メニュータブバーを出現させるかどうか
@@ -170,12 +170,15 @@ class StudyViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
                 guard let self = self else { return }
-                if state == .paused {
+                switch state {
+                case .paused:
                     self.startTimer()
                     self.isPaused = true
-                } else {
-                    self.isPaused = false
+                case .cued:
+                    self.isPaused = true
+                default:
                     self.stopTimer()
+                    self.isPaused = false
                 }
             }
             .store(in: &cancellableBag)
