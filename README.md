@@ -88,3 +88,9 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 ##### 〜 いかにして翻訳精度を上げ、かつ適切なJSONフォーマットでレスポンスを返却できるか 〜
 
 ![wizub-app-backend-JSON2 drawio (1)](https://github.com/user-attachments/assets/a013fadc-8451-466f-888b-f90fdffe8cd1)
+
+## なぜ、AI（ChatGPT）で翻訳？
+##### ・自然な日本語訳を生成してくれる
+##### ・返却してほしいJsonレスポンスのフォーマットを操作できる
+
+![wizub-app-backend-なぜChatGPT？ drawio](https://github.com/user-attachments/assets/63dde333-f15f-4694-86b1-eb4c59c761f0)
