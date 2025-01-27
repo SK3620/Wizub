@@ -83,7 +83,7 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 ![image](https://github.com/user-attachments/assets/3570a9d5-04b3-4eaf-a9ee-fd5ae7ca1679)
 
 ## 英語字幕の翻訳機能フロー
-##### 〜 いかにして翻訳精度を上げ、かつ適切なJSONフォーマットでレスポンスを返却できるか 〜
+##### 〜 AIを利用して、いかにして翻訳精度を上げ、かつ適切なJSONフォーマットでレスポンスを返却できるか 〜
 
 ![wizub-app-backend-JSON2 drawio (1)](https://github.com/user-attachments/assets/a013fadc-8451-466f-888b-f90fdffe8cd1)
 
