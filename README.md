@@ -41,7 +41,7 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 
 - **PHP 8.3**
 - **Laravel 10.48.25**
-- **Laravel Sanctum 3.3**
+- **Laravel Sanctum（API-Token認証） 3.3**
 - **Python 3.12.6**
 
 ### **ネットワーク**
