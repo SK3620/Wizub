@@ -82,6 +82,14 @@ https://github.com/user-attachments/assets/8346b0fd-dee0-4318-8137-b235fc860b3e
 
 ![image](https://github.com/user-attachments/assets/3570a9d5-04b3-4eaf-a9ee-fd5ae7ca1679)
 
+## 字幕取得後のJSON（youtube_transcript_api）
+- **「text」: その動画のシーンの字幕**
+- **「start」: その字幕が何分何秒から表示されるか**
+- **「duration」: その字幕が何秒間表示されるか**  
+
+![wizub-app-backend-ページ7 drawio](https://github.com/user-attachments/assets/785d2dce-e554-4fa0-bf7f-32a8d9888540)
+
+
 ## 英語字幕の翻訳機能フロー
 ##### 〜 AIを利用して、いかにして翻訳精度を上げ、かつ適切なJSONフォーマットでレスポンスを返却できるか 〜
 ### 簡易図⬇︎
